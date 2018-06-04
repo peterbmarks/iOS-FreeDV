@@ -6,6 +6,7 @@
 //  Copyright © 2018 Peter Marks. All rights reserved.
 //
 // Thanks: https://www.hackingwithswift.com/example-code/media/how-to-record-audio-using-avaudiorecorder
+// Thanks: https://developer.apple.com/library/content/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/AudioSessionBasics/AudioSessionBasics.html
 
 import UIKit
 import AVFoundation

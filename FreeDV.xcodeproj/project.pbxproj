@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7217D40320C4BCF6009BC9C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7217D40220C4BCF6009BC9C2 /* README.md */; };
+		7217D70220C4F2D0009BC9C2 /* ChooseRadioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7217D70120C4F2D0009BC9C2 /* ChooseRadioViewController.swift */; };
 		72D09C6920C3DF01001C3588 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D09C6820C3DF01001C3588 /* AppDelegate.swift */; };
 		72D09C6B20C3DF01001C3588 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D09C6A20C3DF01001C3588 /* ViewController.swift */; };
 		72D09C6E20C3DF01001C3588 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C6C20C3DF01001C3588 /* Main.storyboard */; };
@@ -762,6 +763,7 @@
 		7217D6FE20C4C927009BC9C2 /* vk5qi.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = vk5qi.wav; sourceTree = "<group>"; };
 		7217D6FF20C4C927009BC9C2 /* x200_ext.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = x200_ext.wav; sourceTree = "<group>"; };
 		7217D70020C4C927009BC9C2 /* x200_int.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = x200_int.wav; sourceTree = "<group>"; };
+		7217D70120C4F2D0009BC9C2 /* ChooseRadioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRadioViewController.swift; sourceTree = "<group>"; };
 		72D09C6520C3DF00001C3588 /* FreeDV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreeDV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D09C6820C3DF01001C3588 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72D09C6A20C3DF01001C3588 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -1718,6 +1720,7 @@
 			children = (
 				72D09C6820C3DF01001C3588 /* AppDelegate.swift */,
 				72D09C6A20C3DF01001C3588 /* ViewController.swift */,
+				7217D70120C4F2D0009BC9C2 /* ChooseRadioViewController.swift */,
 				72D09C6C20C3DF01001C3588 /* Main.storyboard */,
 				72D09C6F20C3DF02001C3588 /* Assets.xcassets */,
 				72D09C7A20C3DF7D001C3588 /* selective fading.png */,
@@ -1800,6 +1803,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7217D70220C4F2D0009BC9C2 /* ChooseRadioViewController.swift in Sources */,
 				72D09C6B20C3DF01001C3588 /* ViewController.swift in Sources */,
 				72D09C6920C3DF01001C3588 /* AppDelegate.swift in Sources */,
 			);
