@@ -39,7 +39,7 @@
                                         <state key="normal" title="USB Audio Codec"/>
                                         <connections>
                                             <action selector="onToRadioButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="S4o-le-tFU"/>
-                                            <segue destination="Ipa-mj-TaF" kind="presentation" id="Nwz-gz-tmR"/>
+                                            <segue destination="Ipa-mj-TaF" kind="presentation" identifier="chooseRadioOutput" id="Nwz-gz-tmR"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KIu-Jv-NdK">
@@ -47,6 +47,7 @@
                                         <state key="normal" title="USB Audio Codec"/>
                                         <connections>
                                             <action selector="onFromRadioButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UTh-JH-w8q"/>
+                                            <segue destination="Ipa-mj-TaF" kind="presentation" identifier="chooseRadioInput" id="B3T-Te-IA0"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -195,4 +196,7 @@
     <resources>
         <image name="selective fading.png" width="216" height="183"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="B3T-Te-IA0"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -152,5 +152,16 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
   }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "chooseRadioOutput" {
+      print("choose radio output")
+      let radioOutput = segue.destination as! ChooseRadioViewController
+      radioOutput.outputMode = true
+    } else if segue.identifier == "chooseRadioInput" {
+      let radioOutput = segue.destination as! ChooseRadioViewController
+      radioOutput.outputMode = false
+    }
+  }
 }
 

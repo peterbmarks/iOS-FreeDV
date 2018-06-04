@@ -10,6 +10,10 @@ import UIKit
 import AVFoundation
 
 class ChooseRadioViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+  // this gets set by the previous view controller to tell us if we're
+  // choosing inputs or outputs
+  var outputMode = false
+  
   var audioSession: AVAudioSession!
   
   @IBOutlet weak var titleLabel: UILabel!
@@ -19,6 +23,13 @@ class ChooseRadioViewController: UIViewController, UIPickerViewDelegate, UIPicke
     audioSession = AVAudioSession.sharedInstance()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    if outputMode {
+      titleLabel.text = "Choose output to radio"
+    } else {
+      titleLabel.text = "Choose input from radio"
+    }
+  }
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
     return 1
   }
