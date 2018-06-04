@@ -142,7 +142,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   @objc func updateMeter() {
     self.audioRecorder.updateMeters()
     let peakLevel = self.audioRecorder.peakPower(forChannel: 0)
-    print("peakLevel = \(peakLevel)")
+    //print("peakLevel = \(peakLevel)")
     // I see db levels of -30 to 0
     let meterLevel = peakLevel + 30.0
     self.audioLevelProgressView.progress = meterLevel / 30.0

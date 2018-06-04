@@ -15,9 +15,8 @@ class ChooseRadioViewController: UIViewController, UIPickerViewDelegate, UIPicke
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var audioPickerView: UIPickerView!
   
-  override func viewDidAppear(_ animated: Bool) {
+  override func viewDidLoad() {
     audioSession = AVAudioSession.sharedInstance()
-    
   }
   
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
