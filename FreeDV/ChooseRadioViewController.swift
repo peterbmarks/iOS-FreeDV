@@ -5,6 +5,7 @@
 //  Created by Peter Marks on 4/6/18.
 //  Copyright © 2018 Peter Marks. All rights reserved.
 //
+//  View for choosing which audio device for connection to radio
 
 import UIKit
 import AVFoundation
@@ -35,6 +36,10 @@ class ChooseRadioViewController: UIViewController, UIPickerViewDelegate, UIPicke
   }
 
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    if outputMode {
+      // FIXME: get outputs
+      return self.audioSession!.availableInputs!.count
+    }
     return self.audioSession!.availableInputs!.count
   }
   

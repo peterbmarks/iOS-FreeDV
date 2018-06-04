@@ -20,7 +20,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   @IBOutlet weak var statusLabel: UILabel!
   @IBOutlet weak var audioLevelProgressView: UIProgressView!
   
-  var recordingSession: AVAudioSession!
+  var audioSession: AVAudioSession!
   var audioRecorder: AVAudioRecorder!
   var isTransmitting = false
   var meterTimer: Timer?
@@ -28,7 +28,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-      recordingSession = AVAudioSession.sharedInstance()
+      audioSession = AVAudioSession.sharedInstance()
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,8 +42,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     if sender.isOn == true {
       print("switch now on")
       do {
-        try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        try recordingSession.setActive(true)
+        //try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: .allowBluetooth)
+        try audioSession.setActive(true)
         self.transmitSwitch.isEnabled = true
         self.isTransmitting = true
       } catch {
@@ -72,7 +73,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     print("Transmit switch changed")
     if sender.isOn == true {
       print("started transmitting")
-      recordingSession.requestRecordPermission() { [unowned self] allowed in
+      audioSession.requestRecordPermission() { [unowned self] allowed in
           DispatchQueue.main.async {
             if allowed {
               self.startRecording()
