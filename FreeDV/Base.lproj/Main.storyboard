@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nm8-KE-o0o">
-                                <rect key="frame" x="16" y="49" width="343" height="73"/>
+                                <rect key="frame" x="16" y="49" width="343" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To radio:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t7A-hd-z9z">
                                         <rect key="frame" x="8" y="8" width="67" height="21"/>
@@ -28,7 +28,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From radio:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBT-0c-BmB">
-                                        <rect key="frame" x="8" y="37" width="87" height="21"/>
+                                        <rect key="frame" x="8" y="58.5" width="87" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -36,10 +36,16 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xyk-QT-cFO">
                                         <rect key="frame" x="213" y="4" width="122" height="30"/>
                                         <state key="normal" title="USB Audio Codec"/>
+                                        <connections>
+                                            <action selector="onToRadioButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="S4o-le-tFU"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KIu-Jv-NdK">
-                                        <rect key="frame" x="213" y="37" width="122" height="30"/>
+                                        <rect key="frame" x="213" y="54" width="122" height="30"/>
                                         <state key="normal" title="USB Audio Codec"/>
+                                        <connections>
+                                            <action selector="onFromRadioButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UTh-JH-w8q"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -48,16 +54,19 @@
                                     <constraint firstItem="Xyk-QT-cFO" firstAttribute="top" secondItem="nm8-KE-o0o" secondAttribute="top" constant="4" id="3XL-Hz-wB3"/>
                                     <constraint firstItem="aBT-0c-BmB" firstAttribute="leading" secondItem="t7A-hd-z9z" secondAttribute="leading" id="BE9-JN-9Vr"/>
                                     <constraint firstItem="aBT-0c-BmB" firstAttribute="leading" secondItem="nm8-KE-o0o" secondAttribute="leading" constant="8" id="GrA-q9-DYc"/>
+                                    <constraint firstItem="aBT-0c-BmB" firstAttribute="centerY" secondItem="KIu-Jv-NdK" secondAttribute="centerY" id="IKz-8Q-hot"/>
                                     <constraint firstAttribute="trailing" secondItem="Xyk-QT-cFO" secondAttribute="trailing" constant="8" id="Tzb-gT-Q6M"/>
-                                    <constraint firstItem="aBT-0c-BmB" firstAttribute="top" secondItem="t7A-hd-z9z" secondAttribute="bottom" constant="8" id="aLm-nU-wAG"/>
-                                    <constraint firstItem="KIu-Jv-NdK" firstAttribute="top" secondItem="Xyk-QT-cFO" secondAttribute="bottom" constant="3" id="nex-Ge-VCj"/>
+                                    <constraint firstItem="KIu-Jv-NdK" firstAttribute="top" secondItem="Xyk-QT-cFO" secondAttribute="bottom" constant="20" id="nex-Ge-VCj"/>
                                     <constraint firstAttribute="trailing" secondItem="KIu-Jv-NdK" secondAttribute="trailing" constant="8" id="pdC-Dj-x2G"/>
                                     <constraint firstItem="t7A-hd-z9z" firstAttribute="top" secondItem="nm8-KE-o0o" secondAttribute="top" constant="8" id="sy9-ec-gze"/>
-                                    <constraint firstAttribute="height" constant="73" id="z9E-BA-tHQ"/>
+                                    <constraint firstAttribute="height" constant="100" id="z9E-BA-tHQ"/>
                                 </constraints>
                             </view>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hRF-2F-2cX">
                                 <rect key="frame" x="163" y="616" width="51" height="31"/>
+                                <connections>
+                                    <action selector="transmitSwitchAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="rh6-z0-usb"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transmit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VNr-IV-p6A">
                                 <rect key="frame" x="66" y="621" width="67" height="21"/>
@@ -66,7 +75,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="selective fading.png" translatesAutoresizingMaskIntoConstraints="NO" id="KoD-zD-eog">
-                                <rect key="frame" x="79" y="155" width="216" height="183"/>
+                                <rect key="frame" x="79" y="182" width="216" height="183"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -84,6 +93,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="fromRadioButton" destination="KIu-Jv-NdK" id="8kU-sI-eBW"/>
+                        <outlet property="toRadioButton" destination="Xyk-QT-cFO" id="OJx-dR-2F1"/>
+                        <outlet property="transmitSwitch" destination="hRF-2F-2cX" id="Y4h-0r-Jed"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
