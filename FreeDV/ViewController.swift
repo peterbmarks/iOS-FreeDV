@@ -130,7 +130,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   }
   
   func startAudioMetering() {
-    self.meterTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ViewController.updateMeter), userInfo: nil, repeats: true)
+    self.meterTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(ViewController.updateMeter), userInfo: nil, repeats: true)
   }
   
   func stopAudioMetering() {
