@@ -15,6 +15,7 @@
 		72D09C7020C3DF02001C3588 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C6F20C3DF02001C3588 /* Assets.xcassets */; };
 		72D09C7320C3DF02001C3588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C7120C3DF02001C3588 /* LaunchScreen.storyboard */; };
 		72D09C7B20C3DF7D001C3588 /* selective fading.png in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C7A20C3DF7D001C3588 /* selective fading.png */; };
+		72F9C1DA20C527810006289D /* audio_input_choice.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F9C1D920C527810006289D /* audio_input_choice.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -773,6 +774,7 @@
 		72D09C7220C3DF02001C3588 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		72D09C7420C3DF02001C3588 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72D09C7A20C3DF7D001C3588 /* selective fading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selective fading.png"; sourceTree = "<group>"; };
+		72F9C1D920C527810006289D /* audio_input_choice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio_input_choice.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1704,6 +1706,7 @@
 				7217D40420C4C926009BC9C2 /* codec2-dev */,
 				7217D40220C4BCF6009BC9C2 /* README.md */,
 				7217D70320C5017E009BC9C2 /* screenshot.png */,
+				72F9C1D920C527810006289D /* audio_input_choice.png */,
 				72D09C6720C3DF00001C3588 /* FreeDV */,
 				72D09C6620C3DF00001C3588 /* Products */,
 			);
@@ -1790,6 +1793,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72F9C1DA20C527810006289D /* audio_input_choice.png in Resources */,
 				72D09C7B20C3DF7D001C3588 /* selective fading.png in Resources */,
 				72D09C7320C3DF02001C3588 /* LaunchScreen.storyboard in Resources */,
 				7217D40320C4BCF6009BC9C2 /* README.md in Resources */,

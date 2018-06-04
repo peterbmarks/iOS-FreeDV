@@ -7,4 +7,10 @@ speaker and microphone for operator audio.
 ## Status
 This is no where near working yet.
 
+Rough UI:
+
 ![Screen shot](screenshot.png)
+
+Here's how we choose an audio input:
+
+![Choose](audio_input_choice.png)
