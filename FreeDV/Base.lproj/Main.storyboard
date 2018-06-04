@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -55,7 +56,9 @@
                                     <constraint firstItem="aBT-0c-BmB" firstAttribute="leading" secondItem="t7A-hd-z9z" secondAttribute="leading" id="BE9-JN-9Vr"/>
                                     <constraint firstItem="aBT-0c-BmB" firstAttribute="leading" secondItem="nm8-KE-o0o" secondAttribute="leading" constant="8" id="GrA-q9-DYc"/>
                                     <constraint firstItem="aBT-0c-BmB" firstAttribute="centerY" secondItem="KIu-Jv-NdK" secondAttribute="centerY" id="IKz-8Q-hot"/>
+                                    <constraint firstItem="KIu-Jv-NdK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aBT-0c-BmB" secondAttribute="trailing" constant="8" id="ILc-ku-xS6"/>
                                     <constraint firstAttribute="trailing" secondItem="Xyk-QT-cFO" secondAttribute="trailing" constant="8" id="Tzb-gT-Q6M"/>
+                                    <constraint firstItem="Xyk-QT-cFO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="t7A-hd-z9z" secondAttribute="trailing" constant="8" id="YpG-do-7Wm"/>
                                     <constraint firstItem="KIu-Jv-NdK" firstAttribute="top" secondItem="Xyk-QT-cFO" secondAttribute="bottom" constant="20" id="nex-Ge-VCj"/>
                                     <constraint firstAttribute="trailing" secondItem="KIu-Jv-NdK" secondAttribute="trailing" constant="8" id="pdC-Dj-x2G"/>
                                     <constraint firstItem="t7A-hd-z9z" firstAttribute="top" secondItem="nm8-KE-o0o" secondAttribute="top" constant="8" id="sy9-ec-gze"/>
@@ -95,13 +98,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cNE-zk-ifa">
+                                <rect key="frame" x="16" y="440" width="343" height="2"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="KoD-zD-eog" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0Qb-0P-Ivp"/>
+                            <constraint firstItem="VNr-IV-p6A" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="0V5-Po-E6K"/>
                             <constraint firstItem="nm8-KE-o0o" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="29" id="2KE-S0-wUB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8vN-47-ob7" secondAttribute="trailing" constant="16" id="2b0-07-dvE"/>
                             <constraint firstItem="nm8-KE-o0o" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="3Dm-a4-MXk"/>
+                            <constraint firstItem="3Vx-Vd-cLr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vQj-pq-6mc" secondAttribute="trailing" constant="8" id="4LN-sw-cUX"/>
+                            <constraint firstItem="cNE-zk-ifa" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="6nv-eV-IRh"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="BZy-46-WBd"/>
                             <constraint firstItem="nm8-KE-o0o" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="MhZ-ez-WJu"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hRF-2F-2cX" secondAttribute="bottom" constant="20" id="VU9-Fg-XNs"/>
@@ -115,10 +124,13 @@
                             <constraint firstItem="vQj-pq-6mc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="rlx-Dw-Lqk"/>
                             <constraint firstItem="KoD-zD-eog" firstAttribute="top" secondItem="nm8-KE-o0o" secondAttribute="bottom" constant="33" id="sPa-R4-z6r"/>
                             <constraint firstItem="hRF-2F-2cX" firstAttribute="leading" secondItem="VNr-IV-p6A" secondAttribute="trailing" constant="30" id="uaR-gR-V1M"/>
+                            <constraint firstItem="cNE-zk-ifa" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="xll-JR-KnY"/>
+                            <constraint firstItem="cNE-zk-ifa" firstAttribute="top" secondItem="8vN-47-ob7" secondAttribute="bottom" constant="8" id="xrM-eI-IAs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="audioLevelProgressView" destination="cNE-zk-ifa" id="VVa-6p-Unj"/>
                         <outlet property="fromRadioButton" destination="KIu-Jv-NdK" id="8kU-sI-eBW"/>
                         <outlet property="startSwitch" destination="3Vx-Vd-cLr" id="S6M-Jo-ut1"/>
                         <outlet property="statusLabel" destination="8vN-47-ob7" id="NEJ-AH-AqL"/>
