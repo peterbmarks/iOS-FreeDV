@@ -764,6 +764,7 @@
 		7217D6FF20C4C927009BC9C2 /* x200_ext.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = x200_ext.wav; sourceTree = "<group>"; };
 		7217D70020C4C927009BC9C2 /* x200_int.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = x200_int.wav; sourceTree = "<group>"; };
 		7217D70120C4F2D0009BC9C2 /* ChooseRadioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRadioViewController.swift; sourceTree = "<group>"; };
+		7217D70320C5017E009BC9C2 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		72D09C6520C3DF00001C3588 /* FreeDV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreeDV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D09C6820C3DF01001C3588 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72D09C6A20C3DF01001C3588 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -1702,6 +1703,7 @@
 			children = (
 				7217D40420C4C926009BC9C2 /* codec2-dev */,
 				7217D40220C4BCF6009BC9C2 /* README.md */,
+				7217D70320C5017E009BC9C2 /* screenshot.png */,
 				72D09C6720C3DF00001C3588 /* FreeDV */,
 				72D09C6620C3DF00001C3588 /* Products */,
 			);

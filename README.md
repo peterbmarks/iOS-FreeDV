@@ -4,3 +4,4 @@ The objective is to allow you to use an iPhone, iPod touch or iPad to encode and
 using an external USB audio device to interface to the radio and the built-in
 speaker and microphone for operator audio.
 
+![Screen shot](screenshot.png)
