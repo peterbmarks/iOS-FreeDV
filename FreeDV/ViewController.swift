@@ -21,6 +21,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   
   var recordingSession: AVAudioSession!
   var audioRecorder: AVAudioRecorder!
+  var isTransmitting = false
+  var meterTimer: Timer?
   
   override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,15 +44,18 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
         try recordingSession.setActive(true)
         self.transmitSwitch.isEnabled = true
+        self.isTransmitting = true
       } catch {
         // failed to record!
         print("Error starting audio session")
         statusLabel.text = "Error starting audio session"
         self.transmitSwitch.isEnabled = false
+        self.isTransmitting = false
       }
     } else {
       print("recording stopped")
       self.transmitSwitch.isEnabled = false
+      self.isTransmitting = false
     }
   }
   
@@ -77,6 +82,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
             }
           }
         }
+    } else {
+      finishRecording(success: true)
     }
   }
   
@@ -93,15 +100,17 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     do {
       audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
       audioRecorder.delegate = self
+      audioRecorder.prepareToRecord()
+      audioRecorder.isMeteringEnabled = true
       audioRecorder.record()
-      
-      //recordButton.setTitle("Tap to Stop", for: .normal)
+      self.startAudioMetering()
     } catch {
       finishRecording(success: false)
     }
   }
   
   func finishRecording(success: Bool) {
+    stopAudioMetering()
     audioRecorder.stop()
     audioRecorder = nil
     
@@ -120,6 +129,24 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     }
   }
   
+  func startAudioMetering() {
+    self.meterTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ViewController.updateMeter), userInfo: nil, repeats: true)
+  }
+  
+  func stopAudioMetering() {
+    self.meterTimer?.invalidate()
+    self.audioLevelProgressView.progress = 0.0
+  }
+  
+  @objc func updateMeter() {
+    self.audioRecorder.updateMeters()
+    let peakLevel = self.audioRecorder.peakPower(forChannel: 0)
+    print("peakLevel = \(peakLevel)")
+    // I see db levels of -30 to 0
+    let meterLevel = peakLevel + 30.0
+    self.audioLevelProgressView.progress = meterLevel / 30.0
+  }
+    
   func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
