@@ -44,6 +44,8 @@ class ChooseRadioViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     @IBAction func onTestAudioButton(_ sender: Any) {
         print("test audio")
+        let hello = String(cString: say_hello())
+        print("from c I got \(String(describing: hello))")
     }
 }
 
