@@ -19,7 +19,8 @@ class ChooseRadioViewController: UIViewController, UIPickerViewDelegate, UIPicke
   
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var audioPickerView: UIPickerView!
-  
+    @IBOutlet weak var testAudioButton: UIButton!
+    
   override func viewDidLoad() {
     audioSession = AVAudioSession.sharedInstance()
   }
@@ -34,7 +35,20 @@ class ChooseRadioViewController: UIViewController, UIPickerViewDelegate, UIPicke
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
     return 1
   }
+    
+    @IBAction func onDoneButton(_ sender: Any) {
+        self.dismiss(animated: true) {
+            print("dismissed choose radio")
+        }
+    }
+    
+    @IBAction func onTestAudioButton(_ sender: Any) {
+        print("test audio")
+    }
+}
 
+// Audio device picker delegate methods
+extension ChooseRadioViewController {
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
     if outputMode {
       // FIXME: get outputs
@@ -48,9 +62,4 @@ class ChooseRadioViewController: UIViewController, UIPickerViewDelegate, UIPicke
     return input.portName
   }
   
-  @IBAction func onDoneButton(_ sender: Any) {
-    self.dismiss(animated: true) {
-      print("dismissed choose radio")
-    }
-  }
 }

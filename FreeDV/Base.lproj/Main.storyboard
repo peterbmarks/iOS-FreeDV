@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14269.12" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14252.5"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -68,7 +67,7 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="selective fading.png" translatesAutoresizingMaskIntoConstraints="NO" id="KoD-zD-eog">
-                                <rect key="frame" x="79" y="182" width="216" height="183"/>
+                                <rect key="frame" x="79.5" y="182" width="216" height="183"/>
                             </imageView>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hRF-2F-2cX">
                                 <rect key="frame" x="163" y="616" width="51" height="31"/>
@@ -159,25 +158,39 @@
                                     <action selector="onDoneButton:" destination="Ipa-mj-TaF" eventType="touchUpInside" id="UVa-jF-eL7"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T02-i6-6Jw">
-                                <rect key="frame" x="0.0" y="81" width="375" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="T02-i6-6Jw">
+                                <rect key="frame" x="0.0" y="80" width="375" height="216"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Ipa-mj-TaF" id="tzM-9y-Ma1"/>
                                     <outlet property="delegate" destination="Ipa-mj-TaF" id="ieO-bO-Nic"/>
                                 </connections>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose radio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lH-x3-78U">
-                                <rect key="frame" x="136" y="52" width="102" height="21"/>
+                                <rect key="frame" x="136.5" y="52" width="102" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jCx-iR-NUJ">
+                                <rect key="frame" x="126" y="316" width="123" height="30"/>
+                                <state key="normal" title="Test Audio Device"/>
+                                <connections>
+                                    <action selector="onTestAudioButton:" destination="Ipa-mj-TaF" eventType="touchUpInside" id="vcG-zB-VLU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="RSL-2V-K9A" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9zS-HM-TWh" secondAttribute="trailing" constant="8" id="8j2-SI-Y60"/>
                             <constraint firstItem="9zS-HM-TWh" firstAttribute="top" secondItem="RSL-2V-K9A" secondAttribute="top" id="FWO-Sf-Pkk"/>
+                            <constraint firstItem="RSL-2V-K9A" firstAttribute="trailing" secondItem="T02-i6-6Jw" secondAttribute="trailing" id="Mpe-g7-NVh"/>
+                            <constraint firstItem="RSL-2V-K9A" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="jCx-iR-NUJ" secondAttribute="bottom" constant="8" id="Mw6-nW-SQy"/>
+                            <constraint firstItem="jCx-iR-NUJ" firstAttribute="top" secondItem="T02-i6-6Jw" secondAttribute="bottom" constant="20" id="Qp3-e7-tQR"/>
+                            <constraint firstItem="jCx-iR-NUJ" firstAttribute="centerX" secondItem="T02-i6-6Jw" secondAttribute="centerX" id="RLq-OP-FcE"/>
                             <constraint firstItem="1lH-x3-78U" firstAttribute="top" secondItem="RSL-2V-K9A" secondAttribute="top" constant="32" id="YA8-zn-8PC"/>
+                            <constraint firstItem="T02-i6-6Jw" firstAttribute="leading" secondItem="RSL-2V-K9A" secondAttribute="leading" id="fId-EP-p7C"/>
+                            <constraint firstItem="T02-i6-6Jw" firstAttribute="top" secondItem="RSL-2V-K9A" secondAttribute="top" constant="60" id="fJO-zz-Pca"/>
+                            <constraint firstItem="jCx-iR-NUJ" firstAttribute="centerX" secondItem="1lH-x3-78U" secondAttribute="centerX" id="mX7-NK-V50"/>
                             <constraint firstItem="1lH-x3-78U" firstAttribute="centerX" secondItem="RSL-2V-K9A" secondAttribute="centerX" id="vcv-GZ-Nwf"/>
                             <constraint firstItem="9zS-HM-TWh" firstAttribute="leading" secondItem="RSL-2V-K9A" secondAttribute="leading" constant="16" id="zHh-Gk-jy7"/>
                         </constraints>
@@ -185,6 +198,7 @@
                     </view>
                     <connections>
                         <outlet property="audioPickerView" destination="T02-i6-6Jw" id="07S-rv-nCX"/>
+                        <outlet property="testAudioButton" destination="jCx-iR-NUJ" id="1gz-Ng-DHx"/>
                         <outlet property="titleLabel" destination="1lH-x3-78U" id="L7u-7I-cI9"/>
                     </connections>
                 </viewController>
