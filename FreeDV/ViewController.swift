@@ -155,13 +155,11 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "chooseRadioOutput" {
+    if segue.identifier == "chooseOutput" {
       print("choose radio output")
-      let radioOutput = segue.destination as! ChooseRadioViewController
-      radioOutput.outputMode = true
-    } else if segue.identifier == "chooseRadioInput" {
-      let radioOutput = segue.destination as! ChooseRadioViewController
-      radioOutput.outputMode = false
+      //let radioOutput = segue.destination as! ChooseOutVC
+    } else if segue.identifier == "chooseInput" {
+      //let radioInput = segue.destination as! ChooseInVC
     }
   }
 }

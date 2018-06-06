@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		7217D40320C4BCF6009BC9C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7217D40220C4BCF6009BC9C2 /* README.md */; };
-		7217D70220C4F2D0009BC9C2 /* ChooseRadioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7217D70120C4F2D0009BC9C2 /* ChooseRadioViewController.swift */; };
+		7217D70220C4F2D0009BC9C2 /* ChooseInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */; };
 		7280CEEC20C7586000A67FF6 /* play_from_c.c in Sources */ = {isa = PBXBuildFile; fileRef = 7280CEEB20C7586000A67FF6 /* play_from_c.c */; };
 		7298A2F120C75D2D00A117F6 /* tone1s440.aif in Resources */ = {isa = PBXBuildFile; fileRef = 7298A2F020C75D2D00A117F6 /* tone1s440.aif */; };
+		7298A2F320C775E500A117F6 /* ChooseOutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7298A2F220C775E500A117F6 /* ChooseOutVC.swift */; };
 		72D09C6920C3DF01001C3588 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D09C6820C3DF01001C3588 /* AppDelegate.swift */; };
 		72D09C6B20C3DF01001C3588 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D09C6A20C3DF01001C3588 /* ViewController.swift */; };
 		72D09C6E20C3DF01001C3588 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C6C20C3DF01001C3588 /* Main.storyboard */; };
@@ -766,12 +767,13 @@
 		7217D6FE20C4C927009BC9C2 /* vk5qi.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = vk5qi.wav; sourceTree = "<group>"; };
 		7217D6FF20C4C927009BC9C2 /* x200_ext.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = x200_ext.wav; sourceTree = "<group>"; };
 		7217D70020C4C927009BC9C2 /* x200_int.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = x200_int.wav; sourceTree = "<group>"; };
-		7217D70120C4F2D0009BC9C2 /* ChooseRadioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRadioViewController.swift; sourceTree = "<group>"; };
+		7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseInVC.swift; sourceTree = "<group>"; };
 		7217D70320C5017E009BC9C2 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		7280CEE920C7580800A67FF6 /* play_from_c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = play_from_c.h; sourceTree = "<group>"; };
 		7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FreeDV-Bridging-Header.h"; sourceTree = "<group>"; };
 		7280CEEB20C7586000A67FF6 /* play_from_c.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = play_from_c.c; sourceTree = "<group>"; };
 		7298A2F020C75D2D00A117F6 /* tone1s440.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = tone1s440.aif; sourceTree = "<group>"; };
+		7298A2F220C775E500A117F6 /* ChooseOutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseOutVC.swift; sourceTree = "<group>"; };
 		72D09C6520C3DF00001C3588 /* FreeDV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreeDV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D09C6820C3DF01001C3588 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72D09C6A20C3DF01001C3588 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -1731,7 +1733,8 @@
 			children = (
 				72D09C6820C3DF01001C3588 /* AppDelegate.swift */,
 				72D09C6A20C3DF01001C3588 /* ViewController.swift */,
-				7217D70120C4F2D0009BC9C2 /* ChooseRadioViewController.swift */,
+				7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */,
+				7298A2F220C775E500A117F6 /* ChooseOutVC.swift */,
 				72D09C6C20C3DF01001C3588 /* Main.storyboard */,
 				72D09C6F20C3DF02001C3588 /* Assets.xcassets */,
 				72D09C7A20C3DF7D001C3588 /* selective fading.png */,
@@ -1821,9 +1824,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7217D70220C4F2D0009BC9C2 /* ChooseRadioViewController.swift in Sources */,
+				7217D70220C4F2D0009BC9C2 /* ChooseInVC.swift in Sources */,
 				7280CEEC20C7586000A67FF6 /* play_from_c.c in Sources */,
 				72D09C6B20C3DF01001C3588 /* ViewController.swift in Sources */,
+				7298A2F320C775E500A117F6 /* ChooseOutVC.swift in Sources */,
 				72D09C6920C3DF01001C3588 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
