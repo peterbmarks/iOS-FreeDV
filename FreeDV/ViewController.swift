@@ -14,17 +14,22 @@ import AVFoundation
 
 class ViewController: UIViewController, AVAudioRecorderDelegate {
 
-  @IBOutlet weak var toRadioButton: UIButton!
-  @IBOutlet weak var fromRadioButton: UIButton!
-  @IBOutlet weak var transmitSwitch: UISwitch!
-  @IBOutlet weak var startSwitch: UISwitch!
-  @IBOutlet weak var statusLabel: UILabel!
-  @IBOutlet weak var audioLevelProgressView: UIProgressView!
-  
-  var audioSession: AVAudioSession!
-  var audioRecorder: AVAudioRecorder!
-  var isTransmitting = false
-  var meterTimer: Timer?
+    @IBOutlet weak var toRadioButton: UIButton!
+    @IBOutlet weak var fromRadioButton: UIButton!
+    @IBOutlet weak var transmitSwitch: UISwitch!
+    @IBOutlet weak var startSwitch: UISwitch!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var audioLevelProgressView: UIProgressView!
+
+    var audioSession: AVAudioSession!
+    var audioRecorder: AVAudioRecorder!
+    var isTransmitting = false
+    var meterTimer: Timer?
+    var audioEngine = AVAudioEngine()
+    var radioOutPlayerNode = AVAudioPlayerNode()
+    var radioOutBuffer :AVAudioPCMBuffer?
+    
+    var radioIn = AVAudioRecorder()
   
   override func viewDidLoad() {
         super.viewDidLoad()
