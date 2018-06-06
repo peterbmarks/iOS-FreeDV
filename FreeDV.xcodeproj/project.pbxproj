@@ -1784,6 +1784,11 @@
 					72D09C6420C3DF00001C3588 = {
 						CreatedOnToolsVersion = 9.4;
 						LastSwiftMigration = 1000;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};

@@ -5,7 +5,7 @@
 //  Created by Peter Marks on 4/6/18.
 //  Copyright © 2018 Peter Marks. All rights reserved.
 //
-//  View for choosing which audio input device
+//  View for choosing which audio output device
 
 import UIKit
 import AVFoundation
@@ -25,11 +25,9 @@ class ChooseOutVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
   
   override func viewWillAppear(_ animated: Bool) {
     titleLabel.text = "Choose output to radio"
+    listOutputs()
   }
-  func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    return 1
-  }
-  
+
   @IBAction func onDoneButton(_ sender: Any) {
     self.dismiss(animated: true) {
       print("dismissed choose radio")
@@ -38,9 +36,19 @@ class ChooseOutVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
   
   @IBAction func onTestAudioButton(_ sender: Any) {
     print("test audio")
+    // test calling a c function
     let hello = String(cString: say_hello())
     print("from c I got \(String(describing: hello))")
     playTestSound()
+  }
+  
+  func listOutputs() {
+    
+    let currentRoute = audioSession.currentRoute
+    for port in currentRoute.outputs {
+      let description = port.portName
+      print("portName = \(description)")
+    }
   }
   
   // Thanks: https://stackoverflow.com/questions/32036146/how-to-play-a-sound-using-swift
@@ -71,13 +79,20 @@ class ChooseOutVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
 
 // Audio device picker delegate methods
 extension ChooseOutVC {
+  func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    return 1
+  }
+  
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return self.audioSession!.availableInputs!.count
+    if let outputDataSources = self.audioSession!.outputDataSources {
+      return outputDataSources.count
+    }
+    return 0
   }
   
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    let input = self.audioSession!.availableInputs![row]
-    return input.portName
+    let output = self.audioSession!.outputDataSources![row]
+    return output.dataSourceName
   }
   
 }

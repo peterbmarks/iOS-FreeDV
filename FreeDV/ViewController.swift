@@ -7,6 +7,7 @@
 //
 // Thanks: https://www.hackingwithswift.com/example-code/media/how-to-record-audio-using-avaudiorecorder
 // Thanks: https://developer.apple.com/library/content/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/AudioSessionBasics/AudioSessionBasics.html
+// https://developer.apple.com/library/archive/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007875
 
 import UIKit
 import AVFoundation
@@ -29,8 +30,19 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
       audioSession = AVAudioSession.sharedInstance()
+
     }
 
+  override func viewDidAppear(_ animated: Bool) {
+    do {
+      try audioSession.setCategory(AVAudioSessionCategoryMultiRoute, mode: AVAudioSessionModeDefault, options: .allowBluetooth)
+      try audioSession.setActive(true)
+      statusLabel.text = "Audio OK"
+    } catch {
+      print("Error starting audio session")
+      statusLabel.text = "Error starting audio session"
+    }
+  }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -41,19 +53,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     print("Start switch changed")
     if sender.isOn == true {
       print("switch now on")
-      do {
-        //try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: .allowBluetooth)
-        try audioSession.setActive(true)
         self.transmitSwitch.isEnabled = true
         self.isTransmitting = true
-      } catch {
-        // failed to record!
-        print("Error starting audio session")
-        statusLabel.text = "Error starting audio session"
-        self.transmitSwitch.isEnabled = false
-        self.isTransmitting = false
-      }
     } else {
       print("recording stopped")
       self.transmitSwitch.isEnabled = false
@@ -89,12 +90,13 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     }
   }
   
+  // For more: https://developer.apple.com/library/archive/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/OptimizingForDeviceHardware/OptimizingForDeviceHardware.html#//apple_ref/doc/uid/TP40007875-CH6-SW1
   func startRecording () {
     let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
     
     let settings = [
       AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-      AVSampleRateKey: 12000,
+      AVSampleRateKey: 44_100,
       AVNumberOfChannelsKey: 1,
       AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
     ]
