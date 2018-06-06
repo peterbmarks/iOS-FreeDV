@@ -5,8 +5,10 @@
 //  Created by Peter Marks on 3/6/18.
 //  Copyright © 2018 Peter Marks. All rights reserved.
 //
+// https://developer.apple.com/audio/
 // Thanks: https://www.hackingwithswift.com/example-code/media/how-to-record-audio-using-avaudiorecorder
 // Thanks: https://developer.apple.com/library/content/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/AudioSessionBasics/AudioSessionBasics.html
+// Thanks: https://www.raywenderlich.com/185090/avaudioengine-tutorial-for-ios-getting-started
 // https://developer.apple.com/library/archive/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007875
 
 import UIKit
@@ -51,18 +53,31 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
             print("audio interruption ended")
         }
     }
-    
+  
+  // https://developer.apple.com/documentation/avfoundation/avaudiosession/responding_to_audio_session_route_changes
     @objc func handleRouteChangedNotification(notification: NSNotification) {
-        let routeChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! AVAudioSessionRouteChangeReason
-        
-        if routeChangeReason == .oldDeviceUnavailable {
-            // they've unplugged a device
-            print("route change notification")
+      guard let userInfo = notification.userInfo,
+        let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+        let reason = AVAudioSessionRouteChangeReason(rawValue:reasonValue) else {
+          return
+      }
+      switch reason {
+      case .newDeviceAvailable:
+        let session = AVAudioSession.sharedInstance()
+        for output in session.currentRoute.outputs where output.portType == AVAudioSessionPortHeadphones {
+          //headphonesConnected = true
+          break
         }
-        
-        if routeChangeReason == .oldDeviceUnavailable || routeChangeReason == .newDeviceAvailable {
-            print("device has changed notification")
+      case .oldDeviceUnavailable:
+        if let previousRoute =
+          userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
+          for output in previousRoute.outputs where output.portType == AVAudioSessionPortHeadphones {
+            //headphonesConnected = false
+            break
+          }
         }
+      default: ()
+      }
     }
     
   override func viewDidAppear(_ animated: Bool) {

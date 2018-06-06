@@ -28,6 +28,7 @@ class ChooseInVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
       let deviceIndex = previouslyChosenDeviceIndex(deviceName: previousDeviceName)
       audioPickerView.selectRow(deviceIndex, inComponent: 0, animated: false)
     }
+    NotificationCenter.default.addObserver(self, selector: #selector(ChooseInVC.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
   }
   
   func previouslyChosenDeviceIndex(deviceName: String) -> Int {
@@ -39,6 +40,29 @@ class ChooseInVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
       index += 1
     }
     return 0
+  }
+  
+  // https://developer.apple.com/documentation/avfoundation/avaudiosession/responding_to_audio_session_route_changes
+  @objc func handleRouteChangedNotification(notification: NSNotification) {
+    guard let userInfo = notification.userInfo,
+      let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+      let reason = AVAudioSessionRouteChangeReason(rawValue:reasonValue) else {
+        return
+    }
+    switch reason {
+      case .newDeviceAvailable:
+        print("audio device changed")
+        DispatchQueue.main.async {
+          self.audioPickerView.reloadComponent(0)
+        }
+      
+      case .oldDeviceUnavailable:
+        print("audio device changed")
+        DispatchQueue.main.async {
+          self.audioPickerView.reloadComponent(0)
+      }
+      default: ()
+    }
   }
   
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -62,31 +86,6 @@ class ChooseInVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let hello = String(cString: say_hello())
         print("from c I got \(String(describing: hello))")
     }
-  
-  // Thanks: https://stackoverflow.com/questions/32036146/how-to-play-a-sound-using-swift
-  func playTestSound() {
-    guard let url = Bundle.main.url(forResource: "tone1s440", withExtension: "aif") else { return }
-    
-    do {
-      /*
-      try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-      try AVAudioSession.sharedInstance().setActive(true)
-      */
-      
-      /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
-      player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.aiff.rawValue)
-      
-      /* iOS 10 and earlier require the following line:
-       player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
-      
-      guard let player = player else { return }
-      
-      player.play()
-      
-    } catch let error {
-      print(error.localizedDescription)
-    }
-  }
 }
 
 // Audio device picker delegate methods
