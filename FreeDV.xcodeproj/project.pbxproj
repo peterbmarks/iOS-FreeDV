@@ -10,6 +10,7 @@
 		7217D40320C4BCF6009BC9C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7217D40220C4BCF6009BC9C2 /* README.md */; };
 		7217D70220C4F2D0009BC9C2 /* ChooseRadioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7217D70120C4F2D0009BC9C2 /* ChooseRadioViewController.swift */; };
 		7280CEEC20C7586000A67FF6 /* play_from_c.c in Sources */ = {isa = PBXBuildFile; fileRef = 7280CEEB20C7586000A67FF6 /* play_from_c.c */; };
+		7298A2F120C75D2D00A117F6 /* tone1s440.aif in Resources */ = {isa = PBXBuildFile; fileRef = 7298A2F020C75D2D00A117F6 /* tone1s440.aif */; };
 		72D09C6920C3DF01001C3588 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D09C6820C3DF01001C3588 /* AppDelegate.swift */; };
 		72D09C6B20C3DF01001C3588 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D09C6A20C3DF01001C3588 /* ViewController.swift */; };
 		72D09C6E20C3DF01001C3588 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C6C20C3DF01001C3588 /* Main.storyboard */; };
@@ -770,6 +771,7 @@
 		7280CEE920C7580800A67FF6 /* play_from_c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = play_from_c.h; sourceTree = "<group>"; };
 		7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FreeDV-Bridging-Header.h"; sourceTree = "<group>"; };
 		7280CEEB20C7586000A67FF6 /* play_from_c.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = play_from_c.c; sourceTree = "<group>"; };
+		7298A2F020C75D2D00A117F6 /* tone1s440.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = tone1s440.aif; sourceTree = "<group>"; };
 		72D09C6520C3DF00001C3588 /* FreeDV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreeDV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D09C6820C3DF01001C3588 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72D09C6A20C3DF01001C3588 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -1738,6 +1740,7 @@
 				7280CEE920C7580800A67FF6 /* play_from_c.h */,
 				7280CEEB20C7586000A67FF6 /* play_from_c.c */,
 				7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */,
+				7298A2F020C75D2D00A117F6 /* tone1s440.aif */,
 			);
 			path = FreeDV;
 			sourceTree = "<group>";
@@ -1804,6 +1807,7 @@
 				72F9C1DA20C527810006289D /* audio_input_choice.png in Resources */,
 				72D09C7B20C3DF7D001C3588 /* selective fading.png in Resources */,
 				72D09C7320C3DF02001C3588 /* LaunchScreen.storyboard in Resources */,
+				7298A2F120C75D2D00A117F6 /* tone1s440.aif in Resources */,
 				7217D40320C4BCF6009BC9C2 /* README.md in Resources */,
 				72D09C7020C3DF02001C3588 /* Assets.xcassets in Resources */,
 				72D09C6E20C3DF01001C3588 /* Main.storyboard in Resources */,
