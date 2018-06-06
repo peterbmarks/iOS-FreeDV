@@ -23,12 +23,35 @@ class ChooseInVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
   
   override func viewWillAppear(_ animated: Bool) {
     titleLabel.text = "Choose input from radio"
+    if let previousDeviceName = UserDefaults.standard.string(forKey: Constants.Preferences.FromRadioDevice.rawValue) {
+      print("previously chosen Device name = \(String(describing: previousDeviceName))")
+      let deviceIndex = previouslyChosenDeviceIndex(deviceName: previousDeviceName)
+      audioPickerView.selectRow(deviceIndex, inComponent: 0, animated: false)
+    }
   }
+  
+  func previouslyChosenDeviceIndex(deviceName: String) -> Int {
+    var index = 0
+    for device in self.audioSession!.availableInputs! {
+      if device.portName == deviceName {
+        return index
+      }
+      index += 1
+    }
+    return 0
+  }
+  
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
     return 1
   }
     
     @IBAction func onDoneButton(_ sender: Any) {
+      let chosenDeviceRow = audioPickerView.selectedRow(inComponent: 0)
+      let chosenDevice = self.audioSession!.availableInputs![chosenDeviceRow]
+      let chosenDeviceName = chosenDevice.portName
+      print("chosen Device name = \(chosenDeviceName)")
+      UserDefaults.standard.set(chosenDeviceName, forKey: Constants.Preferences.FromRadioDevice.rawValue)
+      UserDefaults.standard.synchronize()
         self.dismiss(animated: true) {
             print("dismissed choose radio")
         }
