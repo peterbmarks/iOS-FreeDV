@@ -82,11 +82,14 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     
   override func viewDidAppear(_ animated: Bool) {
     do {
-      try audioSession.setCategory(AVAudioSessionCategoryMultiRoute, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+      // AVAudioSessionCategoryMultiRoute
+      try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+      print("Audio category set ok")
       try audioSession.setActive(true)
       statusLabel.text = "Audio OK"
     } catch {
       print("Error starting audio session")
+      print("Error info: \(error)")
       statusLabel.text = "Error starting audio session"
     }
   }

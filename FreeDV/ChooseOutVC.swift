@@ -26,8 +26,31 @@ class ChooseOutVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
   override func viewWillAppear(_ animated: Bool) {
     titleLabel.text = "Choose output to radio"
     listOutputs()
+    NotificationCenter.default.addObserver(self, selector: #selector(ChooseOutVC.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
   }
 
+  // https://developer.apple.com/documentation/avfoundation/avaudiosession/responding_to_audio_session_route_changes
+  @objc func handleRouteChangedNotification(notification: NSNotification) {
+    guard let userInfo = notification.userInfo,
+      let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+      let reason = AVAudioSessionRouteChangeReason(rawValue:reasonValue) else {
+        return
+    }
+    switch reason {
+    case .newDeviceAvailable:
+      print("audio device changed")
+      DispatchQueue.main.async {
+        self.audioPickerView.reloadComponent(0)
+      }
+      
+    case .oldDeviceUnavailable:
+      print("audio device changed")
+      DispatchQueue.main.async {
+        self.audioPickerView.reloadComponent(0)
+      }
+    default: ()
+    }
+  }
   @IBAction func onDoneButton(_ sender: Any) {
     self.dismiss(animated: true) {
       print("dismissed choose radio")
@@ -43,7 +66,6 @@ class ChooseOutVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
   }
   
   func listOutputs() {
-    
     let currentRoute = audioSession.currentRoute
     for port in currentRoute.outputs {
       let description = port.portName
@@ -84,15 +106,15 @@ extension ChooseOutVC {
   }
   
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    if let outputDataSources = self.audioSession!.outputDataSources {
-      return outputDataSources.count
-    }
-    return 0
+    let route = self.audioSession!.currentRoute
+    let count = route.outputs.count
+    return count
   }
   
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    let output = self.audioSession!.outputDataSources![row]
-    return output.dataSourceName
+    let route = self.audioSession!.currentRoute
+    let output = route.outputs[row]
+    return output.portName
   }
   
 }
