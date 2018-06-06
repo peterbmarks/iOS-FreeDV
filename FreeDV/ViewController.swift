@@ -30,12 +30,39 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
       audioSession = AVAudioSession.sharedInstance()
-
+    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleInterruptionNotification(notification:)), name: .AVAudioSessionInterruption, object: nil)
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
     }
-
+    
+    @objc func handleInterruptionNotification(notification: NSNotification) {
+        let interruptionType = notification.userInfo![AVAudioSessionInterruptionTypeKey] as! AVAudioSessionInterruptionType
+        
+        if interruptionType == AVAudioSessionInterruptionType.began {
+            // session is now inactive and playback is paused
+            print("audio interruption notification")
+            startSwitch.isOn = false
+        } else {
+            print("audio interruption ended")
+        }
+    }
+    
+    @objc func handleRouteChangedNotification(notification: NSNotification) {
+        let routeChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! AVAudioSessionRouteChangeReason
+        
+        if routeChangeReason == .oldDeviceUnavailable {
+            // they've unplugged a device
+            print("route change notification")
+        }
+        
+        if routeChangeReason == .oldDeviceUnavailable || routeChangeReason == .newDeviceAvailable {
+            print("device has changed notification")
+        }
+    }
+    
   override func viewDidAppear(_ animated: Bool) {
     do {
-      try audioSession.setCategory(AVAudioSessionCategoryMultiRoute, mode: AVAudioSessionModeDefault, options: .allowBluetooth)
+      try audioSession.setCategory(AVAudioSessionCategoryMultiRoute, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
       try audioSession.setActive(true)
       statusLabel.text = "Audio OK"
     } catch {
