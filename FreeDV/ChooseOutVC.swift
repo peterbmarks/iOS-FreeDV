@@ -52,6 +52,14 @@ class ChooseOutVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     }
   }
   @IBAction func onDoneButton(_ sender: Any) {
+    let row = audioPickerView.selectedRow(inComponent: 0)
+    let route = self.audioSession!.currentRoute
+    let output = route.outputs[row]
+    let chosenDeviceName = output.portName
+    print("chosen Device name = \(chosenDeviceName)")
+    UserDefaults.standard.set(chosenDeviceName, forKey: Constants.Preferences.ToRadioDevice.rawValue)
+    UserDefaults.standard.synchronize()
+
     self.dismiss(animated: true) {
       print("dismissed choose radio")
     }

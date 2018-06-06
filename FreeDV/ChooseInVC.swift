@@ -76,9 +76,9 @@ class ChooseInVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
       print("chosen Device name = \(chosenDeviceName)")
       UserDefaults.standard.set(chosenDeviceName, forKey: Constants.Preferences.FromRadioDevice.rawValue)
       UserDefaults.standard.synchronize()
-        self.dismiss(animated: true) {
-            print("dismissed choose radio")
-        }
+      self.dismiss(animated: true) {
+          print("dismissed choose radio")
+      }
     }
     
     @IBAction func onTestAudioButton(_ sender: Any) {

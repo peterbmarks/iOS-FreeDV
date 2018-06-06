@@ -37,9 +37,21 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
       audioSession = AVAudioSession.sharedInstance()
-    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleInterruptionNotification(notification:)), name: .AVAudioSessionInterruption, object: nil)
+      do {
+        // AVAudioSessionCategoryMultiRoute
+        // AVAudioVoiceChat...
+        try audioSession.setCategory(AVAudioSessionCategoryMultiRoute)
+        // try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+        print("Audio category set ok")
+        try audioSession.setActive(true)
+      } catch {
+        print("Error starting audio session")
+        print("Error info: \(error)")
+      }
+
+      NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleInterruptionNotification(notification:)), name: .AVAudioSessionInterruption, object: nil)
     
-    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
+      NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
     }
     
     @objc func handleInterruptionNotification(notification: NSNotification) {
@@ -81,16 +93,16 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
   override func viewDidAppear(_ animated: Bool) {
-    do {
-      // AVAudioSessionCategoryMultiRoute
-      try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
-      print("Audio category set ok")
-      try audioSession.setActive(true)
-      statusLabel.text = "Audio OK"
-    } catch {
-      print("Error starting audio session")
-      print("Error info: \(error)")
-      statusLabel.text = "Error starting audio session"
+    if let fromRadioDeviceName = UserDefaults.standard.string(forKey: Constants.Preferences.FromRadioDevice.rawValue) {
+      fromRadioButton.setTitle(fromRadioDeviceName, for: .normal)
+    } else {
+      fromRadioButton.setTitle("Set from radio", for: .normal)
+    }
+    
+    if let toRadioDeviceName = UserDefaults.standard.string(forKey: Constants.Preferences.ToRadioDevice.rawValue) {
+      toRadioButton.setTitle(toRadioDeviceName, for: .normal)
+    } else {
+      toRadioButton.setTitle("Set to radio", for: .normal)
     }
   }
     override func didReceiveMemoryWarning() {
