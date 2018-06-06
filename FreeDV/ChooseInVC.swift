@@ -73,6 +73,7 @@ class ChooseInVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
       let chosenDeviceRow = audioPickerView.selectedRow(inComponent: 0)
       let chosenDevice = self.audioSession!.availableInputs![chosenDeviceRow]
       let chosenDeviceName = chosenDevice.portName
+      // let chosenDeviceId = chosenDevice.
       print("chosen Device name = \(chosenDeviceName)")
       UserDefaults.standard.set(chosenDeviceName, forKey: Constants.Preferences.FromRadioDevice.rawValue)
       UserDefaults.standard.synchronize()

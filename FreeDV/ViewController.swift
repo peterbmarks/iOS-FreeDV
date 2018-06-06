@@ -114,21 +114,40 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   @IBAction func onStartSwitchChanged(_ sender: UISwitch) {
     print("Start switch changed")
     if sender.isOn == true {
-      print("switch now on")
+      print("receive switch now on")
         self.transmitSwitch.isEnabled = true
-        self.isTransmitting = true
+      startReceiving()
     } else {
       print("recording stopped")
       self.transmitSwitch.isEnabled = false
-      self.isTransmitting = false
+    }
+  }
+  
+  var fromRadioInputNode: AVAudioInputNode?
+  
+  func startReceiving() {
+    if let fromRadioDeviceName = UserDefaults.standard.string(forKey: Constants.Preferences.FromRadioDevice.rawValue) {
+      // https://forums.developer.apple.com/thread/71008
+      fromRadioInputNode = audioEngine.inputNode
+      guard let inputUnit: AudioUnit = fromRadioInputNode?.audioUnit else { return }
+      // use core audio low level call to set the input device:
+      /*
+      var inputDeviceID: AudioDeviceID = 219  // replace with actual, dynamic value
+      AudioUnitSetProperty(inputUnit, kAudioOutputUnitProperty_CurrentDevice,
+                           kAudioUnitScope_Global, 0, &inputDeviceID, UInt32(MemoryLayout<AudioDeviceID>.size))
+ */
+    } else {
+      statusLabel.text = "Please set from radio device"
     }
   }
   
   @IBAction func onToRadioButton(_ sender: UIButton) {
+    // storyboard segues is used to open the modal vc
     print("Tapped the To radio audio button")
   }
   
   @IBAction func onFromRadioButton(_ sender: UIButton) {
+    // storyboard segues is used to open the modal vc
     print("Tapped the From radio audio button")
   }
   
