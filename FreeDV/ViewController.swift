@@ -16,9 +16,6 @@ import AVFoundation
 
 class ViewController: UIViewController, AVAudioRecorderDelegate {
 
-    @IBOutlet weak var toRadioButton: UIButton!
-    @IBOutlet weak var fromRadioButton: UIButton!
-    @IBOutlet weak var transmitSwitch: UISwitch!
     @IBOutlet weak var startSwitch: UISwitch!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var audioLevelProgressView: UIProgressView!
@@ -30,7 +27,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var audioEngine = AVAudioEngine()
     var radioOutPlayerNode = AVAudioPlayerNode()
     var radioOutBuffer :AVAudioPCMBuffer?
-    var audioController = AudioController()
+    var audioController: AudioController?
     
     var radioIn = AVAudioRecorder()
   
@@ -94,17 +91,6 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
   override func viewDidAppear(_ animated: Bool) {
-    if let fromRadioDeviceName = UserDefaults.standard.string(forKey: Constants.Preferences.FromRadioDevice.rawValue) {
-      fromRadioButton.setTitle(fromRadioDeviceName, for: .normal)
-    } else {
-      fromRadioButton.setTitle("Set from radio", for: .normal)
-    }
-    
-    if let toRadioDeviceName = UserDefaults.standard.string(forKey: Constants.Preferences.ToRadioDevice.rawValue) {
-      toRadioButton.setTitle(toRadioDeviceName, for: .normal)
-    } else {
-      toRadioButton.setTitle("Set to radio", for: .normal)
-    }
   }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -115,30 +101,14 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   @IBAction func onStartSwitchChanged(_ sender: UISwitch) {
     print("Start switch changed")
     if sender.isOn == true {
-      print("receive switch now on")
-        self.transmitSwitch.isEnabled = true
-      startReceiving()
+        print("audio started")
+        audioController = AudioController()
+        audioController!.startIOUnit()
+        audioController!.muteAudio = false
     } else {
-      print("recording stopped")
-      self.transmitSwitch.isEnabled = false
-    }
-  }
-  
-  var fromRadioInputNode: AVAudioInputNode?
-  
-  func startReceiving() {
-    if let fromRadioDeviceName = UserDefaults.standard.string(forKey: Constants.Preferences.FromRadioDevice.rawValue) {
-      // https://forums.developer.apple.com/thread/71008
-      fromRadioInputNode = audioEngine.inputNode
-      guard let inputUnit: AudioUnit = fromRadioInputNode?.audioUnit else { return }
-      // use core audio low level call to set the input device:
-      /*
-      var inputDeviceID: AudioDeviceID = 219  // replace with actual, dynamic value
-      AudioUnitSetProperty(inputUnit, kAudioOutputUnitProperty_CurrentDevice,
-                           kAudioUnitScope_Global, 0, &inputDeviceID, UInt32(MemoryLayout<AudioDeviceID>.size))
- */
-    } else {
-      statusLabel.text = "Please set from radio device"
+        print("audio stopped")
+        audioController!.stopIOUnit()
+        audioController = nil
     }
   }
   
@@ -163,7 +133,6 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
             } else {
               // failed to record!
               self.statusLabel.text = "Needs permission to access microphone"
-              self.transmitSwitch.isOn = false
             }
           }
         }
