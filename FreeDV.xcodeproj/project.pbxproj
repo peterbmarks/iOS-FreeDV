@@ -10,6 +10,16 @@
 		7217D40320C4BCF6009BC9C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7217D40220C4BCF6009BC9C2 /* README.md */; };
 		7217D70220C4F2D0009BC9C2 /* ChooseInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */; };
 		7280CEEC20C7586000A67FF6 /* play_from_c.c in Sources */ = {isa = PBXBuildFile; fileRef = 7280CEEB20C7586000A67FF6 /* play_from_c.c */; };
+		72983C6320CB772E00293F51 /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6220CB772E00293F51 /* AudioController.swift */; };
+		72983C6520CB773E00293F51 /* BufferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6420CB773E00293F51 /* BufferManager.swift */; };
+		72983C6720CB774B00293F51 /* DCRejectionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6620CB774A00293F51 /* DCRejectionFilter.swift */; };
+		72983C6920CB776500293F51 /* FFTHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6820CB776500293F51 /* FFTHelper.swift */; };
+		72983C6B20CB77BE00293F51 /* CABitOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6A20CB77BE00293F51 /* CABitOperations.swift */; };
+		72983C6D20CB77E800293F51 /* CAXException.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6C20CB77E800293F51 /* CAXException.swift */; };
+		72983C6F20CB77FB00293F51 /* OOPExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6E20CB77FB00293F51 /* OOPExceptions.swift */; };
+		72983C7220CB782C00293F51 /* NumTypes+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7120CB782C00293F51 /* NumTypes+Conversion.swift */; };
+		72983C7420CB784800293F51 /* CADebugMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7320CB784800293F51 /* CADebugMacros.swift */; };
+		72983C7620CB786100293F51 /* CAStreamBasicDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7520CB786100293F51 /* CAStreamBasicDescription.swift */; };
 		7298A2F120C75D2D00A117F6 /* tone1s440.aif in Resources */ = {isa = PBXBuildFile; fileRef = 7298A2F020C75D2D00A117F6 /* tone1s440.aif */; };
 		7298A2F320C775E500A117F6 /* ChooseOutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7298A2F220C775E500A117F6 /* ChooseOutVC.swift */; };
 		7298A2F520C777FA00A117F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7298A2F420C777FA00A117F6 /* Constants.swift */; };
@@ -773,6 +783,16 @@
 		7280CEE920C7580800A67FF6 /* play_from_c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = play_from_c.h; sourceTree = "<group>"; };
 		7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FreeDV-Bridging-Header.h"; sourceTree = "<group>"; };
 		7280CEEB20C7586000A67FF6 /* play_from_c.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = play_from_c.c; sourceTree = "<group>"; };
+		72983C6220CB772E00293F51 /* AudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
+		72983C6420CB773E00293F51 /* BufferManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferManager.swift; sourceTree = "<group>"; };
+		72983C6620CB774A00293F51 /* DCRejectionFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCRejectionFilter.swift; sourceTree = "<group>"; };
+		72983C6820CB776500293F51 /* FFTHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFTHelper.swift; sourceTree = "<group>"; };
+		72983C6A20CB77BE00293F51 /* CABitOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CABitOperations.swift; sourceTree = "<group>"; };
+		72983C6C20CB77E800293F51 /* CAXException.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAXException.swift; sourceTree = "<group>"; };
+		72983C6E20CB77FB00293F51 /* OOPExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OOPExceptions.swift; sourceTree = "<group>"; };
+		72983C7120CB782C00293F51 /* NumTypes+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NumTypes+Conversion.swift"; sourceTree = "<group>"; };
+		72983C7320CB784800293F51 /* CADebugMacros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADebugMacros.swift; sourceTree = "<group>"; };
+		72983C7520CB786100293F51 /* CAStreamBasicDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAStreamBasicDescription.swift; sourceTree = "<group>"; };
 		7298A2F020C75D2D00A117F6 /* tone1s440.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = tone1s440.aif; sourceTree = "<group>"; };
 		7298A2F220C775E500A117F6 /* ChooseOutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseOutVC.swift; sourceTree = "<group>"; };
 		7298A2F420C777FA00A117F6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -1710,6 +1730,23 @@
 			path = wav;
 			sourceTree = "<group>";
 		};
+		72983C7020CB780200293F51 /* AurioTouch */ = {
+			isa = PBXGroup;
+			children = (
+				72983C6220CB772E00293F51 /* AudioController.swift */,
+				72983C6420CB773E00293F51 /* BufferManager.swift */,
+				72983C6620CB774A00293F51 /* DCRejectionFilter.swift */,
+				72983C6820CB776500293F51 /* FFTHelper.swift */,
+				72983C6A20CB77BE00293F51 /* CABitOperations.swift */,
+				72983C6C20CB77E800293F51 /* CAXException.swift */,
+				72983C6E20CB77FB00293F51 /* OOPExceptions.swift */,
+				72983C7120CB782C00293F51 /* NumTypes+Conversion.swift */,
+				72983C7320CB784800293F51 /* CADebugMacros.swift */,
+				72983C7520CB786100293F51 /* CAStreamBasicDescription.swift */,
+			);
+			path = AurioTouch;
+			sourceTree = "<group>";
+		};
 		72D09C5C20C3DF00001C3588 = {
 			isa = PBXGroup;
 			children = (
@@ -1737,6 +1774,7 @@
 				72D09C6A20C3DF01001C3588 /* ViewController.swift */,
 				7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */,
 				7298A2F220C775E500A117F6 /* ChooseOutVC.swift */,
+				72983C7020CB780200293F51 /* AurioTouch */,
 				72D09C6C20C3DF01001C3588 /* Main.storyboard */,
 				72D09C6F20C3DF02001C3588 /* Assets.xcassets */,
 				72D09C7A20C3DF7D001C3588 /* selective fading.png */,
@@ -1832,12 +1870,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72983C6720CB774B00293F51 /* DCRejectionFilter.swift in Sources */,
+				72983C6320CB772E00293F51 /* AudioController.swift in Sources */,
 				7217D70220C4F2D0009BC9C2 /* ChooseInVC.swift in Sources */,
 				7280CEEC20C7586000A67FF6 /* play_from_c.c in Sources */,
+				72983C6D20CB77E800293F51 /* CAXException.swift in Sources */,
+				72983C6520CB773E00293F51 /* BufferManager.swift in Sources */,
+				72983C7220CB782C00293F51 /* NumTypes+Conversion.swift in Sources */,
 				72D09C6B20C3DF01001C3588 /* ViewController.swift in Sources */,
 				7298A2F320C775E500A117F6 /* ChooseOutVC.swift in Sources */,
 				72D09C6920C3DF01001C3588 /* AppDelegate.swift in Sources */,
+				72983C6920CB776500293F51 /* FFTHelper.swift in Sources */,
+				72983C6B20CB77BE00293F51 /* CABitOperations.swift in Sources */,
+				72983C7420CB784800293F51 /* CADebugMacros.swift in Sources */,
 				7298A2F520C777FA00A117F6 /* Constants.swift in Sources */,
+				72983C6F20CB77FB00293F51 /* OOPExceptions.swift in Sources */,
+				72983C7620CB786100293F51 /* CAStreamBasicDescription.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
