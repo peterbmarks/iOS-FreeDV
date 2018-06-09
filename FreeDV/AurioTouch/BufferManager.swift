@@ -24,9 +24,7 @@ let kDefaultDrawSamples = 1024
 
 
 class BufferManager {
-    
     var displayMode: AudioController.aurioTouchDisplayMode
-    
     
     private(set) var drawBuffers: UnsafeMutablePointer<UnsafeMutablePointer<Float32>?>
     
@@ -65,6 +63,7 @@ class BufferManager {
         mFFTInputBuffer = UnsafeMutablePointer.allocate(capacity: Int(inMaxFramesPerSlice))
         mFFTHelper = FFTHelper(maxFramesPerSlice: inMaxFramesPerSlice)
         OSAtomicIncrement32Barrier(&mNeedsNewFFTData)
+        // atomic_fetch_add(&mNeedsNewFFTData)
     }
     
     

@@ -80,7 +80,7 @@ class AudioController: NSObject, AURenderCallbackDelegate {
             // we are calling AudioUnitRender on the input bus of AURemoteIO
             // this will store the audio data captured by the microphone in ioData
             err = AudioUnitRender(_rioUnit!, ioActionFlags, inTimeStamp, 1, inNumberFrames, ioData)
-            
+            // print("number of frames = \(inNumberFrames)")   // I see 512 frames here
             // filter out the DC component of the signal
             _dcRejectionFilter?.processInplace(ioPtr[0].mData!.assumingMemoryBound(to: Float32.self), numFrames: inNumberFrames)
             
