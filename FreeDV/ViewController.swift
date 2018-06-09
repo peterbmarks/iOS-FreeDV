@@ -126,7 +126,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   }
   
   @objc func updateMeter() {
-    self.audioLevelProgressView.progress = audioController?.peakLevel ?? 0.0 * 2
+    let peakLevel = audioController?.peakLevel ?? 0.0
+    // print("peakLevel = \(peakLevel)")
+    self.audioLevelProgressView.progress = peakLevel * 4.0
   }
     
   func getDocumentsDirectory() -> URL {
