@@ -30,6 +30,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var audioEngine = AVAudioEngine()
     var radioOutPlayerNode = AVAudioPlayerNode()
     var radioOutBuffer :AVAudioPCMBuffer?
+    var audioController = AudioController()
     
     var radioIn = AVAudioRecorder()
   

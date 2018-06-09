@@ -338,7 +338,7 @@ class AudioController: NSObject, AURenderCallbackDelegate {
     private func setupAudioChain() {
         self.setupAudioSession()
         self.setupIOUnit()
-        self.createButtonPressedSound()
+        // self.createButtonPressedSound()
     }
     
     @discardableResult
