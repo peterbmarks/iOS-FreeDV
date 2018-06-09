@@ -20,6 +20,7 @@
 		72983C7220CB782C00293F51 /* NumTypes+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7120CB782C00293F51 /* NumTypes+Conversion.swift */; };
 		72983C7420CB784800293F51 /* CADebugMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7320CB784800293F51 /* CADebugMacros.swift */; };
 		72983C7620CB786100293F51 /* CAStreamBasicDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7520CB786100293F51 /* CAStreamBasicDescription.swift */; };
+		72983C7820CB89FA00293F51 /* PeakLevelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */; };
 		7298A2F120C75D2D00A117F6 /* tone1s440.aif in Resources */ = {isa = PBXBuildFile; fileRef = 7298A2F020C75D2D00A117F6 /* tone1s440.aif */; };
 		7298A2F320C775E500A117F6 /* ChooseOutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7298A2F220C775E500A117F6 /* ChooseOutVC.swift */; };
 		7298A2F520C777FA00A117F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7298A2F420C777FA00A117F6 /* Constants.swift */; };
@@ -793,6 +794,7 @@
 		72983C7120CB782C00293F51 /* NumTypes+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NumTypes+Conversion.swift"; sourceTree = "<group>"; };
 		72983C7320CB784800293F51 /* CADebugMacros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADebugMacros.swift; sourceTree = "<group>"; };
 		72983C7520CB786100293F51 /* CAStreamBasicDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAStreamBasicDescription.swift; sourceTree = "<group>"; };
+		72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeakLevelFilter.swift; sourceTree = "<group>"; };
 		7298A2F020C75D2D00A117F6 /* tone1s440.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = tone1s440.aif; sourceTree = "<group>"; };
 		7298A2F220C775E500A117F6 /* ChooseOutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseOutVC.swift; sourceTree = "<group>"; };
 		7298A2F420C777FA00A117F6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -1776,6 +1778,7 @@
 				72D09C6A20C3DF01001C3588 /* ViewController.swift */,
 				7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */,
 				7298A2F220C775E500A117F6 /* ChooseOutVC.swift */,
+				72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */,
 				72983C7020CB780200293F51 /* AurioTouch */,
 				72D09C6C20C3DF01001C3588 /* Main.storyboard */,
 				72D09C6F20C3DF02001C3588 /* Assets.xcassets */,
@@ -1887,6 +1890,7 @@
 				72983C7420CB784800293F51 /* CADebugMacros.swift in Sources */,
 				7298A2F520C777FA00A117F6 /* Constants.swift in Sources */,
 				72983C6F20CB77FB00293F51 /* OOPExceptions.swift in Sources */,
+				72983C7820CB89FA00293F51 /* PeakLevelFilter.swift in Sources */,
 				72983C7620CB786100293F51 /* CAStreamBasicDescription.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

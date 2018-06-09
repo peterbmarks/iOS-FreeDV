@@ -105,82 +105,12 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         audioController = AudioController()
         audioController!.startIOUnit()
         audioController!.muteAudio = false
+        self.startAudioMetering()
     } else {
         print("audio stopped")
+        self.stopAudioMetering()
         audioController!.stopIOUnit()
         audioController = nil
-    }
-  }
-  
-  @IBAction func onToRadioButton(_ sender: UIButton) {
-    // storyboard segues is used to open the modal vc
-    print("Tapped the To radio audio button")
-  }
-  
-  @IBAction func onFromRadioButton(_ sender: UIButton) {
-    // storyboard segues is used to open the modal vc
-    print("Tapped the From radio audio button")
-  }
-  
-  @IBAction func transmitSwitchAction(_ sender: UISwitch) {
-    print("Transmit switch changed")
-    if sender.isOn == true {
-      print("started transmitting")
-      audioSession.requestRecordPermission() { [unowned self] allowed in
-          DispatchQueue.main.async {
-            if allowed {
-              self.startRecording()
-            } else {
-              // failed to record!
-              self.statusLabel.text = "Needs permission to access microphone"
-            }
-          }
-        }
-    } else {
-      finishRecording(success: true)
-    }
-  }
-  
-  // For more: https://developer.apple.com/library/archive/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/OptimizingForDeviceHardware/OptimizingForDeviceHardware.html#//apple_ref/doc/uid/TP40007875-CH6-SW1
-  func startRecording () {
-    let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
-    
-    let settings = [
-      AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-      AVSampleRateKey: 44_100,
-      AVNumberOfChannelsKey: 1,
-      AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-    ]
-    
-    do {
-      audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
-      audioRecorder.delegate = self
-      audioRecorder.prepareToRecord()
-      audioRecorder.isMeteringEnabled = true
-      audioRecorder.record()
-      self.startAudioMetering()
-    } catch {
-      finishRecording(success: false)
-    }
-  }
-  
-  func finishRecording(success: Bool) {
-    stopAudioMetering()
-    audioRecorder.stop()
-    audioRecorder = nil
-    
-    if success {
-      //recordButton.setTitle("Tap to Re-record", for: .normal)
-    } else {
-      //recordButton.setTitle("Tap to Record", for: .normal)
-      // recording failed :(
-    }
-  }
-  
-  // delegate that might be called by iOS to stop us
-  func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-    if !flag {
-      finishRecording(success: false)
     }
   }
   
@@ -194,12 +124,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   }
   
   @objc func updateMeter() {
-    self.audioRecorder.updateMeters()
-    let peakLevel = self.audioRecorder.peakPower(forChannel: 0)
-    //print("peakLevel = \(peakLevel)")
-    // I see db levels of -30 to 0
-    let meterLevel = peakLevel + 30.0
-    self.audioLevelProgressView.progress = meterLevel / 30.0
+    self.audioLevelProgressView.progress = audioController?.peakLevel ?? 0.0 * 2
   }
     
   func getDocumentsDirectory() -> URL {

@@ -52,7 +52,9 @@ class AudioController: NSObject, AURenderCallbackDelegate {
     var _rioUnit: AudioUnit? = nil
     var _bufferManager: BufferManager!
     var _dcRejectionFilter: DCRejectionFilter!
+    var _peakLevelFilter: PeakLevelFilter!
     var _audioPlayer: AVAudioPlayer?   // for button pressed sound
+    var peakLevel: Float32 = 0.0    // read this to display peak level
     
     var muteAudio: Bool
     private(set) var audioChainIsBeingReconstructed: Bool = false
@@ -63,6 +65,7 @@ class AudioController: NSObject, AURenderCallbackDelegate {
         case spectrum
     }
     
+    // MARK: Audio buffer callback
     // Render callback function
     func performRender(
         _ ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,
@@ -81,6 +84,9 @@ class AudioController: NSObject, AURenderCallbackDelegate {
             // filter out the DC component of the signal
             _dcRejectionFilter?.processInplace(ioPtr[0].mData!.assumingMemoryBound(to: Float32.self), numFrames: inNumberFrames)
             
+            // calculate the peak level for display
+            peakLevel = (_peakLevelFilter?.peakLevel(ioPtr[0].mData!.assumingMemoryBound(to: Float32.self), numFrames: inNumberFrames))!
+            /*
             // based on the current display mode, copy the required data to the buffer manager
             if _bufferManager.displayMode == .oscilloscopeWaveform {
                 _bufferManager.copyAudioDataToDrawBuffer(ioPtr[0].mData?.assumingMemoryBound(to: Float32.self), inNumFrames: Int(inNumberFrames))
@@ -90,7 +96,7 @@ class AudioController: NSObject, AURenderCallbackDelegate {
                     _bufferManager.CopyAudioDataToFFTInputBuffer(ioPtr[0].mData!.assumingMemoryBound(to: Float32.self), numFrames: Int(inNumberFrames))
                 }
             }
-            
+            */
             // mute audio if needed
             if muteAudio {
                 for i in 0..<ioPtr.count {
@@ -106,6 +112,7 @@ class AudioController: NSObject, AURenderCallbackDelegate {
     override init() {
         _bufferManager = nil
         _dcRejectionFilter = nil
+        _peakLevelFilter = nil
         muteAudio = true
         super.init()
         self.setupAudioChain()
@@ -185,6 +192,7 @@ class AudioController: NSObject, AURenderCallbackDelegate {
         // rebuild the audio chain
         _bufferManager = nil
         _dcRejectionFilter = nil
+        _peakLevelFilter = nil
         _audioPlayer = nil
         
         self.setupAudioChain()
@@ -301,7 +309,7 @@ class AudioController: NSObject, AURenderCallbackDelegate {
             
             self._bufferManager = BufferManager(maxFramesPerSlice: Int(maxFramesPerSlice))
             self._dcRejectionFilter = DCRejectionFilter()
-            
+            self._peakLevelFilter = PeakLevelFilter()
             
             // Set the render callback on AURemoteIO
             var renderCallback = AURenderCallbackStruct(
