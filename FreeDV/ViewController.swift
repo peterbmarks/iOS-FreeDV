@@ -23,7 +23,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var audioSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
     var isTransmitting = false
-    var meterTimer: Timer?
+    var meterTimer: CADisplayLink?
     var audioEngine = AVAudioEngine()
     var radioOutPlayerNode = AVAudioPlayerNode()
     var radioOutBuffer :AVAudioPCMBuffer?
@@ -115,7 +115,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   }
   
   func startAudioMetering() {
-    self.meterTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(ViewController.updateMeter), userInfo: nil, repeats: true)
+    self.meterTimer = CADisplayLink(target: self, selector: #selector(ViewController.updateMeter))
+    self.meterTimer?.add(to: .current, forMode: .defaultRunLoopMode)
+    //self.meterTimer?.isPaused = true
   }
   
   func stopAudioMetering() {
