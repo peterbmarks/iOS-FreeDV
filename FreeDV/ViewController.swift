@@ -117,6 +117,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   func startAudioMetering() {
     self.meterTimer = CADisplayLink(target: self, selector: #selector(ViewController.updateMeter))
     self.meterTimer?.add(to: .current, forMode: .defaultRunLoopMode)
+    self.meterTimer?.preferredFramesPerSecond = 20
     //self.meterTimer?.isPaused = true
   }
   

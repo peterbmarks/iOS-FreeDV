@@ -14,3 +14,12 @@ Rough UI:
 Here's how we choose an audio input:
 
 ![Choose](audio_input_choice.png)
+
+## Build on macOS
+
+brew install speex speexdsp 
+cd codec2-dev
+mkdir build
+cd build
+cmake ../
+

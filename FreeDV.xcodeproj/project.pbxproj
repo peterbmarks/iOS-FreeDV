@@ -2049,6 +2049,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "FreeDV/FreeDV-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
+				SYSTEM_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/FreeDV/codec2-dev\"/**";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2070,6 +2071,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FreeDV/FreeDV-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				SYSTEM_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/FreeDV/codec2-dev\"/**";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
