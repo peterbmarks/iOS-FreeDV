@@ -75,6 +75,8 @@
 		72D09C7320C3DF02001C3588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C7120C3DF02001C3588 /* LaunchScreen.storyboard */; };
 		72D09C7B20C3DF7D001C3588 /* selective fading.png in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C7A20C3DF7D001C3588 /* selective fading.png */; };
 		72F9C1DA20C527810006289D /* audio_input_choice.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F9C1D920C527810006289D /* audio_input_choice.png */; };
+		72FD5D1320CE4BCD0082BDAB /* FreeDVrx.c in Sources */ = {isa = PBXBuildFile; fileRef = 72FD5D1120CE4BCC0082BDAB /* FreeDVrx.c */; };
+		72FD5D1520CE4EA90082BDAB /* vk2tpm_004.wav in Resources */ = {isa = PBXBuildFile; fileRef = 72FD5D1420CE4EA90082BDAB /* vk2tpm_004.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -854,6 +856,9 @@
 		72D09C7420C3DF02001C3588 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72D09C7A20C3DF7D001C3588 /* selective fading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selective fading.png"; sourceTree = "<group>"; };
 		72F9C1D920C527810006289D /* audio_input_choice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio_input_choice.png; sourceTree = "<group>"; };
+		72FD5D1120CE4BCC0082BDAB /* FreeDVrx.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = FreeDVrx.c; sourceTree = "<group>"; };
+		72FD5D1220CE4BCD0082BDAB /* FreeDVrx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FreeDVrx.h; sourceTree = "<group>"; };
+		72FD5D1420CE4EA90082BDAB /* vk2tpm_004.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = vk2tpm_004.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1838,8 +1843,11 @@
 				72D09C7420C3DF02001C3588 /* Info.plist */,
 				7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */,
 				7298A2F020C75D2D00A117F6 /* tone1s440.aif */,
+				72FD5D1420CE4EA90082BDAB /* vk2tpm_004.wav */,
 				7298A2F420C777FA00A117F6 /* Constants.swift */,
 				72983C7920CCA22200293F51 /* FreeDVApi.swift */,
+				72FD5D1120CE4BCC0082BDAB /* FreeDVrx.c */,
+				72FD5D1220CE4BCD0082BDAB /* FreeDVrx.h */,
 			);
 			path = FreeDV;
 			sourceTree = "<group>";
@@ -1909,6 +1917,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				72F9C1DA20C527810006289D /* audio_input_choice.png in Resources */,
+				72FD5D1520CE4EA90082BDAB /* vk2tpm_004.wav in Resources */,
 				72D09C7B20C3DF7D001C3588 /* selective fading.png in Resources */,
 				72D09C7320C3DF02001C3588 /* LaunchScreen.storyboard in Resources */,
 				7298A2F120C75D2D00A117F6 /* tone1s440.aif in Resources */,
@@ -1980,6 +1989,7 @@
 				72983D1620CE202A00293F51 /* codebookge.c in Sources */,
 				72983C6B20CB77BE00293F51 /* CABitOperations.swift in Sources */,
 				72983C7420CB784800293F51 /* CADebugMacros.swift in Sources */,
+				72FD5D1320CE4BCD0082BDAB /* FreeDVrx.c in Sources */,
 				72983D0B20CE1F9A00293F51 /* nlp.c in Sources */,
 				72983CFE20CE1F3900293F51 /* golay23.c in Sources */,
 				7298A2F520C777FA00A117F6 /* Constants.swift in Sources */,

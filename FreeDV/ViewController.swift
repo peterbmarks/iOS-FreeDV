@@ -30,6 +30,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var audioController: AudioController?
     
     var radioIn = AVAudioRecorder()
+    var freeDvApi = FreeDVApi()
   
   override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,6 +107,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         audioController!.startIOUnit()
         audioController!.muteAudio = false
         self.startAudioMetering()
+        
+        freeDvApi.startDecodeFromFileToFile()
     } else {
         print("audio stopped")
         self.stopAudioMetering()

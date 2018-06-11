@@ -5,4 +5,5 @@
 #include "freedv_api.h"
 #include "modem_stats.h"
 #include "codec2.h"
+#include "FreeDVrx.h"
 
