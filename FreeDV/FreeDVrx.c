@@ -63,9 +63,9 @@ void my_datatx(void *callback_state, unsigned char *packet, size_t *size) {
 }
 
 void start_rx(const char *inFileName, const char *outFileName) {
-    FILE                      *fin, *fout, *ftxt;
+    FILE                      *audioInputFile, *audioOutputFile, *receivedTextFile;
     struct freedv             *freedv;
-    int                        nin, nout, frame = 0;
+    int                        inputSampleCount, decodedSpeechBufferCount, frame = 0;
     struct my_callback_state   my_cb_state;
     struct MODEM_STATS         stats;
     int                        mode;
@@ -95,61 +95,38 @@ void start_rx(const char *inFileName, const char *outFileName) {
     freedv_set_snr_squelch_thresh(freedv, -100.0);
     freedv_set_squelch_en(freedv, 0);
     
-    short speech_out[freedv_get_n_speech_samples(freedv)];
-    short demod_in[freedv_get_n_max_modem_samples(freedv)];
+    short speechOutputBuffer[freedv_get_n_speech_samples(freedv)];
+    short demodInputBuffer[freedv_get_n_max_modem_samples(freedv)];
     
-    ftxt = stderr;
-    assert(ftxt != NULL);
-    my_cb_state.ftxt = ftxt;
+    receivedTextFile = stderr;
+    assert(receivedTextFile != NULL);
+    my_cb_state.ftxt = receivedTextFile;
     freedv_set_callback_txt(freedv, &my_put_next_rx_char, NULL, &my_cb_state);
     freedv_set_callback_protocol(freedv, &my_put_next_rx_proto, NULL, &my_cb_state);
     freedv_set_callback_data(freedv, my_datarx, my_datatx, &my_cb_state);
     
-    fin = fopen(inFileName, "rb");
-    assert(fin != NULL);
-    fout = fopen(outFileName, "wb");
-    assert(fout != NULL);
+    audioInputFile = fopen(inFileName, "r");
+    assert(audioInputFile != NULL);
+    audioOutputFile = fopen(outFileName, "w");
+    fprintf(stderr, "errno = %d = %s\n", errno, strerror(errno));
+    assert(audioOutputFile != NULL);
     
     /* Note we need to work out how many samples demod needs on each
      call (nin).  This is used to adjust for differences in the tx and rx
      sample clock frequencies.  Note also the number of output
      speech samples is time varying (nout). */
     
-    nin = freedv_nin(freedv);
-    while(fread(demod_in, sizeof(short), nin, fin) == nin) {
+    inputSampleCount = freedv_nin(freedv);
+    while(fread(demodInputBuffer, sizeof(short), inputSampleCount, audioInputFile) == inputSampleCount) {
         frame++;
         
-        if (use_codecrx == 0) {
-            /* Use the freedv_api to do everything: speech decoding, demodulating */
-            nout = freedv_rx(freedv, speech_out, demod_in);
-        } else {
-            int bits_per_codec_frame = codec2_bits_per_frame(c2);
-            int bytes_per_codec_frame = (bits_per_codec_frame + 7) / 8;
-            int codec_frames = freedv_get_n_codec_bits(freedv) / bits_per_codec_frame;
-            int samples_per_frame = codec2_samples_per_frame(c2);
-            unsigned char encoded[bytes_per_codec_frame * codec_frames];
-            
-            /* Use the freedv_api to demodulate only */
-            nout = freedv_codecrx(freedv, encoded, demod_in);
-            
-            /* deccode the speech ourself (or send it to elsewhere, e.g. network) */
-            if (nout) {
-                unsigned char *enc_frame = encoded;
-                short *speech_frame = speech_out;
-                
-                nout = 0;
-                for (i = 0; i < codec_frames; i++) {
-                    codec2_decode(c2, speech_frame, enc_frame);
-                    enc_frame += bytes_per_codec_frame;
-                    speech_frame += samples_per_frame;
-                    nout += samples_per_frame;
-                }
-            }
-        }
+        /* Use the freedv_api to do everything: speech decoding, demodulating */
+        decodedSpeechBufferCount = freedv_rx(freedv, speechOutputBuffer, demodInputBuffer);
         
-        nin = freedv_nin(freedv);
+        inputSampleCount = freedv_nin(freedv);
         
-        fwrite(speech_out, sizeof(short), nout, fout);
+        fwrite(speechOutputBuffer, sizeof(short), decodedSpeechBufferCount, audioOutputFile);
+        
         freedv_get_modem_stats(freedv, &sync, &snr_est);
         freedv_get_modem_extended_stats(freedv, &stats);
         int total_bit_errors = freedv_get_total_bit_errors(freedv);
@@ -157,16 +134,16 @@ void start_rx(const char *inFileName, const char *outFileName) {
         
         /* log some side info to the txt file */
         
-        if (ftxt != NULL) {
-            fprintf(ftxt, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
-                    frame, sync, nin, snr_est, total_bit_errors, clock_offset);
+        if (receivedTextFile != NULL) {
+            fprintf(receivedTextFile, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
+                    frame, sync, inputSampleCount, snr_est, total_bit_errors, clock_offset);
         }
         
         /* if this is in a pipeline, we probably don't want the usual
          buffering to occur */
         
-        if (fout == stdout) fflush(stdout);
-        if (fin == stdin) fflush(stdin);
+        if (audioOutputFile == stdout) fflush(stdout);
+        if (audioInputFile == stdin) fflush(stdin);
     }
     
     if (freedv_get_test_frames(freedv)) {
@@ -182,7 +159,7 @@ void start_rx(const char *inFileName, const char *outFileName) {
     }
     
     freedv_close(freedv);
-    fclose(fin);
-    fclose(fout);
+    fclose(audioInputFile);
+    fclose(audioOutputFile);
 }
 
