@@ -55,6 +55,7 @@ class AudioController: NSObject, AURenderCallbackDelegate {
     var _peakLevelFilter: PeakLevelFilter!
     var _audioPlayer: AVAudioPlayer?   // for button pressed sound
     var peakLevel: Float32 = 0.0    // read this to display peak level
+    let freeDv = FreeDVApi()
     
     var muteAudio: Bool
     private(set) var audioChainIsBeingReconstructed: Bool = false
