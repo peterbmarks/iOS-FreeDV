@@ -17,7 +17,7 @@ Here's how we choose an audio input:
 
 ## Build on macOS
 
-brew install speex speexdsp 
+brew install speex speexdsp libsamplerate
 cd codec2-dev
 mkdir build
 cd build
