@@ -51,7 +51,7 @@ extern "C" {
 struct OFDM;
 
 /* Default configuration for '700D' mode */
-const struct OFDM_CONFIG * OFDM_CONFIG_700D;
+extern const struct OFDM_CONFIG * OFDM_CONFIG_700D;
 
 /* create and destroy modem states */
 

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7217D40320C4BCF6009BC9C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7217D40220C4BCF6009BC9C2 /* README.md */; };
 		7217D70220C4F2D0009BC9C2 /* ChooseInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */; };
-		7280CEEC20C7586000A67FF6 /* play_from_c.c in Sources */ = {isa = PBXBuildFile; fileRef = 7280CEEB20C7586000A67FF6 /* play_from_c.c */; };
 		72983C6320CB772E00293F51 /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6220CB772E00293F51 /* AudioController.swift */; };
 		72983C6520CB773E00293F51 /* BufferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6420CB773E00293F51 /* BufferManager.swift */; };
 		72983C6720CB774B00293F51 /* DCRejectionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C6620CB774A00293F51 /* DCRejectionFilter.swift */; };
@@ -21,6 +20,51 @@
 		72983C7420CB784800293F51 /* CADebugMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7320CB784800293F51 /* CADebugMacros.swift */; };
 		72983C7620CB786100293F51 /* CAStreamBasicDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7520CB786100293F51 /* CAStreamBasicDescription.swift */; };
 		72983C7820CB89FA00293F51 /* PeakLevelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */; };
+		72983C7A20CCA22200293F51 /* FreeDVApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7920CCA22200293F51 /* FreeDVApi.swift */; };
+		72983CF020CE1ED000293F51 /* c2wideband.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D53420C4C926009BC9C2 /* c2wideband.c */; };
+		72983CF120CE1ED600293F51 /* codec2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57F20C4C926009BC9C2 /* codec2.c */; };
+		72983CF220CE1EDB00293F51 /* codec2_fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D58320C4C926009BC9C2 /* codec2_fft.c */; };
+		72983CF320CE1EE500293F51 /* cohpsk.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D58920C4C926009BC9C2 /* cohpsk.c */; };
+		72983CF420CE1EEB00293F51 /* dct2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D59320C4C926009BC9C2 /* dct2.c */; };
+		72983CF520CE1EF000293F51 /* dump.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D59820C4C926009BC9C2 /* dump.c */; };
+		72983CF620CE1F0100293F51 /* fdmdv.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D59A20C4C926009BC9C2 /* fdmdv.c */; };
+		72983CF720CE1F0900293F51 /* fifo.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5A420C4C926009BC9C2 /* fifo.c */; };
+		72983CF820CE1F0E00293F51 /* fm.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5A520C4C926009BC9C2 /* fm.c */; };
+		72983CF920CE1F1500293F51 /* fmfsk.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5A820C4C926009BC9C2 /* fmfsk.c */; };
+		72983CFA20CE1F1D00293F51 /* freedv_api.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5AD20C4C926009BC9C2 /* freedv_api.c */; };
+		72983CFB20CE1F2500293F51 /* freedv_data_channel.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5B020C4C926009BC9C2 /* freedv_data_channel.c */; };
+		72983CFC20CE1F2B00293F51 /* freedv_vhf_framing.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5B420C4C926009BC9C2 /* freedv_vhf_framing.c */; };
+		72983CFD20CE1F3300293F51 /* fsk.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5B620C4C926009BC9C2 /* fsk.c */; };
+		72983CFE20CE1F3900293F51 /* golay23.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5BF20C4C926009BC9C2 /* golay23.c */; };
+		72983CFF20CE1F4200293F51 /* gp_interleaver.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5C320C4C926009BC9C2 /* gp_interleaver.c */; };
+		72983D0120CE1F5700293F51 /* interp.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5D120C4C926009BC9C2 /* interp.c */; };
+		72983D0220CE1F5E00293F51 /* kiss_fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5D320C4C926009BC9C2 /* kiss_fft.c */; };
+		72983D0320CE1F6300293F51 /* kiss_fftr.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5D520C4C926009BC9C2 /* kiss_fftr.c */; };
+		72983D0420CE1F6700293F51 /* linreg.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5D920C4C926009BC9C2 /* linreg.c */; };
+		72983D0520CE1F7100293F51 /* lpc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5DC20C4C926009BC9C2 /* lpc.c */; };
+		72983D0620CE1F7800293F51 /* lsp.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5DE20C4C926009BC9C2 /* lsp.c */; };
+		72983D0720CE1F7F00293F51 /* mbest.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5E120C4C926009BC9C2 /* mbest.c */; };
+		72983D0820CE1F8500293F51 /* modem_stats.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5E520C4C926009BC9C2 /* modem_stats.c */; };
+		72983D0920CE1F9000293F51 /* mpdecode_core.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5E720C4C926009BC9C2 /* mpdecode_core.c */; };
+		72983D0A20CE1F9500293F51 /* newamp1.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5E920C4C926009BC9C2 /* newamp1.c */; };
+		72983D0B20CE1F9A00293F51 /* nlp.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5EB20C4C926009BC9C2 /* nlp.c */; };
+		72983D0C20CE1FA000293F51 /* ofdm.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5F020C4C926009BC9C2 /* ofdm.c */; };
+		72983D0D20CE1FAB00293F51 /* pack.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5F820C4C926009BC9C2 /* pack.c */; };
+		72983D0E20CE1FB800293F51 /* phase.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5F920C4C926009BC9C2 /* phase.c */; };
+		72983D0F20CE1FC000293F51 /* postfilter.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5FF20C4C926009BC9C2 /* postfilter.c */; };
+		72983D1020CE1FC700293F51 /* quantise.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D60120C4C926009BC9C2 /* quantise.c */; };
+		72983D1120CE1FCF00293F51 /* sine.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D60820C4C926009BC9C2 /* sine.c */; };
+		72983D1220CE1FD500293F51 /* tdma.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D60B20C4C926009BC9C2 /* tdma.c */; };
+		72983D1320CE1FDF00293F51 /* varicode.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D61020C4C926009BC9C2 /* varicode.c */; };
+		72983D1420CE202A00293F51 /* codebook.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57620C4C926009BC9C2 /* codebook.c */; };
+		72983D1520CE202A00293F51 /* codebookd.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57720C4C926009BC9C2 /* codebookd.c */; };
+		72983D1620CE202A00293F51 /* codebookge.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57920C4C926009BC9C2 /* codebookge.c */; };
+		72983D1720CE202A00293F51 /* codebookjvm.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57A20C4C926009BC9C2 /* codebookjvm.c */; };
+		72983D1C20CE206200293F51 /* codebooknewamp1.c in Sources */ = {isa = PBXBuildFile; fileRef = 72983D1820CE206200293F51 /* codebooknewamp1.c */; };
+		72983D1D20CE206200293F51 /* codebooknewamp1_energy.c in Sources */ = {isa = PBXBuildFile; fileRef = 72983D1920CE206200293F51 /* codebooknewamp1_energy.c */; };
+		72983D1E20CE206200293F51 /* codebookmel.c in Sources */ = {isa = PBXBuildFile; fileRef = 72983D1A20CE206200293F51 /* codebookmel.c */; };
+		72983D1F20CE206200293F51 /* codebooklspmelvq.c in Sources */ = {isa = PBXBuildFile; fileRef = 72983D1B20CE206200293F51 /* codebooklspmelvq.c */; };
+		72983D2020CE225600293F51 /* interldpc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5CF20C4C926009BC9C2 /* interldpc.c */; };
 		7298A2F120C75D2D00A117F6 /* tone1s440.aif in Resources */ = {isa = PBXBuildFile; fileRef = 7298A2F020C75D2D00A117F6 /* tone1s440.aif */; };
 		7298A2F320C775E500A117F6 /* ChooseOutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7298A2F220C775E500A117F6 /* ChooseOutVC.swift */; };
 		7298A2F520C777FA00A117F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7298A2F420C777FA00A117F6 /* Constants.swift */; };
@@ -781,9 +825,7 @@
 		7217D70020C4C927009BC9C2 /* x200_int.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = x200_int.wav; sourceTree = "<group>"; };
 		7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseInVC.swift; sourceTree = "<group>"; };
 		7217D70320C5017E009BC9C2 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
-		7280CEE920C7580800A67FF6 /* play_from_c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = play_from_c.h; sourceTree = "<group>"; };
 		7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FreeDV-Bridging-Header.h"; sourceTree = "<group>"; };
-		7280CEEB20C7586000A67FF6 /* play_from_c.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = play_from_c.c; sourceTree = "<group>"; };
 		72983C6220CB772E00293F51 /* AudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
 		72983C6420CB773E00293F51 /* BufferManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferManager.swift; sourceTree = "<group>"; };
 		72983C6620CB774A00293F51 /* DCRejectionFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCRejectionFilter.swift; sourceTree = "<group>"; };
@@ -795,6 +837,11 @@
 		72983C7320CB784800293F51 /* CADebugMacros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADebugMacros.swift; sourceTree = "<group>"; };
 		72983C7520CB786100293F51 /* CAStreamBasicDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAStreamBasicDescription.swift; sourceTree = "<group>"; };
 		72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeakLevelFilter.swift; sourceTree = "<group>"; };
+		72983C7920CCA22200293F51 /* FreeDVApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeDVApi.swift; sourceTree = "<group>"; };
+		72983D1820CE206200293F51 /* codebooknewamp1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = codebooknewamp1.c; path = ../../../../Xcodec2/xcode/src/codebooknewamp1.c; sourceTree = "<group>"; };
+		72983D1920CE206200293F51 /* codebooknewamp1_energy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = codebooknewamp1_energy.c; path = ../../../../Xcodec2/xcode/src/codebooknewamp1_energy.c; sourceTree = "<group>"; };
+		72983D1A20CE206200293F51 /* codebookmel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = codebookmel.c; sourceTree = "<group>"; };
+		72983D1B20CE206200293F51 /* codebooklspmelvq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = codebooklspmelvq.c; sourceTree = "<group>"; };
 		7298A2F020C75D2D00A117F6 /* tone1s440.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = tone1s440.aif; sourceTree = "<group>"; };
 		7298A2F220C775E500A117F6 /* ChooseOutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseOutVC.swift; sourceTree = "<group>"; };
 		7298A2F420C777FA00A117F6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -1169,6 +1216,10 @@
 		7217D52920C4C926009BC9C2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				72983D1B20CE206200293F51 /* codebooklspmelvq.c */,
+				72983D1A20CE206200293F51 /* codebookmel.c */,
+				72983D1920CE206200293F51 /* codebooknewamp1_energy.c */,
+				72983D1820CE206200293F51 /* codebooknewamp1.c */,
 				7217D52A20C4C926009BC9C2 /* _kiss_fft_guts.h */,
 				7217D52B20C4C926009BC9C2 /* ampexp.c */,
 				7217D52C20C4C926009BC9C2 /* ampexp.h */,
@@ -1785,11 +1836,10 @@
 				72D09C7A20C3DF7D001C3588 /* selective fading.png */,
 				72D09C7120C3DF02001C3588 /* LaunchScreen.storyboard */,
 				72D09C7420C3DF02001C3588 /* Info.plist */,
-				7280CEE920C7580800A67FF6 /* play_from_c.h */,
-				7280CEEB20C7586000A67FF6 /* play_from_c.c */,
 				7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */,
 				7298A2F020C75D2D00A117F6 /* tone1s440.aif */,
 				7298A2F420C777FA00A117F6 /* Constants.swift */,
+				72983C7920CCA22200293F51 /* FreeDVApi.swift */,
 			);
 			path = FreeDV;
 			sourceTree = "<group>";
@@ -1875,19 +1925,63 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72983CF720CE1F0900293F51 /* fifo.c in Sources */,
+				72983D0920CE1F9000293F51 /* mpdecode_core.c in Sources */,
+				72983D2020CE225600293F51 /* interldpc.c in Sources */,
+				72983CFF20CE1F4200293F51 /* gp_interleaver.c in Sources */,
+				72983CFD20CE1F3300293F51 /* fsk.c in Sources */,
+				72983C7A20CCA22200293F51 /* FreeDVApi.swift in Sources */,
+				72983D1120CE1FCF00293F51 /* sine.c in Sources */,
+				72983D1E20CE206200293F51 /* codebookmel.c in Sources */,
+				72983CF320CE1EE500293F51 /* cohpsk.c in Sources */,
 				72983C6720CB774B00293F51 /* DCRejectionFilter.swift in Sources */,
+				72983D1720CE202A00293F51 /* codebookjvm.c in Sources */,
 				72983C6320CB772E00293F51 /* AudioController.swift in Sources */,
+				72983D0E20CE1FB800293F51 /* phase.c in Sources */,
+				72983D0220CE1F5E00293F51 /* kiss_fft.c in Sources */,
 				7217D70220C4F2D0009BC9C2 /* ChooseInVC.swift in Sources */,
-				7280CEEC20C7586000A67FF6 /* play_from_c.c in Sources */,
+				72983D1220CE1FD500293F51 /* tdma.c in Sources */,
+				72983D1520CE202A00293F51 /* codebookd.c in Sources */,
+				72983D0F20CE1FC000293F51 /* postfilter.c in Sources */,
+				72983D0320CE1F6300293F51 /* kiss_fftr.c in Sources */,
+				72983CF920CE1F1500293F51 /* fmfsk.c in Sources */,
+				72983D0120CE1F5700293F51 /* interp.c in Sources */,
+				72983CF220CE1EDB00293F51 /* codec2_fft.c in Sources */,
+				72983D0A20CE1F9500293F51 /* newamp1.c in Sources */,
 				72983C6D20CB77E800293F51 /* CAXException.swift in Sources */,
+				72983D1D20CE206200293F51 /* codebooknewamp1_energy.c in Sources */,
+				72983D1320CE1FDF00293F51 /* varicode.c in Sources */,
+				72983CF120CE1ED600293F51 /* codec2.c in Sources */,
 				72983C6520CB773E00293F51 /* BufferManager.swift in Sources */,
+				72983D0C20CE1FA000293F51 /* ofdm.c in Sources */,
+				72983CF620CE1F0100293F51 /* fdmdv.c in Sources */,
+				72983D1020CE1FC700293F51 /* quantise.c in Sources */,
+				72983D0520CE1F7100293F51 /* lpc.c in Sources */,
 				72983C7220CB782C00293F51 /* NumTypes+Conversion.swift in Sources */,
+				72983CF520CE1EF000293F51 /* dump.c in Sources */,
+				72983D1F20CE206200293F51 /* codebooklspmelvq.c in Sources */,
+				72983D0620CE1F7800293F51 /* lsp.c in Sources */,
+				72983CFA20CE1F1D00293F51 /* freedv_api.c in Sources */,
 				72D09C6B20C3DF01001C3588 /* ViewController.swift in Sources */,
+				72983D0720CE1F7F00293F51 /* mbest.c in Sources */,
+				72983CF820CE1F0E00293F51 /* fm.c in Sources */,
+				72983CFC20CE1F2B00293F51 /* freedv_vhf_framing.c in Sources */,
 				7298A2F320C775E500A117F6 /* ChooseOutVC.swift in Sources */,
+				72983D0D20CE1FAB00293F51 /* pack.c in Sources */,
 				72D09C6920C3DF01001C3588 /* AppDelegate.swift in Sources */,
+				72983D0420CE1F6700293F51 /* linreg.c in Sources */,
+				72983D0820CE1F8500293F51 /* modem_stats.c in Sources */,
+				72983CF020CE1ED000293F51 /* c2wideband.c in Sources */,
+				72983CF420CE1EEB00293F51 /* dct2.c in Sources */,
+				72983D1420CE202A00293F51 /* codebook.c in Sources */,
+				72983CFB20CE1F2500293F51 /* freedv_data_channel.c in Sources */,
+				72983D1C20CE206200293F51 /* codebooknewamp1.c in Sources */,
 				72983C6920CB776500293F51 /* FFTHelper.swift in Sources */,
+				72983D1620CE202A00293F51 /* codebookge.c in Sources */,
 				72983C6B20CB77BE00293F51 /* CABitOperations.swift in Sources */,
 				72983C7420CB784800293F51 /* CADebugMacros.swift in Sources */,
+				72983D0B20CE1F9A00293F51 /* nlp.c in Sources */,
+				72983CFE20CE1F3900293F51 /* golay23.c in Sources */,
 				7298A2F520C777FA00A117F6 /* Constants.swift in Sources */,
 				72983C6F20CB77FB00293F51 /* OOPExceptions.swift in Sources */,
 				72983C7820CB89FA00293F51 /* PeakLevelFilter.swift in Sources */,
@@ -2038,11 +2132,23 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 848JQKK8M6;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					SCRAMBLER,
+					INTERLEAVER,
+					HORUS_L2_RX,
+					codec2_EXPORTS,
+				);
 				INFOPLIST_FILE = FreeDV/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				OTHER_CFLAGS = (
+					"-fPIC",
+					"-Wall",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.marxy.FreeDV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2061,11 +2167,21 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 848JQKK8M6;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SCRAMBLER,
+					INTERLEAVER,
+					HORUS_L2_RX,
+					codec2_EXPORTS,
+				);
 				INFOPLIST_FILE = FreeDV/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				OTHER_CFLAGS = (
+					"-fPIC",
+					"-Wall",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.marxy.FreeDV;
 				PRODUCT_NAME = "$(TARGET_NAME)";

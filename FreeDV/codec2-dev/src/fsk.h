@@ -89,6 +89,9 @@ struct FSK {
     int normalise_eye;      /* enables/disables normalisation of eye diagram */
 };
 
+// missing added pbm
+void fsk_enable_burst_mode(struct FSK *fsk,int nsyms);
+
 /*
  * Create an FSK config/state struct from a set of config parameters
  * 

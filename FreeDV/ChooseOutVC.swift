@@ -68,8 +68,7 @@ class ChooseOutVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
   @IBAction func onTestAudioButton(_ sender: Any) {
     print("test audio")
     // test calling a c function
-    let hello = String(cString: say_hello())
-    print("from c I got \(String(describing: hello))")
+    
     playTestSound()
   }
   
