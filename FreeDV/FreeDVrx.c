@@ -117,7 +117,9 @@ void start_rx(const char *inFileName, const char *outFileName) {
      speech samples is time varying (nout). */
     
     inputSampleCount = freedv_nin(freedv);
-    while(fread(demodInputBuffer, sizeof(short), inputSampleCount, audioInputFile) == inputSampleCount) {
+    // func getArrayOfAudioSamples(buffer: UnsafePointer<Int>, requestedSamples: CShort) -> CInt
+    while(getArrayOfAudioSamples(demodInputBuffer, inputSampleCount) == inputSampleCount) {
+    // while(fread(demodInputBuffer, sizeof(short), inputSampleCount, audioInputFile) == inputSampleCount) {
         frame++;
         
         /* Use the freedv_api to do everything: speech decoding, demodulating */

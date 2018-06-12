@@ -11,6 +11,10 @@
 
 #include <stdio.h>
 
+// c function to call from swift
 void start_rx(const char *inFileName, const char *outFileName);
+
+// swift function to call from c
+int getArrayOfAudioSamples(short *demodInputBuffer, int inputSampleCount);
 
 #endif /* FreeDVrx_h */
