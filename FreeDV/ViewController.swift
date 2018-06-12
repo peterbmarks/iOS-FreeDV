@@ -113,6 +113,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     if sender.isOn == true {
         print("audio started")
         startRecorder()
+        startPlayer()
 //        audioController = AudioController()
 //        audioController!.startIOUnit()
 //        audioController!.muteAudio = false
@@ -162,8 +163,6 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 }
 
 extension ViewController {
-    
-    
     func startRecorder() {
         do {
             print("Removing old audio file")
@@ -199,6 +198,44 @@ extension ViewController {
     
     func startPlayer() {
         // start a player that reads a chunk from a file then deletes up to that point
-        
+        DispatchQueue.global().async {
+            do {
+            let audioOutFileHanle = try FileHandle(forReadingFrom: self.audioFile!)
+            print("opened the audio file")
+            let player = AVAudioPlayer()
+            } catch {
+                print("Error: \(error)")
+            }
+            self.readSamples(inFile: self.audioFile!, samplesToRead: 1000)
+        }
+    }
+    
+    // block until there is enough data in the file to read the requested number of 16 bit PCM samples
+    func readSamples(inFile: URL, samplesToRead: UInt) {
+        do {
+            let inFileHandle = try FileHandle(forReadingFrom: inFile)
+            let currentPosition = inFileHandle.offsetInFile
+            let bytesToRead = samplesToRead * 2
+            let requiredLength = currentPosition + UInt64(bytesToRead)
+            let filePath = audioFile!.path
+            do {
+                let fileAttributes = try FileManager.default.attributesOfItem(atPath: filePath)
+                let lengthNow = fileAttributes[FileAttributeKey.size] as! UInt64
+                print("file length = \(lengthNow)")
+                if lengthNow < requiredLength {
+                    sleep(1)
+                } else {
+                    // there is enough data there for us to read and play
+                    let data = inFileHandle.readData(ofLength: Int(requiredLength))
+                    
+                }
+            } catch {
+                print("Error checking file size: \(error)")
+                return
+            }
+        } catch {
+            print("Error opening file for reading: \(error)")
+            return;
+        }
     }
 }
