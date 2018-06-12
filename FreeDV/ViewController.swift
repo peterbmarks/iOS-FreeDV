@@ -28,13 +28,22 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var radioOutPlayerNode = AVAudioPlayerNode()
     var radioOutBuffer :AVAudioPCMBuffer?
     var audioController: AudioController?
+    var audioFile: URL?
     
     var radioIn = AVAudioRecorder()
+    var recordSettings = [
+        AVFormatIDKey: NSNumber(value:kAudioFormatLinearPCM),
+        AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue,
+        AVNumberOfChannelsKey: 1,
+        AVSampleRateKey : 44100.0
+        ] as [String : Any]
+    
     var freeDvApi = FreeDVApi()
   
   override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    super.viewDidLoad()
+    // Do any additional setup after loading the view, typically from a nib.
+    self.audioFile = setupAudioFile(name: "tempaudio.raw")
       audioSession = AVAudioSession.sharedInstance()
       do {
         // AVAudioSessionCategoryMultiRoute
@@ -103,17 +112,19 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     print("Start switch changed")
     if sender.isOn == true {
         print("audio started")
-        audioController = AudioController()
-        audioController!.startIOUnit()
-        audioController!.muteAudio = false
-        self.startAudioMetering()
+        startRecorder()
+//        audioController = AudioController()
+//        audioController!.startIOUnit()
+//        audioController!.muteAudio = false
+//        self.startAudioMetering()
         
-        freeDvApi.startDecodeFromFileToFile()
+//        freeDvApi.startDecodeFromFileToFile()
     } else {
         print("audio stopped")
-        self.stopAudioMetering()
-        audioController!.stopIOUnit()
-        audioController = nil
+        stopRecorder()
+//        self.stopAudioMetering()
+//        audioController!.stopIOUnit()
+//        audioController = nil
     }
   }
   
@@ -150,3 +161,44 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   }
 }
 
+extension ViewController {
+    
+    
+    func startRecorder() {
+        do {
+            print("Removing old audio file")
+            try FileManager.default.removeItem(at: self.audioFile!)
+        } catch {
+            print("Error deleting old audio file: \(error)")
+        }
+        audioSession.requestRecordPermission { (granted) in
+            if granted {
+                print("record permission granted")
+                do {
+                    self.audioRecorder = try AVAudioRecorder(url: self.audioFile!, settings: self.recordSettings)
+                    self.audioRecorder.record()
+                } catch {
+                    print("Error starting record = \(error)")
+                }
+            }
+        }
+    }
+    
+    func stopRecorder() {
+        self.audioRecorder.stop()
+        self.audioRecorder = nil
+    }
+    
+    func setupAudioFile(name: String) -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        var url = paths[0]
+        url = url.appendingPathComponent(name)
+        print("audio file path = \(url)")
+        return url
+    }
+    
+    func startPlayer() {
+        // start a player that reads a chunk from a file then deletes up to that point
+        
+    }
+}
