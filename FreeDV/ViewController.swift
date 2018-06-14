@@ -43,7 +43,6 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
-    self.audioFile = setupAudioFile(name: "tempaudio.raw")
       audioSession = AVAudioSession.sharedInstance()
       do {
         // AVAudioSessionCategoryMultiRoute
@@ -86,6 +85,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         let session = AVAudioSession.sharedInstance()
         for output in session.currentRoute.outputs where output.portType == AVAudioSessionPortHeadphones {
           //headphonesConnected = true
+            print("new device available")
           break
         }
       case .oldDeviceUnavailable:
@@ -93,6 +93,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
           userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
           for output in previousRoute.outputs where output.portType == AVAudioSessionPortHeadphones {
             //headphonesConnected = false
+            print("old device unavailable")
             break
           }
         }
@@ -113,19 +114,10 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     if sender.isOn == true {
         print("audio started")
         startRecorder()
-        startPlayer()
-//        audioController = AudioController()
-//        audioController!.startIOUnit()
-//        audioController!.muteAudio = false
-//        self.startAudioMetering()
-        
 //        freeDvApi.startDecodeFromFileToFile()
     } else {
         print("audio stopped")
         stopRecorder()
-//        self.stopAudioMetering()
-//        audioController!.stopIOUnit()
-//        audioController = nil
     }
   }
   
@@ -146,96 +138,36 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     // print("peakLevel = \(peakLevel)")
     self.audioLevelProgressView.progress = peakLevel * 4.0
   }
-    
-  func getDocumentsDirectory() -> URL {
-    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    return paths[0]
-  }
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "chooseOutput" {
-      print("choose radio output")
-      //let radioOutput = segue.destination as! ChooseOutVC
-    } else if segue.identifier == "chooseInput" {
-      //let radioInput = segue.destination as! ChooseInVC
-    }
-  }
 }
 
 extension ViewController {
     func startRecorder() {
-        do {
-            print("Removing old audio file")
-            try FileManager.default.removeItem(at: self.audioFile!)
-        } catch {
-            print("Error deleting old audio file: \(error)")
-        }
         audioSession.requestRecordPermission { (granted) in
             if granted {
                 print("record permission granted")
-                do {
-                    self.audioRecorder = try AVAudioRecorder(url: self.audioFile!, settings: self.recordSettings)
-                    self.audioRecorder.record()
-                } catch {
-                    print("Error starting record = \(error)")
+                self.audioEngine = AVAudioEngine()
+                
+                let inputNode = self.audioEngine.inputNode
+                print("Set intput node")
+                let bus = 0
+                
+                inputNode.installTap(onBus: bus, bufferSize: 2048, format:inputNode.inputFormat(forBus: bus)) {
+                    (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
+                    print("called back!")
                 }
+                
+                self.audioEngine.prepare()
+                do {
+                    try self.audioEngine.start()
+                } catch {
+                    print("Error starting audio engine = \(error)")
+                }
+                print("started audio")
             }
         }
     }
     
     func stopRecorder() {
-        self.audioRecorder.stop()
-        self.audioRecorder = nil
-    }
-    
-    func setupAudioFile(name: String) -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        var url = paths[0]
-        url = url.appendingPathComponent(name)
-        print("audio file path = \(url)")
-        return url
-    }
-    
-    func startPlayer() {
-        // start a player that reads a chunk from a file then deletes up to that point
-        DispatchQueue.global().async {
-            do {
-            let audioOutFileHanle = try FileHandle(forReadingFrom: self.audioFile!)
-            print("opened the audio file")
-            let player = AVAudioPlayer()
-            } catch {
-                print("Error: \(error)")
-            }
-            self.readSamples(inFile: self.audioFile!, samplesToRead: 1000)
-        }
-    }
-    
-    // block until there is enough data in the file to read the requested number of 16 bit PCM samples
-    func readSamples(inFile: URL, samplesToRead: UInt) {
-        do {
-            let inFileHandle = try FileHandle(forReadingFrom: inFile)
-            let currentPosition = inFileHandle.offsetInFile
-            let bytesToRead = samplesToRead * 2
-            let requiredLength = currentPosition + UInt64(bytesToRead)
-            let filePath = audioFile!.path
-            do {
-                let fileAttributes = try FileManager.default.attributesOfItem(atPath: filePath)
-                let lengthNow = fileAttributes[FileAttributeKey.size] as! UInt64
-                print("file length = \(lengthNow)")
-                if lengthNow < requiredLength {
-                    sleep(1)
-                } else {
-                    // there is enough data there for us to read and play
-                    let data = inFileHandle.readData(ofLength: Int(requiredLength))
-                    
-                }
-            } catch {
-                print("Error checking file size: \(error)")
-                return
-            }
-        } catch {
-            print("Error opening file for reading: \(error)")
-            return;
-        }
+        self.audioEngine.stop()
     }
 }
