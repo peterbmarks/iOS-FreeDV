@@ -164,13 +164,19 @@ extension ViewController {
                 inputNode.installTap(onBus: bus, bufferSize: 2048, format:inputNode.inputFormat(forBus: bus)) {
                     (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
                     let frameLength = Int(buffer!.frameLength)
+                    // print("format = \(buffer.format)")
                     if buffer!.floatChannelData != nil {
                         let elements = UnsafeBufferPointer(start: buffer.floatChannelData?[0], count:frameLength)
                         // copy samples from the buffer and convert to Int16 for codec2
                         var samples = Array<Int16>()
+                        let sampleRate = buffer.format.sampleRate
+                        let desiredSampleRate = 8000.0
+                        let decimate = Int(sampleRate / desiredSampleRate)
                         for i in 0..<frameLength {
-                            let intSample = Int16(elements[i] * Float(Int16.max))
-                            samples.append(intSample)
+                            if i % decimate == 0 {
+                                let intSample = Int16(elements[i] * Float(Int16.max))
+                                samples.append(intSample)
+                            }
                         }
                         self.peakAudioLevel = self.peakAudioLevel(&samples)
                         let buffPtr = UnsafeMutablePointer(&samples)
