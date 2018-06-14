@@ -173,6 +173,8 @@ extension ViewController {
                             samples.append(intSample)
                         }
                         self.peakAudioLevel = self.peakAudioLevel(&samples)
+                        let buffPtr = UnsafeMutablePointer(&samples)
+                        fifo_write(gAudioCaptureFifo, buffPtr, Int32(frameLength))
                     } else {
                         print("Error didn't find Float audio data")
                     }

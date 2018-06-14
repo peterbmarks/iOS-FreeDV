@@ -29,6 +29,8 @@ struct my_callback_state {
 };
 
 struct FIFO *gAudioCaptureFifo;
+struct FIFO *gAudioDecodedFifo;
+
 int gQuittingTime = 0;
 
 void my_put_next_rx_char(void *callback_state, char c) {
@@ -69,23 +71,8 @@ void my_datatx(void *callback_state, unsigned char *packet, size_t *size) {
 // call this before starting audio capture,
 // it sets up the fifo we write into
 void rx_init(void) {
-    // just set up enough to get the inputSampleCount needed for the fifo
-    struct freedv             *freedv;
-    int mode;
-    int interleave_frames = 1;
-    int inputSampleCount;
-    mode = FREEDV_MODE_700D;
-    
-    if (mode == FREEDV_MODE_700D) {
-        struct freedv_advanced adv;
-        adv.interleave_frames = interleave_frames;
-        freedv = freedv_open_advanced(mode, &adv);
-    }
-    else {
-        freedv = freedv_open(mode);
-    }
-    inputSampleCount = freedv_nin(freedv);
-    gAudioCaptureFifo = fifo_create(inputSampleCount);
+    gAudioCaptureFifo = fifo_create(100000);
+    gAudioDecodedFifo = fifo_create(100000);
 }
 
 void stop_rx(void) {
@@ -141,24 +128,28 @@ void start_rx(void) {
     
     inputSampleCount = freedv_nin(freedv);
     while(gQuittingTime == 0) {
-        if(fifo_used(gAudioCaptureFifo) < inputSampleCount) {
-            usleep(0.5);
+        int availableSamples = fifo_used(gAudioCaptureFifo);
+        
+        if(availableSamples >= inputSampleCount) {
+            fprintf(stderr, "availableSamples = %d\n", availableSamples);
+            fifo_read(gAudioCaptureFifo, demodInputBuffer, inputSampleCount);
+            frame++;
+            
+            /* Use the freedv_api to do everything: speech decoding, demodulating */
+            decodedSpeechBufferCount = freedv_rx(freedv, speechOutputBuffer, demodInputBuffer);
+            // decodedSpeechBufferCount shorts of audio is now in speechOutputBuffer
+            //fwrite(speechOutputBuffer, sizeof(short), decodedSpeechBufferCount, audioOutputFile);
+            
+            freedv_get_modem_stats(freedv, &sync, &snr_est);
+            freedv_get_modem_extended_stats(freedv, &stats);
+            int total_bit_errors = freedv_get_total_bit_errors(freedv);
+            clock_offset = stats.clock_offset;
+            
+            fprintf(stderr, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
+                    frame, sync, inputSampleCount, snr_est, total_bit_errors, clock_offset);
+        } else {
+            usleep(500);
         }
-        fifo_read(gAudioCaptureFifo, demodInputBuffer, inputSampleCount);
-        frame++;
-        
-        /* Use the freedv_api to do everything: speech decoding, demodulating */
-        decodedSpeechBufferCount = freedv_rx(freedv, speechOutputBuffer, demodInputBuffer);
-        // decodedSpeechBufferCount shorts of audio is now in speechOutputBuffer
-        //fwrite(speechOutputBuffer, sizeof(short), decodedSpeechBufferCount, audioOutputFile);
-        
-        freedv_get_modem_stats(freedv, &sync, &snr_est);
-        freedv_get_modem_extended_stats(freedv, &stats);
-        int total_bit_errors = freedv_get_total_bit_errors(freedv);
-        clock_offset = stats.clock_offset;
-        
-        fprintf(stderr, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
-                frame, sync, inputSampleCount, snr_est, total_bit_errors, clock_offset);
     }
     fprintf(stderr, "It's quitting time!\n");
     
