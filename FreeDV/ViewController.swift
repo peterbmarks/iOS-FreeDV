@@ -22,7 +22,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 
     var audioSession: AVAudioSession!
     var meterTimer: CADisplayLink?
+    var peakAudioLevel: Float = 0.0
     var audioEngine = AVAudioEngine()
+    var converter:AVAudioConverter?
     
     var recordSettings = [
         AVFormatIDKey: NSNumber(value:kAudioFormatLinearPCM),
@@ -107,10 +109,12 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     if sender.isOn == true {
         print("audio started")
         startRecorder()
+        startAudioMetering()
 //        freeDvApi.startDecodeFromFileToFile()
     } else {
         print("audio stopped")
         stopRecorder()
+        stopAudioMetering()
     }
   }
   
@@ -124,12 +128,23 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   func stopAudioMetering() {
     self.meterTimer?.invalidate()
     self.audioLevelProgressView.progress = 0.0
+    self.peakAudioLevel = 0.0
   }
   
   @objc func updateMeter() {
-    // print("peakLevel = \(peakLevel)")
-    //self.audioLevelProgressView.progress = peakLevel * 4.0
+    // print("peakLevel = \(self.peakAudioLevel)")
+    self.audioLevelProgressView.progress = self.peakAudioLevel * 3.0
   }
+    
+    func peakAudioLevel(_ samples: inout [Float]) -> Float {
+        var max:Float = 0.0
+        for sample in samples {
+            if sample > max {
+                max = sample
+            }
+        }
+        return max
+    }
 }
 
 extension ViewController {
@@ -138,20 +153,36 @@ extension ViewController {
             if granted {
                 print("record permission granted")
                 self.audioEngine = AVAudioEngine()
+                let mixer = AVAudioMixerNode()
                 
                 let inputNode = self.audioEngine.inputNode
                 print("Set intput node")
+                self.audioEngine.attach(mixer)
+                self.audioEngine.connect(inputNode, to: mixer, format: inputNode.outputFormat(forBus: 0))
+
                 let bus = 0
-                
+                // https://stackoverflow.com/questions/47116933/how-can-i-get-avaudioengine-to-output-pcm-16-from-the-mic
+
                 inputNode.installTap(onBus: bus, bufferSize: 2048, format:inputNode.inputFormat(forBus: bus)) {
                     (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
-                    let frameLength = buffer.frameLength
+                    let frameLength = Int(buffer!.frameLength)
                     let format = buffer.format
                     print("Format = \(format)")
+                    // on iPhone X I get 48000Hz, Float32, 1Ch
                     print("Got frame length = \(frameLength)")
-                    let int16ChannelData = buffer.int16ChannelData
-                    let floatChannelData = buffer.floatChannelData
-                    
+                    if buffer!.floatChannelData != nil {
+                        let elements = UnsafeBufferPointer(start: buffer.floatChannelData?[0], count:frameLength)
+                        //var samples = [Float]()
+                        var samples = Array<Float>()
+                        for i in 0..<frameLength {
+                            samples.append(elements[i])
+                        }
+                        // print(samples)
+                        
+                        self.peakAudioLevel = self.peakAudioLevel(&samples)
+                    } else {
+                        print("Error didn't find Float audio data")
+                    }
                 }
                 
                 self.audioEngine.prepare()
