@@ -22,7 +22,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 
     var audioSession: AVAudioSession!
     var meterTimer: CADisplayLink?
-    var peakAudioLevel: Float = 0.0
+    var peakAudioLevel: Int16 = 0
     var audioEngine = AVAudioEngine()
     var converter:AVAudioConverter?
     
@@ -128,16 +128,16 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   func stopAudioMetering() {
     self.meterTimer?.invalidate()
     self.audioLevelProgressView.progress = 0.0
-    self.peakAudioLevel = 0.0
+    self.peakAudioLevel = 0
   }
   
   @objc func updateMeter() {
     // print("peakLevel = \(self.peakAudioLevel)")
-    self.audioLevelProgressView.progress = self.peakAudioLevel * 3.0
+    self.audioLevelProgressView.progress = Float(self.peakAudioLevel) * 3.0 / Float(Int16.max)
   }
     
-    func peakAudioLevel(_ samples: inout [Float]) -> Float {
-        var max:Float = 0.0
+    func peakAudioLevel(_ samples: inout [Int16]) -> Int16 {
+        var max:Int16 = 0
         for sample in samples {
             if sample > max {
                 max = sample
@@ -166,19 +166,14 @@ extension ViewController {
                 inputNode.installTap(onBus: bus, bufferSize: 2048, format:inputNode.inputFormat(forBus: bus)) {
                     (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
                     let frameLength = Int(buffer!.frameLength)
-                    let format = buffer.format
-                    print("Format = \(format)")
-                    // on iPhone X I get 48000Hz, Float32, 1Ch
-                    print("Got frame length = \(frameLength)")
                     if buffer!.floatChannelData != nil {
                         let elements = UnsafeBufferPointer(start: buffer.floatChannelData?[0], count:frameLength)
-                        //var samples = [Float]()
-                        var samples = Array<Float>()
+                        // copy samples from the buffer and convert to Int16 for codec2
+                        var samples = Array<Int16>()
                         for i in 0..<frameLength {
-                            samples.append(elements[i])
+                            let intSample = Int16(elements[i] * Float(Int16.max))
+                            samples.append(intSample)
                         }
-                        // print(samples)
-                        
                         self.peakAudioLevel = self.peakAudioLevel(&samples)
                     } else {
                         print("Error didn't find Float audio data")
