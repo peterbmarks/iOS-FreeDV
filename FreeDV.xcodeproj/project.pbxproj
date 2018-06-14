@@ -835,6 +835,7 @@
 		72D09C7220C3DF02001C3588 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		72D09C7420C3DF02001C3588 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72D09C7A20C3DF7D001C3588 /* selective fading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selective fading.png"; sourceTree = "<group>"; };
+		72DDB1E720D2592C005AE396 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = build/codec2/version.h; sourceTree = "<group>"; };
 		72F9C1D920C527810006289D /* audio_input_choice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio_input_choice.png; sourceTree = "<group>"; };
 		72FD5D1120CE4BCC0082BDAB /* FreeDVrx.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = FreeDVrx.c; sourceTree = "<group>"; };
 		72FD5D1220CE4BCD0082BDAB /* FreeDVrx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FreeDVrx.h; sourceTree = "<group>"; };
@@ -855,6 +856,7 @@
 		7217D40420C4C926009BC9C2 /* codec2-dev */ = {
 			isa = PBXGroup;
 			children = (
+				72DDB1E720D2592C005AE396 /* version.h */,
 				7217D40520C4C926009BC9C2 /* cmake */,
 				7217D40920C4C926009BC9C2 /* CMakeLists.txt */,
 				7217D40A20C4C926009BC9C2 /* codec2.pc.in */,
