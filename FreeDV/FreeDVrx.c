@@ -15,17 +15,21 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <unistd.h> // for usleep
 #include "freedv_api.h"
 #include "modem_stats.h"
 
 #include "codec2.h"
+#include "codec2_fifo.h"
 
 #include "FreeDVrx.h"
 
 struct my_callback_state {
     FILE *ftxt;
 };
+
+struct FIFO *gAudioCaptureFifo;
+int gQuittingTime = 0;
 
 void my_put_next_rx_char(void *callback_state, char c) {
     struct my_callback_state* pstate = (struct my_callback_state*)callback_state;
@@ -62,8 +66,34 @@ void my_datatx(void *callback_state, unsigned char *packet, size_t *size) {
     *size = 0;
 }
 
-void start_rx(const char *inFileName, const char *outFileName) {
-    FILE                      *audioInputFile, *audioOutputFile, *receivedTextFile;
+// call this before starting audio capture,
+// it sets up the fifo we write into
+void rx_init(void) {
+    // just set up enough to get the inputSampleCount needed for the fifo
+    struct freedv             *freedv;
+    int mode;
+    int interleave_frames = 1;
+    int inputSampleCount;
+    mode = FREEDV_MODE_700D;
+    
+    if (mode == FREEDV_MODE_700D) {
+        struct freedv_advanced adv;
+        adv.interleave_frames = interleave_frames;
+        freedv = freedv_open_advanced(mode, &adv);
+    }
+    else {
+        freedv = freedv_open(mode);
+    }
+    inputSampleCount = freedv_nin(freedv);
+    gAudioCaptureFifo = fifo_create(inputSampleCount);
+}
+
+void stop_rx(void) {
+    gQuittingTime = 1;
+}
+
+// this doesn't return until gQuittingTime goes to 1
+void start_rx(void) {
     struct freedv             *freedv;
     int                        inputSampleCount, decodedSpeechBufferCount, frame = 0;
     struct my_callback_state   my_cb_state;
@@ -73,8 +103,8 @@ void start_rx(const char *inFileName, const char *outFileName) {
     float                      snr_est;
     float                      clock_offset;
     int                        use_codecrx, use_testframes, interleave_frames, verbose;
-    struct CODEC2             *c2 = NULL;
-    int                        i;
+
+    gQuittingTime = 0;
     
     use_codecrx = 0; use_testframes = 0; interleave_frames = 1; verbose = 0;
     mode = FREEDV_MODE_700D;
@@ -98,18 +128,11 @@ void start_rx(const char *inFileName, const char *outFileName) {
     short speechOutputBuffer[freedv_get_n_speech_samples(freedv)];
     short demodInputBuffer[freedv_get_n_max_modem_samples(freedv)];
     
-    receivedTextFile = stderr;
-    assert(receivedTextFile != NULL);
-    my_cb_state.ftxt = receivedTextFile;
+    my_cb_state.ftxt = stderr;
     freedv_set_callback_txt(freedv, &my_put_next_rx_char, NULL, &my_cb_state);
     freedv_set_callback_protocol(freedv, &my_put_next_rx_proto, NULL, &my_cb_state);
     freedv_set_callback_data(freedv, my_datarx, my_datatx, &my_cb_state);
-    
-    audioInputFile = fopen(inFileName, "r");
-    assert(audioInputFile != NULL);
-    audioOutputFile = fopen(outFileName, "w");
-    fprintf(stderr, "errno = %d = %s\n", errno, strerror(errno));
-    assert(audioOutputFile != NULL);
+
     
     /* Note we need to work out how many samples demod needs on each
      call (nin).  This is used to adjust for differences in the tx and rx
@@ -117,36 +140,27 @@ void start_rx(const char *inFileName, const char *outFileName) {
      speech samples is time varying (nout). */
     
     inputSampleCount = freedv_nin(freedv);
-    // func getArrayOfAudioSamples(buffer: UnsafePointer<Int>, requestedSamples: CShort) -> CInt
-    while(getArrayOfAudioSamples(demodInputBuffer, inputSampleCount) == inputSampleCount) {
-    // while(fread(demodInputBuffer, sizeof(short), inputSampleCount, audioInputFile) == inputSampleCount) {
+    while(gQuittingTime == 0) {
+        if(fifo_used(gAudioCaptureFifo) < inputSampleCount) {
+            usleep(0.5);
+        }
+        fifo_read(gAudioCaptureFifo, demodInputBuffer, inputSampleCount);
         frame++;
         
         /* Use the freedv_api to do everything: speech decoding, demodulating */
         decodedSpeechBufferCount = freedv_rx(freedv, speechOutputBuffer, demodInputBuffer);
-        
-        inputSampleCount = freedv_nin(freedv);
-        
-        fwrite(speechOutputBuffer, sizeof(short), decodedSpeechBufferCount, audioOutputFile);
+        // decodedSpeechBufferCount shorts of audio is now in speechOutputBuffer
+        //fwrite(speechOutputBuffer, sizeof(short), decodedSpeechBufferCount, audioOutputFile);
         
         freedv_get_modem_stats(freedv, &sync, &snr_est);
         freedv_get_modem_extended_stats(freedv, &stats);
         int total_bit_errors = freedv_get_total_bit_errors(freedv);
         clock_offset = stats.clock_offset;
         
-        /* log some side info to the txt file */
-        
-        if (receivedTextFile != NULL) {
-            fprintf(receivedTextFile, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
-                    frame, sync, inputSampleCount, snr_est, total_bit_errors, clock_offset);
-        }
-        
-        /* if this is in a pipeline, we probably don't want the usual
-         buffering to occur */
-        
-        if (audioOutputFile == stdout) fflush(stdout);
-        if (audioInputFile == stdin) fflush(stdin);
+        fprintf(stderr, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
+                frame, sync, inputSampleCount, snr_est, total_bit_errors, clock_offset);
     }
+    fprintf(stderr, "It's quitting time!\n");
     
     if (freedv_get_test_frames(freedv)) {
         int Tbits = freedv_get_total_bits(freedv);
@@ -161,7 +175,5 @@ void start_rx(const char *inFileName, const char *outFileName) {
     }
     
     freedv_close(freedv);
-    fclose(audioInputFile);
-    fclose(audioOutputFile);
 }
 

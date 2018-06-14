@@ -26,18 +26,7 @@ class FreeDVApi {
         print("in FreeDVApi init()")
     }
     
-    func startDecodeFromFileToFile() {
-        let inFilePath = Bundle.main.path(forResource: "vk2tpm_004", ofType: "wav")!
-        print("reading: \(inFilePath)")
-        let documentsDirectory = getDocumentsDirectory()
-        let outFilePath = documentsDirectory.appending("/decoded.bin")
-        print("writing to: \(outFilePath)")
-        start_rx(inFilePath, outFilePath)
-    }
-    
-    func getDocumentsDirectory() -> String {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory.path
+    func startFreeDvRx() {
+        start_rx()
     }
 }

@@ -12,7 +12,9 @@
 #include <stdio.h>
 
 // c function to call from swift
-void start_rx(const char *inFileName, const char *outFileName);
+void rx_init(void);
+void start_rx(void);    // this doesn't return until
+void stop_rx(void);
 
 // swift function to call from c
 int getArrayOfAudioSamples(short *demodInputBuffer, int inputSampleCount);

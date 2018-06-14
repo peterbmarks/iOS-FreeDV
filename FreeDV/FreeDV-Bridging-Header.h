@@ -6,4 +6,4 @@
 #include "modem_stats.h"
 #include "codec2.h"
 #include "FreeDVrx.h"
-
+#include "codec2_fifo.h"

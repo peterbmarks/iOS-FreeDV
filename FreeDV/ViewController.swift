@@ -108,13 +108,17 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     print("Start switch changed")
     if sender.isOn == true {
         print("audio started")
+        rx_init()
         startRecorder()
         startAudioMetering()
-//        freeDvApi.startDecodeFromFileToFile()
+        DispatchQueue.global(qos: .userInitiated).async {
+            start_rx();
+        }
     } else {
         print("audio stopped")
         stopRecorder()
         stopAudioMetering()
+        stop_rx()
     }
   }
   
