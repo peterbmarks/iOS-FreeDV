@@ -21,16 +21,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var audioLevelProgressView: UIProgressView!
 
     var audioSession: AVAudioSession!
-    var audioRecorder: AVAudioRecorder!
-    var isTransmitting = false
     var meterTimer: CADisplayLink?
     var audioEngine = AVAudioEngine()
-    var radioOutPlayerNode = AVAudioPlayerNode()
-    var radioOutBuffer :AVAudioPCMBuffer?
-    var audioController: AudioController?
-    var audioFile: URL?
     
-    var radioIn = AVAudioRecorder()
     var recordSettings = [
         AVFormatIDKey: NSNumber(value:kAudioFormatLinearPCM),
         AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue,
@@ -134,9 +127,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   }
   
   @objc func updateMeter() {
-    let peakLevel = audioController?.peakLevel ?? 0.0
     // print("peakLevel = \(peakLevel)")
-    self.audioLevelProgressView.progress = peakLevel * 4.0
+    //self.audioLevelProgressView.progress = peakLevel * 4.0
   }
 }
 
@@ -153,7 +145,13 @@ extension ViewController {
                 
                 inputNode.installTap(onBus: bus, bufferSize: 2048, format:inputNode.inputFormat(forBus: bus)) {
                     (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
-                    print("called back!")
+                    let frameLength = buffer.frameLength
+                    let format = buffer.format
+                    print("Format = \(format)")
+                    print("Got frame length = \(frameLength)")
+                    let int16ChannelData = buffer.int16ChannelData
+                    let floatChannelData = buffer.floatChannelData
+                    
                 }
                 
                 self.audioEngine.prepare()
