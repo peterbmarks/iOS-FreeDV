@@ -153,16 +153,10 @@ extension ViewController {
             if granted {
                 print("record permission granted")
                 self.audioEngine = AVAudioEngine()
-                let mixer = AVAudioMixerNode()
                 
                 let inputNode = self.audioEngine.inputNode
                 print("Set intput node")
-                self.audioEngine.attach(mixer)
-                self.audioEngine.connect(inputNode, to: mixer, format: inputNode.outputFormat(forBus: 0))
-
                 let bus = 0
-                // https://stackoverflow.com/questions/47116933/how-can-i-get-avaudioengine-to-output-pcm-16-from-the-mic
-
                 inputNode.installTap(onBus: bus, bufferSize: 2048, format:inputNode.inputFormat(forBus: bus)) {
                     (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
                     let frameLength = Int(buffer!.frameLength)
