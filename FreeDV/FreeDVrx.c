@@ -144,6 +144,8 @@ void start_rx(void) {
             
             /* Use the freedv_api to do everything: speech decoding, demodulating */
             decodedSpeechBufferCount = freedv_rx(freedv, speechOutputBuffer, demodInputBuffer);
+            fifo_write(gAudioDecodedFifo, speechOutputBuffer, decodedSpeechBufferCount);
+            
             // decodedSpeechBufferCount shorts of audio is now in speechOutputBuffer
             //fwrite(speechOutputBuffer, sizeof(short), decodedSpeechBufferCount, audioOutputFile);
             
@@ -152,25 +154,13 @@ void start_rx(void) {
             gTotal_bit_errors = freedv_get_total_bit_errors(freedv);
             gClock_offset = stats.clock_offset;
             
-            fprintf(stderr, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
-                    gFrame, gSync, gInputSampleCount, gSnr_est, gTotal_bit_errors, gClock_offset);
+//            fprintf(stderr, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
+//                    gFrame, gSync, gInputSampleCount, gSnr_est, gTotal_bit_errors, gClock_offset);
         } else {
-            usleep(500);
+            usleep(200);
         }
     }
     fprintf(stderr, "It's quitting time!\n");
-    
-    if (freedv_get_test_frames(freedv)) {
-        int Tbits = freedv_get_total_bits(freedv);
-        int Terrs = freedv_get_total_bit_errors(freedv);
-        fprintf(stderr, "BER......: %5.4f Tbits: %5d Terrs: %5d\n",  (float)Terrs/Tbits, Tbits, Terrs);
-        if (mode == FREEDV_MODE_700D) {
-            int Tbits_coded = freedv_get_total_bits_coded(freedv);
-            int Terrs_coded = freedv_get_total_bit_errors_coded(freedv);
-            fprintf(stderr, "Coded BER: %5.4f Tbits: %5d Terrs: %5d\n",
-                    (float)Terrs_coded/Tbits_coded, Tbits_coded, Terrs_coded);
-        }
-    }
     
     freedv_close(freedv);
 }

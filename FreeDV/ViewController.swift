@@ -29,6 +29,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     
     var freeDvApi = FreeDVApi()
     var audioOutputFile:FileHandle?
+    var quittingTime = false    // used to stop the player
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -110,11 +111,13 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         DispatchQueue.global(qos: .userInitiated).async {
             start_rx();
         }
+        startPlayer()   // starts a thread that ends when quittingTime == true
     } else {
         print("audio stopped")
         stopRecorder()
         stopAudioMetering()
-        stop_rx()
+        stopPlayer()
+        stop_rx()   // call to c routine in FreeDVrx.c
     }
   }
   
@@ -225,6 +228,34 @@ extension ViewController {
     
     func stopRecorder() {
         self.audioEngine.stop()
+    }
+    
+    // read decoded audio samples from the output fifo and play them
+    // 8000 samples 16 bit signed integer
+    func startPlayer() {
+        self.quittingTime = false
+        let kBufferSize = 1000
+        var demodInputBuffer = Array<Int16>(repeating: 0, count: kBufferSize)
+        
+        
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            while self.quittingTime == false {
+                let availableSamples = fifo_used(gAudioDecodedFifo);
+                if(availableSamples >= kBufferSize) {
+                    print("player availableSamples = \(availableSamples)")
+                    let buffLength = Int(kBufferSize) * MemoryLayout<Int16>.stride
+                    fifo_read(gAudioDecodedFifo, &demodInputBuffer, Int32(buffLength))
+                    
+                } else {
+                    usleep(200)
+                }
+            }
+        }
+    }
+    
+    func stopPlayer() {
+        self.quittingTime = true
     }
     
     func urlToFileInDocumentsDirectory(fileName: String) -> URL {
