@@ -26,14 +26,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var audioEngine = AVAudioEngine()
     var converter:AVAudioConverter?
     
-    var recordSettings = [
-        AVFormatIDKey: NSNumber(value:kAudioFormatLinearPCM),
-        AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue,
-        AVNumberOfChannelsKey: 1,
-        AVSampleRateKey : 44100.0
-        ] as [String : Any]
-    
     var freeDvApi = FreeDVApi()
+    var audioOutputFile:FileHandle?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -42,9 +36,10 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
       do {
         // AVAudioSessionCategoryMultiRoute
         // AVAudioVoiceChat...
-        try audioSession.setCategory(AVAudioSessionCategoryMultiRoute)
-        // try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
         print("Audio category set ok")
+        try audioSession.setPreferredSampleRate(8000)   // this is ignored but I thought I'd try
+        print("preferred Sample rate set")
         try audioSession.setActive(true)
       } catch {
         print("Error starting audio session")
@@ -161,26 +156,49 @@ extension ViewController {
                 let inputNode = self.audioEngine.inputNode
                 print("Set intput node")
                 let bus = 0
+                
+                let audioUrl = self.urlToFileInDocumentsDirectory(fileName: "audio8kPCM16.raw")
+                if FileManager.default.createFile(atPath: audioUrl.path, contents: nil, attributes: nil) {
+                    print("File created")
+                }
+                print("writing audio to: \(audioUrl.path)")
+                do {
+                    self.audioOutputFile = try FileHandle(forWritingTo: audioUrl)
+                } catch {
+                    print("Error opening output audio file: \(error)")
+                }
+                var formatShown = false
                 inputNode.installTap(onBus: bus, bufferSize: 2048, format:inputNode.inputFormat(forBus: bus)) {
                     (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
                     let frameLength = Int(buffer!.frameLength)
-                    // print("format = \(buffer.format)")
+                    if formatShown == false {
+                        formatShown = true
+                        print("#### format = \(buffer.format), frameLength = \(frameLength)")
+                    }
+                    
                     if buffer!.floatChannelData != nil {
-                        let elements = UnsafeBufferPointer(start: buffer.floatChannelData?[0], count:frameLength)
-                        // copy samples from the buffer and convert to Int16 for codec2
+                        let dataPtrPtr = buffer.floatChannelData
+                        let elements = dataPtrPtr?.pointee
+
                         var samples = Array<Int16>()
                         let sampleRate = buffer.format.sampleRate
                         let desiredSampleRate = 8000.0
                         let decimate = Int(sampleRate / desiredSampleRate)
                         for i in 0..<frameLength {
-                            if i % decimate == 0 {
-                                let intSample = Int16(elements[i] * Float(Int16.max))
+                            if true { //i % decimate == 0 {
+                                let floatSample = elements![i]
+                                let intSample = Int16(floatSample * 32768.0)
+                                print("\(i)\t\(floatSample)")
                                 samples.append(intSample)
                             }
                         }
                         self.peakAudioLevel = self.peakAudioLevel(&samples)
                         let buffPtr = UnsafeMutablePointer(&samples)
-                        fifo_write(gAudioCaptureFifo, buffPtr, Int32(frameLength))
+                        let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
+                        fifo_write(gAudioCaptureFifo, buffPtr, Int32(buffLength))
+                        // write to file as a test
+                        let audioData = Data(bytes: buffPtr, count: buffLength)
+                        self.audioOutputFile?.write(audioData)
                     } else {
                         print("Error didn't find Float audio data")
                     }
@@ -199,5 +217,14 @@ extension ViewController {
     
     func stopRecorder() {
         self.audioEngine.stop()
+    }
+    
+    func urlToFileInDocumentsDirectory(fileName: String) -> URL {
+        let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
+        let nsUserDomainMask    = FileManager.SearchPathDomainMask.userDomainMask
+        let paths               = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
+        let dirPath          = paths.first
+        let fileURL = URL(fileURLWithPath: dirPath!).appendingPathComponent(fileName)
+        return fileURL
     }
 }
