@@ -10,6 +10,7 @@
 // Thanks: https://developer.apple.com/library/content/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/AudioSessionBasics/AudioSessionBasics.html
 // Thanks: https://www.raywenderlich.com/185090/avaudioengine-tutorial-for-ios-getting-started
 // https://developer.apple.com/library/archive/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007875
+// play -t raw -r 8000 -e signed-integer -b 16 audio8kPCM16.raw 
 
 import UIKit
 import AVFoundation
@@ -167,48 +168,53 @@ extension ViewController {
                 } catch {
                     print("Error opening output audio file: \(error)")
                 }
-                var formatShown = false
-                inputNode.installTap(onBus: bus, bufferSize: 2048, format:inputNode.inputFormat(forBus: bus)) {
-                    (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
-                    let frameLength = Int(buffer!.frameLength)
-                    if formatShown == false {
-                        formatShown = true
-                        print("#### format = \(buffer.format), frameLength = \(frameLength)")
-                    }
-                    
-                    if buffer!.floatChannelData != nil {
-                        let dataPtrPtr = buffer.floatChannelData
-                        let elements = dataPtrPtr?.pointee
-
-                        var samples = Array<Int16>()
-                        let sampleRate = buffer.format.sampleRate
-                        let desiredSampleRate = 8000.0
-                        let decimate = Int(sampleRate / desiredSampleRate)
-                        for i in 0..<frameLength {
-                            if true { //i % decimate == 0 {
+                
+                let audioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
+                let mixer = AVAudioMixerNode()
+                let mainMixer = self.audioEngine.mainMixerNode
+                self.audioEngine.attach(mixer)
+                self.audioEngine.connect(inputNode, to: mixer, format: inputNode.inputFormat(forBus: 0))
+                //mixer.volume = 0
+                self.audioEngine.connect(mixer, to: mainMixer, format: audioFormat)
+                
+                self.audioEngine.prepare()
+                do {
+                    try self.audioEngine.start()
+                    var formatShown = false
+                    // https://stackoverflow.com/questions/39595444/avaudioengine-downsample-issue
+                    mixer.installTap(onBus: 0, bufferSize: 1024, format: audioFormat, block: {
+                        (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
+                        let frameLength = Int(buffer!.frameLength)
+                        if formatShown == false {
+                            formatShown = true
+                            print("#### format = \(buffer.format), frameLength = \(frameLength)")
+                        }
+                        
+                        if buffer!.floatChannelData != nil {
+                            let dataPtrPtr = buffer.floatChannelData
+                            let elements = dataPtrPtr?.pointee
+                            
+                            var samples = Array<Int16>()
+                            for i in 0..<frameLength {
                                 let floatSample = elements![i]
                                 let intSample = Int16(floatSample * 32768.0)
                                 print("\(i)\t\(floatSample)")
                                 samples.append(intSample)
                             }
+                            self.peakAudioLevel = self.peakAudioLevel(&samples)
+                            let buffPtr = UnsafeMutablePointer(&samples)
+                            let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
+                            fifo_write(gAudioCaptureFifo, buffPtr, Int32(buffLength))
+                            // write to file as a test
+                            let audioData = Data(bytes: buffPtr, count: buffLength)
+                            self.audioOutputFile?.write(audioData)
+                        } else {
+                            print("Error didn't find Float audio data")
                         }
-                        self.peakAudioLevel = self.peakAudioLevel(&samples)
-                        let buffPtr = UnsafeMutablePointer(&samples)
-                        let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
-                        fifo_write(gAudioCaptureFifo, buffPtr, Int32(buffLength))
-                        // write to file as a test
-                        let audioData = Data(bytes: buffPtr, count: buffLength)
-                        self.audioOutputFile?.write(audioData)
-                    } else {
-                        print("Error didn't find Float audio data")
-                    }
-                }
-                
-                self.audioEngine.prepare()
-                do {
-                    try self.audioEngine.start()
-                } catch {
-                    print("Error starting audio engine = \(error)")
+                    })
+                    
+                } catch let error {
+                    print(error.localizedDescription)
                 }
                 print("started audio")
             }
