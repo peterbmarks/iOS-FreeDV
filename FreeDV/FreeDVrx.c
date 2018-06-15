@@ -79,19 +79,26 @@ void stop_rx(void) {
     gQuittingTime = 1;
 }
 
+// statistics to share with the UI
+int gFrame;
+int gSync;
+int gInputSampleCount;
+float gSnr_est;
+float gClock_offset;
+int gTotal_bit_errors;
+
 // this doesn't return until gQuittingTime goes to 1
 void start_rx(void) {
     struct freedv             *freedv;
-    int                        inputSampleCount, decodedSpeechBufferCount, frame = 0;
+    int                        decodedSpeechBufferCount;
     struct my_callback_state   my_cb_state;
     struct MODEM_STATS         stats;
     int                        mode;
-    int                        sync;
-    float                      snr_est;
-    float                      clock_offset;
+    
     int                        use_codecrx, use_testframes, interleave_frames, verbose;
 
     gQuittingTime = 0;
+    gFrame = 0;
     
     use_codecrx = 0; use_testframes = 0; interleave_frames = 1; verbose = 0;
     mode = FREEDV_MODE_700D;
@@ -126,27 +133,27 @@ void start_rx(void) {
      sample clock frequencies.  Note also the number of output
      speech samples is time varying (nout). */
     
-    inputSampleCount = freedv_nin(freedv);
+    gInputSampleCount = freedv_nin(freedv);
     while(gQuittingTime == 0) {
         int availableSamples = fifo_used(gAudioCaptureFifo);
         
-        if(availableSamples >= inputSampleCount) {
+        if(availableSamples >= gInputSampleCount) {
             fprintf(stderr, "availableSamples = %d\n", availableSamples);
-            fifo_read(gAudioCaptureFifo, demodInputBuffer, inputSampleCount);
-            frame++;
+            fifo_read(gAudioCaptureFifo, demodInputBuffer, gInputSampleCount);
+            gFrame++;
             
             /* Use the freedv_api to do everything: speech decoding, demodulating */
             decodedSpeechBufferCount = freedv_rx(freedv, speechOutputBuffer, demodInputBuffer);
             // decodedSpeechBufferCount shorts of audio is now in speechOutputBuffer
             //fwrite(speechOutputBuffer, sizeof(short), decodedSpeechBufferCount, audioOutputFile);
             
-            freedv_get_modem_stats(freedv, &sync, &snr_est);
+            freedv_get_modem_stats(freedv, &gSync, &gSnr_est);
             freedv_get_modem_extended_stats(freedv, &stats);
-            int total_bit_errors = freedv_get_total_bit_errors(freedv);
-            clock_offset = stats.clock_offset;
+            gTotal_bit_errors = freedv_get_total_bit_errors(freedv);
+            gClock_offset = stats.clock_offset;
             
             fprintf(stderr, "frame: %d  demod sync: %d  nin:%d demod snr: %3.2f dB  bit errors: %d clock_offset: %f\n",
-                    frame, sync, inputSampleCount, snr_est, total_bit_errors, clock_offset);
+                    gFrame, gSync, gInputSampleCount, gSnr_est, gTotal_bit_errors, gClock_offset);
         } else {
             usleep(500);
         }

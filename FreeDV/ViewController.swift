@@ -134,6 +134,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   @objc func updateMeter() {
     // print("peakLevel = \(self.peakAudioLevel)")
     self.audioLevelProgressView.progress = Float(self.peakAudioLevel) * 3.0 / Float(Int16.max)
+    
+    self.statusLabel.text = "sync = \(gSync), snr = \(gSnr_est), bit err = \(gTotal_bit_errors)"
   }
     
     func peakAudioLevel(_ samples: inout [Int16]) -> Int16 {
@@ -156,8 +158,7 @@ extension ViewController {
                 
                 let inputNode = self.audioEngine.inputNode
                 print("Set intput node")
-                let bus = 0
-                
+                /*
                 let audioUrl = self.urlToFileInDocumentsDirectory(fileName: "audio8kPCM16.raw")
                 if FileManager.default.createFile(atPath: audioUrl.path, contents: nil, attributes: nil) {
                     print("File created")
@@ -168,7 +169,7 @@ extension ViewController {
                 } catch {
                     print("Error opening output audio file: \(error)")
                 }
-                
+                */
                 let audioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
                 let mixer = AVAudioMixerNode()
                 let mainMixer = self.audioEngine.mainMixerNode
@@ -182,6 +183,7 @@ extension ViewController {
                     try self.audioEngine.start()
                     var formatShown = false
                     // https://stackoverflow.com/questions/39595444/avaudioengine-downsample-issue
+                    // Note that this resampler only works on physical devices
                     mixer.installTap(onBus: 0, bufferSize: 1024, format: audioFormat, block: {
                         (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
                         let frameLength = Int(buffer!.frameLength)
@@ -198,7 +200,7 @@ extension ViewController {
                             for i in 0..<frameLength {
                                 let floatSample = elements![i]
                                 let intSample = Int16(floatSample * 32768.0)
-                                print("\(i)\t\(floatSample)")
+                                // print("\(i)\t\(floatSample)")
                                 samples.append(intSample)
                             }
                             self.peakAudioLevel = self.peakAudioLevel(&samples)
@@ -206,8 +208,8 @@ extension ViewController {
                             let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
                             fifo_write(gAudioCaptureFifo, buffPtr, Int32(buffLength))
                             // write to file as a test
-                            let audioData = Data(bytes: buffPtr, count: buffLength)
-                            self.audioOutputFile?.write(audioData)
+                            //let audioData = Data(bytes: buffPtr, count: buffLength)
+                            //self.audioOutputFile?.write(audioData)
                         } else {
                             print("Error didn't find Float audio data")
                         }

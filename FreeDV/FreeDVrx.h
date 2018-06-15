@@ -22,4 +22,13 @@ int getArrayOfAudioSamples(short *demodInputBuffer, int inputSampleCount);
 extern struct FIFO *gAudioCaptureFifo;
 extern struct FIFO *gAudioDecodedFifo;
 
+// useful stats on decoding
+// statistics to share with the UI
+extern int gFrame;
+extern int gSync;
+extern int gInputSampleCount;
+extern float gSnr_est;
+extern float gClock_offset;
+extern int gTotal_bit_errors;
+
 #endif /* FreeDVrx_h */
