@@ -138,7 +138,6 @@ void start_rx(void) {
         int availableSamples = fifo_used(gAudioCaptureFifo);
         
         if(availableSamples >= gInputSampleCount) {
-            fprintf(stderr, "availableSamples = %d\n", availableSamples);
             fifo_read(gAudioCaptureFifo, demodInputBuffer, gInputSampleCount);
             gFrame++;
             

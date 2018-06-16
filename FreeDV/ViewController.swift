@@ -26,7 +26,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var peakAudioLevel: Int16 = 0
     var audioEngine = AVAudioEngine()
     var converter:AVAudioConverter?
-    
+    var audioUnit: AudioComponentInstance?
     var freeDvApi = FreeDVApi()
     var audioOutputFile:FileHandle?
     var quittingTime = false    // used to stop the player
@@ -111,8 +111,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         DispatchQueue.global(qos: .userInitiated).async {
             start_rx();
         }
-        // startPlayer()   // starts a thread that ends when quittingTime == true
-        startAudioUnitPlayer()
+//        startAudioUnitPlayer()
     } else {
         print("audio stopped")
         stopRecorder()
@@ -200,17 +199,17 @@ extension ViewController {
                             let dataPtrPtr = buffer.floatChannelData
                             let elements = dataPtrPtr?.pointee
                             
-                            var samples = Array<Int16>()
+                            //var samples = [Int16](repeating: 0, count: frameLength)
+                            let samples = UnsafeMutablePointer<Int16>.allocate(capacity: frameLength)
                             for i in 0..<frameLength {
                                 let floatSample = elements![i]
                                 let intSample = Int16(floatSample * 32768.0)
-                                // print("\(i)\t\(floatSample)")
-                                samples.append(intSample)
+                                samples[i] = intSample
                             }
-                            self.peakAudioLevel = self.peakAudioLevel(&samples)
-                            let buffPtr = UnsafeMutablePointer(&samples)
+                            //self.peakAudioLevel = self.peakAudioLevel(&samples)
+                            //let buffPtr = UnsafeMutablePointer(&samples)
                             let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
-                            fifo_write(gAudioCaptureFifo, buffPtr, Int32(buffLength))
+                            fifo_write(gAudioCaptureFifo, samples, Int32(buffLength))
                             // write to file as a test
                             //let audioData = Data(bytes: buffPtr, count: buffLength)
                             //self.audioOutputFile?.write(audioData)
@@ -231,55 +230,10 @@ extension ViewController {
         self.audioEngine.stop()
     }
     
-    // read decoded audio samples from the output fifo and play them
-    // 8000 samples 16 bit signed integer
-    func startPlayer() {
-        self.quittingTime = false
-        let kBufferSize = 1000
-        var demodInputBuffer = Array<Int16>(repeating: 0, count: kBufferSize)
-        //let avAudioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 8000.0, channels: 1, interleaved: false)!
-        //let audioEngine: AVAudioEngine = AVAudioEngine()
-        //let audioFilePlayer: AVAudioPlayerNode = AVAudioPlayerNode()
-
-        DispatchQueue.global(qos: .userInitiated).async {
-            while self.quittingTime == false {
-                let availableSamples = fifo_used(gAudioDecodedFifo);
-                if(availableSamples >= kBufferSize) {
-                    print("player availableSamples = \(availableSamples)")
-                    let buffLength = Int(kBufferSize) * MemoryLayout<Int16>.stride
-                    fifo_read(gAudioDecodedFifo, &demodInputBuffer, Int32(buffLength))
-                    
-                    /*
-                    let audioData = NSData(bytes: demodInputBuffer, length: buffLength)
-                    let avAudioPCMBuffer = self.dataToPCMBuffer(format: avAudioFormat, data: audioData)
-                    let mainMixer = audioEngine.mainMixerNode
-                    audioEngine.attach(audioFilePlayer)
-                    
-                    // audioEngine.connect(audioFilePlayer, to:mainMixer, audioFilePlayer.processingFormat)   // throws invalid format exception
-                    do {
-                        try audioEngine.start()
-                    
-                        audioFilePlayer.play()
-                        audioFilePlayer.scheduleBuffer(avAudioPCMBuffer, completionHandler: {
-                            print("finsihed playing segment")
-                        })
-                    } catch {
-                        print("error starting audio engine for play: \(error)")
-                    }
-                    */
-                } else {
-                    usleep(200)
-                }
-            }
-        }
-    }
     
     // ported from code linked via https://stackoverflow.com/questions/14448127/ios-playing-pcm-buffers-from-a-stream
     // helpful https://github.com/GoogleCloudPlatform/ios-docs-samples/blob/master/dialogflow/stopwatch/Stopwatch/AudioController.swift
     func startAudioUnitPlayer() {
-        var audioUnit: AudioComponentInstance? = nil
-        var tempBuffer = AudioBuffer() // this will hold the latest data from the microphone
-        
         // Describe audio component
         var desc = AudioComponentDescription()
         desc.componentType = kAudioUnitType_Output
@@ -379,10 +333,6 @@ extension ViewController {
             return
         }
         
-        tempBuffer.mNumberChannels = 1
-        tempBuffer.mDataByteSize = 512 * 2
-        tempBuffer.mData = malloc( 512 * 2 )
-        
         status = AudioUnitInitialize(audioUnit!)
         if status != noErr {
             print("error in AudioUnitInitialize = \(status)")
@@ -418,6 +368,9 @@ extension ViewController {
     
     func stopPlayer() {
         self.quittingTime = true
+        if audioUnit != nil {
+            AudioOutputUnitStop(audioUnit!)
+        }
     }
     
     func urlToFileInDocumentsDirectory(fileName: String) -> URL {
@@ -439,7 +392,6 @@ let renderCallback: AURenderCallback = {(inRefCon,
                                             inBusNumber,
                                             frameCount,
                                             ioData) -> OSStatus in
-    print("In renderCallback frameCount = \(frameCount)")
     let kBufferSize:Int = 1024
     //var audioBufferRaw = UnsafeMutableRawPointer.allocate(byteCount: kBufferSize * MemoryLayout<UInt16>.size, alignment: 1)
     //var audioBuffer = audioBufferRaw.bindMemory(to: Int16.self, capacity: kBufferSize)
