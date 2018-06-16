@@ -111,7 +111,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         DispatchQueue.global(qos: .userInitiated).async {
             start_rx();
         }
-        startPlayer()   // starts a thread that ends when quittingTime == true
+        // startPlayer()   // starts a thread that ends when quittingTime == true
+        startAudioUnitPlayer()
     } else {
         print("audio stopped")
         stopRecorder()
@@ -180,7 +181,6 @@ extension ViewController {
                 self.audioEngine.connect(inputNode, to: mixer, format: inputNode.inputFormat(forBus: 0))
                 //mixer.volume = 0
                 self.audioEngine.connect(mixer, to: mainMixer, format: audioFormat)
-                
                 self.audioEngine.prepare()
                 do {
                     try self.audioEngine.start()
@@ -192,7 +192,8 @@ extension ViewController {
                         let frameLength = Int(buffer!.frameLength)
                         if formatShown == false {
                             formatShown = true
-                            print("#### format = \(buffer.format), frameLength = \(frameLength)")
+                            let channelCount = buffer.format.channelCount
+                            print("#### format = \(buffer.format), channelCount = \(channelCount), frameLength = \(frameLength)")
                         }
                         
                         if buffer!.floatChannelData != nil {
@@ -236,9 +237,10 @@ extension ViewController {
         self.quittingTime = false
         let kBufferSize = 1000
         var demodInputBuffer = Array<Int16>(repeating: 0, count: kBufferSize)
-        
-        
-        
+        //let avAudioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 8000.0, channels: 1, interleaved: false)!
+        //let audioEngine: AVAudioEngine = AVAudioEngine()
+        //let audioFilePlayer: AVAudioPlayerNode = AVAudioPlayerNode()
+
         DispatchQueue.global(qos: .userInitiated).async {
             while self.quittingTime == false {
                 let availableSamples = fifo_used(gAudioDecodedFifo);
@@ -247,11 +249,171 @@ extension ViewController {
                     let buffLength = Int(kBufferSize) * MemoryLayout<Int16>.stride
                     fifo_read(gAudioDecodedFifo, &demodInputBuffer, Int32(buffLength))
                     
+                    /*
+                    let audioData = NSData(bytes: demodInputBuffer, length: buffLength)
+                    let avAudioPCMBuffer = self.dataToPCMBuffer(format: avAudioFormat, data: audioData)
+                    let mainMixer = audioEngine.mainMixerNode
+                    audioEngine.attach(audioFilePlayer)
+                    
+                    // audioEngine.connect(audioFilePlayer, to:mainMixer, audioFilePlayer.processingFormat)   // throws invalid format exception
+                    do {
+                        try audioEngine.start()
+                    
+                        audioFilePlayer.play()
+                        audioFilePlayer.scheduleBuffer(avAudioPCMBuffer, completionHandler: {
+                            print("finsihed playing segment")
+                        })
+                    } catch {
+                        print("error starting audio engine for play: \(error)")
+                    }
+                    */
                 } else {
                     usleep(200)
                 }
             }
         }
+    }
+    
+    // ported from code linked via https://stackoverflow.com/questions/14448127/ios-playing-pcm-buffers-from-a-stream
+    // helpful https://github.com/GoogleCloudPlatform/ios-docs-samples/blob/master/dialogflow/stopwatch/Stopwatch/AudioController.swift
+    func startAudioUnitPlayer() {
+        var audioUnit: AudioComponentInstance? = nil
+        var tempBuffer = AudioBuffer() // this will hold the latest data from the microphone
+        
+        // Describe audio component
+        var desc = AudioComponentDescription()
+        desc.componentType = kAudioUnitType_Output
+        desc.componentSubType = kAudioUnitSubType_RemoteIO
+        desc.componentFlags = 0
+        desc.componentFlagsMask = 0
+        desc.componentManufacturer = kAudioUnitManufacturer_Apple
+        
+        // Get component
+        let inputComponent = AudioComponentFindNext(nil, &desc)!
+        
+        // Get audio units
+        var status = AudioComponentInstanceNew(inputComponent, &audioUnit)
+        if status != noErr {
+            print("error in AudioComponentInstanceNew = \(status)")
+            return
+        }
+        
+        let kInputBus:UInt32 = 1
+        let kOutputBus:UInt32 = 0
+        
+        // Enable IO for recording
+        var flag:UInt32 = 1
+        status = AudioUnitSetProperty(audioUnit!,
+                                        kAudioOutputUnitProperty_EnableIO,
+                                        kAudioUnitScope_Input,
+                                        kInputBus,
+                                        &flag,
+                                        UInt32(MemoryLayout<UInt32>.size) )
+        if status != noErr {
+            print("error in AudioUnitSetProperty in = \(status)")
+            return
+        }
+        
+        // Enable IO for playback
+        flag = 1
+        status = AudioUnitSetProperty(audioUnit!,
+                                        kAudioOutputUnitProperty_EnableIO,
+                                        kAudioUnitScope_Output,
+                                        kOutputBus,
+                                        &flag,
+                                        UInt32(MemoryLayout<UInt32>.size) )
+        if status != noErr {
+            print("error in AudioUnitSetProperty out = \(status)")
+            return
+        }
+        
+        // Describe format
+        var audioFormat = AudioStreamBasicDescription()
+        audioFormat.mSampleRate            = 44100.00;
+        audioFormat.mFormatID            = kAudioFormatLinearPCM;
+        audioFormat.mFormatFlags        = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+        audioFormat.mFramesPerPacket    = 1;
+        audioFormat.mChannelsPerFrame    = 1;
+        audioFormat.mBitsPerChannel        = 16;
+        audioFormat.mBytesPerPacket        = 2;
+        audioFormat.mBytesPerFrame        = 2;
+        
+        // Apply format
+        status = AudioUnitSetProperty(audioUnit!,
+                                      kAudioUnitProperty_StreamFormat,
+                                      kAudioUnitScope_Output,
+                                      kInputBus,
+                                      &audioFormat,
+                                      UInt32(MemoryLayout<AudioStreamBasicDescription>.size))
+        if status != noErr {
+            print("error in AudioUnitSetProperty format = \(status)")
+            return
+        }
+        
+        status = AudioUnitSetProperty(audioUnit!,
+                                      kAudioUnitProperty_StreamFormat,
+                                      kAudioUnitScope_Input,
+                                      kOutputBus,
+                                      &audioFormat,
+                                      UInt32(MemoryLayout<AudioStreamBasicDescription>.size))
+        if status != noErr {
+            print("error in AudioUnitSetProperty format 2 = \(status)")
+            return
+        }
+        
+        // Set output callback
+        var callbackStruct = AURenderCallbackStruct()
+        callbackStruct.inputProc = (renderCallback as! AURenderCallback)
+        callbackStruct.inputProcRefCon = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+        status = AudioUnitSetProperty(audioUnit!,
+                                      kAudioUnitProperty_SetRenderCallback,
+                                      kAudioUnitScope_Global,
+                                      kOutputBus,
+                                      &callbackStruct,
+                                      UInt32(MemoryLayout<AURenderCallbackStruct>.size))
+        // https://stackoverflow.com/questions/33715628/aurendercallback-in-swift
+        // this next attempt crashes
+        // status = AudioUnitAddRenderNotify(audioUnit!, renderCallback as! AURenderCallback, Unmanaged.passUnretained(self).toOpaque())
+        if status != noErr {
+            print("error in AudioUnitAddRenderNotify = \(status)")
+            return
+        }
+        
+        tempBuffer.mNumberChannels = 1
+        tempBuffer.mDataByteSize = 512 * 2
+        tempBuffer.mData = malloc( 512 * 2 )
+        
+        status = AudioUnitInitialize(audioUnit!)
+        if status != noErr {
+            print("error in AudioUnitInitialize = \(status)")
+            return
+        }
+        
+        status = AudioOutputUnitStart(audioUnit!)
+        if status != noErr {
+            print("error in AudioOutputUnitStart = \(status)")
+            return
+        }
+    }
+    
+    // https://stackoverflow.com/questions/42015669/ios-how-to-read-audio-from-a-stream-and-play-the-audio
+    func audioBufferToNSData(PCMBuffer: AVAudioPCMBuffer) -> NSData {
+        let channelCount = 1  // given PCMBuffer channel count is 1
+        let channels = UnsafeBufferPointer(start: PCMBuffer.int16ChannelData, count: channelCount)
+        let data = NSData(bytes: channels[0], length:Int(PCMBuffer.frameLength * PCMBuffer.format.streamDescription.pointee.mBytesPerFrame))
+        
+        return data
+    }
+    
+    func dataToPCMBuffer(format: AVAudioFormat, data: NSData) -> AVAudioPCMBuffer {
+        
+        let audioBuffer = AVAudioPCMBuffer(pcmFormat: format,
+                                           frameCapacity: UInt32(data.length) / format.streamDescription.pointee.mBytesPerFrame)!
+        
+        audioBuffer.frameLength = audioBuffer.frameCapacity
+        let channels = UnsafeBufferPointer(start: audioBuffer.int16ChannelData, count: Int(audioBuffer.format.channelCount))
+        data.getBytes(UnsafeMutableRawPointer(channels[0]) , length: data.length)
+        return audioBuffer
     }
     
     func stopPlayer() {
@@ -266,4 +428,24 @@ extension ViewController {
         let fileURL = URL(fileURLWithPath: dirPath!).appendingPathComponent(fileName)
         return fileURL
     }
+}
+
+// called when audio is needed
+// https://stackoverflow.com/questions/33715628/aurendercallback-in-swift
+let renderCallback: AURenderCallback = {(inRefCon,
+                                            ioActionFlags,
+                                            inTimeStamp,
+                                            inBusNumber,
+                                            frameCount,
+                                            ioData) -> OSStatus in
+    print("In renderCallback")
+    /*
+    let delegate = unsafeBitCast(inRefCon, AURenderCallbackDelegate.self)
+    let result = delegate.performRender(ioActionFlags,
+                                        inTimeStamp: inTimeStamp,
+                                        inBusNumber: inBusNumber,
+                                        inNumberFrames: inNumberFrames,
+                                        ioData: ioData)
+ */
+    return 0
 }
