@@ -363,7 +363,7 @@ extension ViewController {
         
         // Set output callback
         var callbackStruct = AURenderCallbackStruct()
-        callbackStruct.inputProc = (renderCallback as! AURenderCallback)
+        callbackStruct.inputProc = (renderCallback)
         callbackStruct.inputProcRefCon = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         status = AudioUnitSetProperty(audioUnit!,
                                       kAudioUnitProperty_SetRenderCallback,
@@ -432,20 +432,27 @@ extension ViewController {
 
 // called when audio is needed
 // https://stackoverflow.com/questions/33715628/aurendercallback-in-swift
+// http://pulkitgoyal.in/audio-processing-on-ios-using-aubio/
 let renderCallback: AURenderCallback = {(inRefCon,
                                             ioActionFlags,
                                             inTimeStamp,
                                             inBusNumber,
                                             frameCount,
                                             ioData) -> OSStatus in
-    print("In renderCallback")
-    /*
-    let delegate = unsafeBitCast(inRefCon, AURenderCallbackDelegate.self)
-    let result = delegate.performRender(ioActionFlags,
-                                        inTimeStamp: inTimeStamp,
-                                        inBusNumber: inBusNumber,
-                                        inNumberFrames: inNumberFrames,
-                                        ioData: ioData)
- */
+    print("In renderCallback frameCount = \(frameCount)")
+    let kBufferSize:Int = 1024
+    //var audioBufferRaw = UnsafeMutableRawPointer.allocate(byteCount: kBufferSize * MemoryLayout<UInt16>.size, alignment: 1)
+    //var audioBuffer = audioBufferRaw.bindMemory(to: Int16.self, capacity: kBufferSize)
+    var audioBuffer = [Int16](repeating: 0, count: kBufferSize)
+    var availableSamples = fifo_used(gAudioDecodedFifo)
+    if availableSamples > kBufferSize {
+        availableSamples = Int32(kBufferSize)
+    }
+    let buffLength = Int(availableSamples) * MemoryLayout<Int16>.stride
+    fifo_read(gAudioDecodedFifo, &audioBuffer, Int32(buffLength))
+    var ioPtr = UnsafeMutableAudioBufferListPointer(ioData)!
+    let actualAudioBuffer = AudioBuffer(mNumberChannels: 1, mDataByteSize: 16, mData: &audioBuffer)
+    ioPtr[0] = actualAudioBuffer
+    ioPtr.count = 1
     return 0
 }
