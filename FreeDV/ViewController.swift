@@ -393,15 +393,14 @@ let renderCallback: AURenderCallback = {(inRefCon,
                                             frameCount,
                                             ioData) -> OSStatus in
     let kBufferSize:Int = 1024
-    //var audioBufferRaw = UnsafeMutableRawPointer.allocate(byteCount: kBufferSize * MemoryLayout<UInt16>.size, alignment: 1)
-    //var audioBuffer = audioBufferRaw.bindMemory(to: Int16.self, capacity: kBufferSize)
-    var audioBuffer = [Int16](repeating: 0, count: kBufferSize)
+    // allocate a buffer. we are responsible for deallocating
+    var audioBuffer = UnsafeMutablePointer<Int16>.allocate(capacity: kBufferSize)
     var availableSamples = fifo_used(gAudioDecodedFifo)
     if availableSamples > kBufferSize {
         availableSamples = Int32(kBufferSize)
     }
     let buffLength = Int(availableSamples) * MemoryLayout<Int16>.stride
-    fifo_read(gAudioDecodedFifo, &audioBuffer, Int32(buffLength))
+    fifo_read(gAudioDecodedFifo, audioBuffer, Int32(buffLength))
     var ioPtr = UnsafeMutableAudioBufferListPointer(ioData)!
     let actualAudioBuffer = AudioBuffer(mNumberChannels: 1, mDataByteSize: 16, mData: &audioBuffer)
     ioPtr[0] = actualAudioBuffer
