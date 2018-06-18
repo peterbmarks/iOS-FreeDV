@@ -30,5 +30,8 @@ extern int gInputSampleCount;
 extern float gSnr_est;
 extern float gClock_offset;
 extern int gTotal_bit_errors;
+extern char *gTextMessageBuffer;
+
+#define kTextMessageBufferSize 80
 
 #endif /* FreeDVrx_h */

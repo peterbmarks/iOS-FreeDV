@@ -52,11 +52,11 @@ the device.</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="cNE-zk-ifa">
-                                <rect key="frame" x="16" y="265.5" width="343" height="2.5"/>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cNE-zk-ifa">
+                                <rect key="frame" x="16" y="265.5" width="343" height="2"/>
                             </progressView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCf-1w-NcZ">
-                                <rect key="frame" x="16" y="275" width="50" height="28"/>
+                                <rect key="frame" x="16" y="275.5" width="50" height="28"/>
                                 <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="C8f-Ug-wTj"/>
@@ -64,24 +64,31 @@ the device.</string>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sync" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wJN-mi-l3t">
-                                <rect key="frame" x="74" y="278.5" width="38" height="21"/>
+                                <rect key="frame" x="74" y="279" width="38" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SNR:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzL-sM-qUu">
-                                <rect key="frame" x="16" y="311" width="39" height="21"/>
+                                <rect key="frame" x="16" y="311.5" width="39" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g7v-EC-QFs">
-                                <rect key="frame" x="63" y="320.5" width="296" height="2"/>
+                                <rect key="frame" x="63" y="321" width="296" height="2"/>
                             </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text message:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ie-Bg-95c">
+                                <rect key="frame" x="16" y="340" width="110" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="VCf-1w-NcZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="0oS-Ff-ap3"/>
+                            <constraint firstItem="0Ie-Bg-95c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="2LF-2b-47w"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8vN-47-ob7" secondAttribute="trailing" constant="16" id="2b0-07-dvE"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="top" secondItem="aGt-Zr-XTj" secondAttribute="bottom" constant="23" id="3H2-e0-pff"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vQj-pq-6mc" secondAttribute="trailing" constant="8" id="4LN-sw-cUX"/>
@@ -92,7 +99,9 @@ the device.</string>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="BZy-46-WBd"/>
                             <constraint firstItem="g7v-EC-QFs" firstAttribute="leading" secondItem="yzL-sM-qUu" secondAttribute="trailing" constant="8" id="EDp-Zy-ppk"/>
                             <constraint firstItem="aGt-Zr-XTj" firstAttribute="top" secondItem="aBT-8N-c0a" secondAttribute="bottom" constant="8" id="Fh4-BI-Oyu"/>
+                            <constraint firstItem="0Ie-Bg-95c" firstAttribute="top" secondItem="yzL-sM-qUu" secondAttribute="bottom" constant="7.5" id="KNq-sD-cMa"/>
                             <constraint firstItem="wJN-mi-l3t" firstAttribute="centerY" secondItem="VCf-1w-NcZ" secondAttribute="centerY" id="KWS-4u-Nft"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0Ie-Bg-95c" secondAttribute="trailing" constant="16" id="LeO-5t-aVR"/>
                             <constraint firstItem="wJN-mi-l3t" firstAttribute="leading" secondItem="VCf-1w-NcZ" secondAttribute="trailing" constant="8" id="PRm-dT-LMc"/>
                             <constraint firstItem="aGt-Zr-XTj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="W3A-ni-D9t"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerY" secondItem="vQj-pq-6mc" secondAttribute="centerY" id="YSv-tS-CKO"/>
@@ -114,6 +123,7 @@ the device.</string>
                         <outlet property="startSwitch" destination="3Vx-Vd-cLr" id="S6M-Jo-ut1"/>
                         <outlet property="statusLabel" destination="8vN-47-ob7" id="NEJ-AH-AqL"/>
                         <outlet property="syncLightView" destination="VCf-1w-NcZ" id="BQi-LS-Auf"/>
+                        <outlet property="textMessageLabel" destination="0Ie-Bg-95c" id="E6i-Rc-UD6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

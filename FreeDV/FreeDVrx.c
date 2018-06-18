@@ -15,6 +15,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <unistd.h> // for usleep
 #include "freedv_api.h"
 #include "modem_stats.h"
@@ -31,12 +32,30 @@ struct my_callback_state {
 struct FIFO *gAudioCaptureFifo;
 struct FIFO *gAudioDecodedFifo;
 
+char *gTextMessageBuffer;
+
 int gQuittingTime = 0;
 
 void my_put_next_rx_char(void *callback_state, char c) {
     struct my_callback_state* pstate = (struct my_callback_state*)callback_state;
     if (pstate->ftxt != NULL) {
         fprintf(pstate->ftxt, "text msg: %c\n", c);
+        
+        // add to the end of the global text message buffer,
+        // when full, delete characters from the front
+        unsigned long length = strlen(gTextMessageBuffer);
+        if(length == kTextMessageBufferSize) {
+            // shift the buffer left, removing the first character
+            fprintf(pstate->ftxt, "shifting text buffer %s\n", gTextMessageBuffer);
+            memmove(gTextMessageBuffer, gTextMessageBuffer+1, length);
+        }
+        length = strlen(gTextMessageBuffer);
+        if(isprint(c)) {
+            gTextMessageBuffer[length] = c;
+        } else {
+            gTextMessageBuffer[length] = '.';
+        }
+        gTextMessageBuffer[length+1] = '\0';
     }
 }
 
@@ -73,6 +92,8 @@ void my_datatx(void *callback_state, unsigned char *packet, size_t *size) {
 void rx_init(void) {
     gAudioCaptureFifo = fifo_create(100000);
     gAudioDecodedFifo = fifo_create(100000);
+    gTextMessageBuffer = malloc(kTextMessageBufferSize);
+    gTextMessageBuffer[0] = '\0';
 }
 
 void stop_rx(void) {
