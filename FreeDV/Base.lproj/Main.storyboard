@@ -55,9 +55,24 @@ the device.</string>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="cNE-zk-ifa">
                                 <rect key="frame" x="16" y="265.5" width="343" height="2.5"/>
                             </progressView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VCf-1w-NcZ">
+                                <rect key="frame" x="16" y="275" width="50" height="28"/>
+                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="C8f-Ug-wTj"/>
+                                    <constraint firstAttribute="height" constant="28" id="EUX-Ha-XhP"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sync" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wJN-mi-l3t">
+                                <rect key="frame" x="74" y="278.5" width="38" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="VCf-1w-NcZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="0oS-Ff-ap3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8vN-47-ob7" secondAttribute="trailing" constant="16" id="2b0-07-dvE"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="top" secondItem="aGt-Zr-XTj" secondAttribute="bottom" constant="23" id="3H2-e0-pff"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vQj-pq-6mc" secondAttribute="trailing" constant="8" id="4LN-sw-cUX"/>
@@ -66,11 +81,14 @@ the device.</string>
                             <constraint firstItem="aBT-8N-c0a" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="44" id="8d2-4F-cho"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="BZy-46-WBd"/>
                             <constraint firstItem="aGt-Zr-XTj" firstAttribute="top" secondItem="aBT-8N-c0a" secondAttribute="bottom" constant="8" id="Fh4-BI-Oyu"/>
+                            <constraint firstItem="wJN-mi-l3t" firstAttribute="centerY" secondItem="VCf-1w-NcZ" secondAttribute="centerY" id="KWS-4u-Nft"/>
+                            <constraint firstItem="wJN-mi-l3t" firstAttribute="leading" secondItem="VCf-1w-NcZ" secondAttribute="trailing" constant="8" id="PRm-dT-LMc"/>
                             <constraint firstItem="aGt-Zr-XTj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="W3A-ni-D9t"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerY" secondItem="vQj-pq-6mc" secondAttribute="centerY" id="YSv-tS-CKO"/>
                             <constraint firstItem="8vN-47-ob7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="g78-zI-MlK"/>
                             <constraint firstItem="8vN-47-ob7" firstAttribute="top" secondItem="3Vx-Vd-cLr" secondAttribute="bottom" constant="3" id="n2x-Qc-Wqc"/>
                             <constraint firstItem="vQj-pq-6mc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="rlx-Dw-Lqk"/>
+                            <constraint firstItem="VCf-1w-NcZ" firstAttribute="top" secondItem="cNE-zk-ifa" secondAttribute="bottom" constant="8" id="s7J-CV-I9t"/>
                             <constraint firstItem="cNE-zk-ifa" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="xll-JR-KnY"/>
                             <constraint firstItem="cNE-zk-ifa" firstAttribute="top" secondItem="8vN-47-ob7" secondAttribute="bottom" constant="8" id="xrM-eI-IAs"/>
                         </constraints>
@@ -80,6 +98,7 @@ the device.</string>
                         <outlet property="audioLevelProgressView" destination="cNE-zk-ifa" id="VVa-6p-Unj"/>
                         <outlet property="startSwitch" destination="3Vx-Vd-cLr" id="S6M-Jo-ut1"/>
                         <outlet property="statusLabel" destination="8vN-47-ob7" id="NEJ-AH-AqL"/>
+                        <outlet property="syncLightView" destination="VCf-1w-NcZ" id="BQi-LS-Auf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
