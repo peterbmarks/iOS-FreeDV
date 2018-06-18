@@ -151,9 +151,10 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    func peakAudioLevel(_ samples: inout [Int16]) -> Int16 {
+    func computePeakAudioLevel(samples: UnsafeMutablePointer<Int16>, count: Int) -> Int16 {
         var max:Int16 = 0
-        for sample in samples {
+        for i in 0..<count {
+            let sample = samples[i]
             if sample > max {
                 max = sample
             }
@@ -216,7 +217,7 @@ extension ViewController {
                                 let intSample = Int16(floatSample * 32768.0)
                                 samples[i] = intSample
                             }
-                            //self.peakAudioLevel = self.peakAudioLevel(&samples)
+                            self.peakAudioLevel = self.computePeakAudioLevel(samples: samples, count: frameLength)
                             //let buffPtr = UnsafeMutablePointer(&samples)
                             let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
                             fifo_write(gAudioCaptureFifo, samples, Int32(buffLength))
