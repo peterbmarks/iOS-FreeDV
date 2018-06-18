@@ -21,6 +21,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var audioLevelProgressView: UIProgressView!
     @IBOutlet weak var syncLightView: UIView!
+    @IBOutlet weak var snrProgressView: UIProgressView!
     
     var audioSession: AVAudioSession!
     var meterTimer: CADisplayLink?
@@ -141,6 +142,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     
     self.statusLabel.text = "sync = \(gSync), snr = \(gSnr_est), bit err = \(gTotal_bit_errors)"
     updateSyncLight()
+    updateSnrMeter()
   }
     
     func updateSyncLight() {
@@ -149,6 +151,15 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         } else if gSync == 1 {
             self.syncLightView.backgroundColor = UIColor.green
         }
+    }
+    
+    func updateSnrMeter() {
+        // values range from -10 to 0 presumably
+        var zeroToOneSnr = (10.0 + gSnr_est) / 10.0
+        if zeroToOneSnr > 1.0 {
+            zeroToOneSnr = 1.0
+        }
+        self.snrProgressView.progress = zeroToOneSnr;
     }
     
     func computePeakAudioLevel(samples: UnsafeMutablePointer<Int16>, count: Int) -> Int16 {

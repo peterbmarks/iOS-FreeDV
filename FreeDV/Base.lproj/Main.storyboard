@@ -69,6 +69,15 @@ the device.</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SNR:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzL-sM-qUu">
+                                <rect key="frame" x="16" y="311" width="39" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g7v-EC-QFs">
+                                <rect key="frame" x="63" y="320.5" width="296" height="2"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -77,18 +86,23 @@ the device.</string>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="top" secondItem="aGt-Zr-XTj" secondAttribute="bottom" constant="23" id="3H2-e0-pff"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vQj-pq-6mc" secondAttribute="trailing" constant="8" id="4LN-sw-cUX"/>
                             <constraint firstItem="aBT-8N-c0a" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="5DR-Vg-ofg"/>
+                            <constraint firstItem="yzL-sM-qUu" firstAttribute="top" secondItem="VCf-1w-NcZ" secondAttribute="bottom" constant="8" id="6aD-Q3-qAJ"/>
                             <constraint firstItem="cNE-zk-ifa" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="6nv-eV-IRh"/>
                             <constraint firstItem="aBT-8N-c0a" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="44" id="8d2-4F-cho"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="BZy-46-WBd"/>
+                            <constraint firstItem="g7v-EC-QFs" firstAttribute="leading" secondItem="yzL-sM-qUu" secondAttribute="trailing" constant="8" id="EDp-Zy-ppk"/>
                             <constraint firstItem="aGt-Zr-XTj" firstAttribute="top" secondItem="aBT-8N-c0a" secondAttribute="bottom" constant="8" id="Fh4-BI-Oyu"/>
                             <constraint firstItem="wJN-mi-l3t" firstAttribute="centerY" secondItem="VCf-1w-NcZ" secondAttribute="centerY" id="KWS-4u-Nft"/>
                             <constraint firstItem="wJN-mi-l3t" firstAttribute="leading" secondItem="VCf-1w-NcZ" secondAttribute="trailing" constant="8" id="PRm-dT-LMc"/>
                             <constraint firstItem="aGt-Zr-XTj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="W3A-ni-D9t"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerY" secondItem="vQj-pq-6mc" secondAttribute="centerY" id="YSv-tS-CKO"/>
                             <constraint firstItem="8vN-47-ob7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="g78-zI-MlK"/>
+                            <constraint firstItem="g7v-EC-QFs" firstAttribute="centerY" secondItem="yzL-sM-qUu" secondAttribute="centerY" id="gg4-xK-DY1"/>
+                            <constraint firstItem="yzL-sM-qUu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="hRe-8L-9a9"/>
                             <constraint firstItem="8vN-47-ob7" firstAttribute="top" secondItem="3Vx-Vd-cLr" secondAttribute="bottom" constant="3" id="n2x-Qc-Wqc"/>
                             <constraint firstItem="vQj-pq-6mc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="rlx-Dw-Lqk"/>
                             <constraint firstItem="VCf-1w-NcZ" firstAttribute="top" secondItem="cNE-zk-ifa" secondAttribute="bottom" constant="8" id="s7J-CV-I9t"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="g7v-EC-QFs" secondAttribute="trailing" constant="16" id="vE6-QI-ygc"/>
                             <constraint firstItem="cNE-zk-ifa" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="xll-JR-KnY"/>
                             <constraint firstItem="cNE-zk-ifa" firstAttribute="top" secondItem="8vN-47-ob7" secondAttribute="bottom" constant="8" id="xrM-eI-IAs"/>
                         </constraints>
@@ -96,6 +110,7 @@ the device.</string>
                     </view>
                     <connections>
                         <outlet property="audioLevelProgressView" destination="cNE-zk-ifa" id="VVa-6p-Unj"/>
+                        <outlet property="snrProgressView" destination="g7v-EC-QFs" id="Gax-tN-YmF"/>
                         <outlet property="startSwitch" destination="3Vx-Vd-cLr" id="S6M-Jo-ut1"/>
                         <outlet property="statusLabel" destination="8vN-47-ob7" id="NEJ-AH-AqL"/>
                         <outlet property="syncLightView" destination="VCf-1w-NcZ" id="BQi-LS-Auf"/>
