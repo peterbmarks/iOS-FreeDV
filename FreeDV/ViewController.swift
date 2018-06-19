@@ -135,6 +135,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     self.meterTimer?.invalidate()
     self.audioLevelProgressView.progress = 0.0
     self.peakAudioLevel = 0
+    self.snrProgressView.progress = 0.0
   }
   
   @objc func updateMeter() {
