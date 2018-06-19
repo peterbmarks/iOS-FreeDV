@@ -15,6 +15,9 @@
 import UIKit
 import AVFoundation
 
+// used to print the audio format just once per run
+var formatShown = false
+
 class ViewController: UIViewController, AVAudioRecorderDelegate {
 
     @IBOutlet weak var startSwitch: UISwitch!
@@ -109,7 +112,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     if sender.isOn == true {
         print("audio started")
         rx_init()
-        startRecorder()
+        startAudioCapture()
         startAudioMetering()
         DispatchQueue.global(qos: .userInitiated).async {
             start_rx();
@@ -183,76 +186,63 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 }
 
 extension ViewController {
-    func startRecorder() {
+    func startAudioCapture() {
         audioSession.requestRecordPermission { (granted) in
             if granted {
-                print("record permission granted")
                 self.audioEngine = AVAudioEngine()
-                
                 let inputNode = self.audioEngine.inputNode
-                print("Set intput node")
-                /*
-                let audioUrl = self.urlToFileInDocumentsDirectory(fileName: "audio8kPCM16.raw")
-                if FileManager.default.createFile(atPath: audioUrl.path, contents: nil, attributes: nil) {
-                    print("File created")
-                }
-                print("writing audio to: \(audioUrl.path)")
-                do {
-                    self.audioOutputFile = try FileHandle(forWritingTo: audioUrl)
-                } catch {
-                    print("Error opening output audio file: \(error)")
-                }
-                */
-                let audioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
+                let freeDvAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
+                
                 let mixer = AVAudioMixerNode()
-                let mainMixer = self.audioEngine.mainMixerNode
                 self.audioEngine.attach(mixer)
                 self.audioEngine.connect(inputNode, to: mixer, format: inputNode.inputFormat(forBus: 0))
-                //mixer.volume = 0
-                self.audioEngine.connect(mixer, to: mainMixer, format: audioFormat)
-                self.audioEngine.prepare()
+                
+                let mainMixer = self.audioEngine.mainMixerNode
+                self.audioEngine.connect(mixer, to: mainMixer, format: freeDvAudioFormat)
+                
+                mixer.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.tapCallback(buffer:time:))
+
                 do {
                     try self.audioEngine.start()
-                    var formatShown = false
-                    // https://stackoverflow.com/questions/39595444/avaudioengine-downsample-issue
-                    // Note that this resampler only works on physical devices
-                    mixer.installTap(onBus: 0, bufferSize: 1024, format: audioFormat, block: {
-                        (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
-                        let frameLength = Int(buffer!.frameLength)
-                        if formatShown == false {
-                            formatShown = true
-                            let channelCount = buffer.format.channelCount
-                            print("#### format = \(buffer.format), channelCount = \(channelCount), frameLength = \(frameLength)")
-                        }
-                        
-                        if buffer!.floatChannelData != nil {
-                            let dataPtrPtr = buffer.floatChannelData
-                            let elements = dataPtrPtr?.pointee
-                            
-                            //var samples = [Int16](repeating: 0, count: frameLength)
-                            let samples = UnsafeMutablePointer<Int16>.allocate(capacity: frameLength)
-                            for i in 0..<frameLength {
-                                let floatSample = elements![i]
-                                let intSample = Int16(floatSample * 32768.0)
-                                samples[i] = intSample
-                            }
-                            self.peakAudioLevel = self.computePeakAudioLevel(samples: samples, count: frameLength)
-                            //let buffPtr = UnsafeMutablePointer(&samples)
-                            let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
-                            fifo_write(gAudioCaptureFifo, samples, Int32(buffLength))
-                            // write to file as a test
-                            //let audioData = Data(bytes: buffPtr, count: buffLength)
-                            //self.audioOutputFile?.write(audioData)
-                        } else {
-                            print("Error didn't find Float audio data")
-                        }
-                    })
-                    
                 } catch let error {
                     print(error.localizedDescription)
                 }
                 print("started audio")
             }
+        }
+    }
+    
+    // closure called from the mixer tap on input audio
+    // the job here is to convert the audio samples to the format FreeDV codec2 wants and
+    // put them into the fifo
+    func tapCallback(buffer: AVAudioPCMBuffer!, time: AVAudioTime!) {
+        let frameLength = Int(buffer!.frameLength)
+        if formatShown == false {
+            formatShown = true
+            let channelCount = buffer.format.channelCount
+            print("#### format = \(buffer.format), channelCount = \(channelCount), frameLength = \(frameLength)")
+        }
+        
+        if buffer!.floatChannelData != nil {
+            let dataPtrPtr = buffer.floatChannelData
+            let elements = dataPtrPtr?.pointee
+            
+            //var samples = [Int16](repeating: 0, count: frameLength)
+            let samples = UnsafeMutablePointer<Int16>.allocate(capacity: frameLength)
+            for i in 0..<frameLength {
+                let floatSample = elements![i]
+                let intSample = Int16(floatSample * 32768.0)
+                samples[i] = intSample
+            }
+            self.peakAudioLevel = self.computePeakAudioLevel(samples: samples, count: frameLength)
+            //let buffPtr = UnsafeMutablePointer(&samples)
+            let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
+            fifo_write(gAudioCaptureFifo, samples, Int32(buffLength))
+            // write to file as a test
+            //let audioData = Data(bytes: buffPtr, count: buffLength)
+            //self.audioOutputFile?.write(audioData)
+        } else {
+            print("Error didn't find Float audio data")
         }
     }
     
