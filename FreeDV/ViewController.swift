@@ -117,7 +117,6 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         DispatchQueue.global(qos: .userInitiated).async {
             start_rx();
         }
-//        startAudioUnitPlayer()
     } else {
         print("audio stopped")
         stopRecorder()
@@ -246,123 +245,7 @@ extension ViewController {
     func stopRecorder() {
         self.audioEngine.stop()
     }
-    
-    
-    // ported from code linked via https://stackoverflow.com/questions/14448127/ios-playing-pcm-buffers-from-a-stream
-    // helpful https://github.com/GoogleCloudPlatform/ios-docs-samples/blob/master/dialogflow/stopwatch/Stopwatch/AudioController.swift
-    func startAudioUnitPlayer() {
-        // Describe audio component
-        var desc = AudioComponentDescription()
-        desc.componentType = kAudioUnitType_Output
-        desc.componentSubType = kAudioUnitSubType_RemoteIO
-        desc.componentFlags = 0
-        desc.componentFlagsMask = 0
-        desc.componentManufacturer = kAudioUnitManufacturer_Apple
         
-        // Get component
-        let inputComponent = AudioComponentFindNext(nil, &desc)!
-        
-        // Get audio units
-        var status = AudioComponentInstanceNew(inputComponent, &audioUnit)
-        if status != noErr {
-            print("error in AudioComponentInstanceNew = \(status)")
-            return
-        }
-        
-        let kInputBus:UInt32 = 1
-        let kOutputBus:UInt32 = 0
-        
-        // Enable IO for recording
-        var flag:UInt32 = 1
-        status = AudioUnitSetProperty(audioUnit!,
-                                        kAudioOutputUnitProperty_EnableIO,
-                                        kAudioUnitScope_Input,
-                                        kInputBus,
-                                        &flag,
-                                        UInt32(MemoryLayout<UInt32>.size) )
-        if status != noErr {
-            print("error in AudioUnitSetProperty in = \(status)")
-            return
-        }
-        
-        // Enable IO for playback
-        flag = 1
-        status = AudioUnitSetProperty(audioUnit!,
-                                        kAudioOutputUnitProperty_EnableIO,
-                                        kAudioUnitScope_Output,
-                                        kOutputBus,
-                                        &flag,
-                                        UInt32(MemoryLayout<UInt32>.size) )
-        if status != noErr {
-            print("error in AudioUnitSetProperty out = \(status)")
-            return
-        }
-        
-        // Describe format
-        var audioFormat = AudioStreamBasicDescription()
-        audioFormat.mSampleRate            = 44100.00;
-        audioFormat.mFormatID            = kAudioFormatLinearPCM;
-        audioFormat.mFormatFlags        = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
-        audioFormat.mFramesPerPacket    = 1;
-        audioFormat.mChannelsPerFrame    = 1;
-        audioFormat.mBitsPerChannel        = 16;
-        audioFormat.mBytesPerPacket        = 2;
-        audioFormat.mBytesPerFrame        = 2;
-        
-        // Apply format
-        status = AudioUnitSetProperty(audioUnit!,
-                                      kAudioUnitProperty_StreamFormat,
-                                      kAudioUnitScope_Output,
-                                      kInputBus,
-                                      &audioFormat,
-                                      UInt32(MemoryLayout<AudioStreamBasicDescription>.size))
-        if status != noErr {
-            print("error in AudioUnitSetProperty format = \(status)")
-            return
-        }
-        
-        status = AudioUnitSetProperty(audioUnit!,
-                                      kAudioUnitProperty_StreamFormat,
-                                      kAudioUnitScope_Input,
-                                      kOutputBus,
-                                      &audioFormat,
-                                      UInt32(MemoryLayout<AudioStreamBasicDescription>.size))
-        if status != noErr {
-            print("error in AudioUnitSetProperty format 2 = \(status)")
-            return
-        }
-        
-        // Set output callback
-        var callbackStruct = AURenderCallbackStruct()
-        callbackStruct.inputProc = (renderCallback)
-        callbackStruct.inputProcRefCon = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
-        status = AudioUnitSetProperty(audioUnit!,
-                                      kAudioUnitProperty_SetRenderCallback,
-                                      kAudioUnitScope_Global,
-                                      kOutputBus,
-                                      &callbackStruct,
-                                      UInt32(MemoryLayout<AURenderCallbackStruct>.size))
-        // https://stackoverflow.com/questions/33715628/aurendercallback-in-swift
-        // this next attempt crashes
-        // status = AudioUnitAddRenderNotify(audioUnit!, renderCallback as! AURenderCallback, Unmanaged.passUnretained(self).toOpaque())
-        if status != noErr {
-            print("error in AudioUnitAddRenderNotify = \(status)")
-            return
-        }
-        
-        status = AudioUnitInitialize(audioUnit!)
-        if status != noErr {
-            print("error in AudioUnitInitialize = \(status)")
-            return
-        }
-        
-        status = AudioOutputUnitStart(audioUnit!)
-        if status != noErr {
-            print("error in AudioOutputUnitStart = \(status)")
-            return
-        }
-    }
-    
     // https://stackoverflow.com/questions/42015669/ios-how-to-read-audio-from-a-stream-and-play-the-audio
     func audioBufferToNSData(PCMBuffer: AVAudioPCMBuffer) -> NSData {
         let channelCount = 1  // given PCMBuffer channel count is 1
