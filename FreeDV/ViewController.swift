@@ -193,6 +193,7 @@ extension ViewController {
                 let inputNode = self.audioEngine.inputNode
                 let freeDvAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
                 
+                // For some reason I need this extra mixer or I get 2 channels when I only want 1
                 let mixer = AVAudioMixerNode()
                 self.audioEngine.attach(mixer)
                 self.audioEngine.connect(inputNode, to: mixer, format: inputNode.inputFormat(forBus: 0))
