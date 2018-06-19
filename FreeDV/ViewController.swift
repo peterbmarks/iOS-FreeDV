@@ -193,14 +193,16 @@ extension ViewController {
                 let freeDvAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
                 
                 // For some reason I need this extra mixer or I get 2 channels when I only want 1
-                let mixer = AVAudioMixerNode()
-                self.audioEngine.attach(mixer)
-                self.audioEngine.connect(inputNode, to: mixer, format: inputNode.inputFormat(forBus: 0))
+                let mixer1 = AVAudioMixerNode()
+                self.audioEngine.attach(mixer1)
+                self.audioEngine.connect(inputNode, to: mixer1, format: freeDvAudioFormat)
+                
+                mixer1.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.captureTapCallback(buffer:time:))
+                
+                //let decodedFreeDvAudioPlayer = AVAudioPlayer()
                 
                 let mainMixer = self.audioEngine.mainMixerNode
-                self.audioEngine.connect(mixer, to: mainMixer, format: freeDvAudioFormat)
-                
-                mixer.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.captureTapCallback(buffer:time:))
+                self.audioEngine.connect(mixer1, to: mainMixer, format: freeDvAudioFormat)
 
                 do {
                     try self.audioEngine.start()
@@ -245,7 +247,7 @@ extension ViewController {
     func stopRecorder() {
         self.audioEngine.stop()
     }
-        
+    
     // https://stackoverflow.com/questions/42015669/ios-how-to-read-audio-from-a-stream-and-play-the-audio
     func audioBufferToNSData(PCMBuffer: AVAudioPCMBuffer) -> NSData {
         let channelCount = 1  // given PCMBuffer channel count is 1
