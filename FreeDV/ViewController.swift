@@ -201,7 +201,7 @@ extension ViewController {
                 let mainMixer = self.audioEngine.mainMixerNode
                 self.audioEngine.connect(mixer, to: mainMixer, format: freeDvAudioFormat)
                 
-                mixer.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.tapCallback(buffer:time:))
+                mixer.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.captureTapCallback(buffer:time:))
 
                 do {
                     try self.audioEngine.start()
@@ -216,7 +216,7 @@ extension ViewController {
     // closure called from the mixer tap on input audio
     // the job here is to convert the audio samples to the format FreeDV codec2 wants and
     // put them into the fifo
-    func tapCallback(buffer: AVAudioPCMBuffer!, time: AVAudioTime!) {
+    func captureTapCallback(buffer: AVAudioPCMBuffer!, time: AVAudioTime!) {
         let frameLength = Int(buffer!.frameLength)
         if formatShown == false {
             formatShown = true
@@ -236,12 +236,8 @@ extension ViewController {
                 samples[i] = intSample
             }
             self.peakAudioLevel = self.computePeakAudioLevel(samples: samples, count: frameLength)
-            //let buffPtr = UnsafeMutablePointer(&samples)
             let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
             fifo_write(gAudioCaptureFifo, samples, Int32(buffLength))
-            // write to file as a test
-            //let audioData = Data(bytes: buffPtr, count: buffLength)
-            //self.audioOutputFile?.write(audioData)
         } else {
             print("Error didn't find Float audio data")
         }
