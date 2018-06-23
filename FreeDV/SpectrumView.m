@@ -4,7 +4,7 @@
 
 #import "SpectrumView.h"
 #import "SpectrumAnalyzer.h"
-#import "AudioRingBuffer.h"
+
 
 #pragma mark Local Functions
 
@@ -22,6 +22,10 @@ static float ConvertLogScale(float x)
 
 - (void)setSpectrumAnalyzer:(SpectrumAnalyzer*)analyzer {
     _analyzer = analyzer;
+}
+
+- (void)setRingBuffersArray:(NSArray<AudioRingBuffer *>*)ringBuffers {
+    _ringBuffers = ringBuffers;
 }
 
 - (void)awakeFromNib
@@ -49,7 +53,7 @@ static float ConvertLogScale(float x)
     
     // Update the spectrum.
     //AudioInputHandler *audioInput = AudioInputHandler.sharedInstance;
-    //[analyzer processAudioInput:audioInput allChannels:YES];
+    [_analyzer processAudioInput:_ringBuffers sampleRate:48000.0 allChannels:YES];
     
     // Draw horizontal lines.
     {

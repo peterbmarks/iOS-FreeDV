@@ -45,6 +45,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
     self.ringBuffers.append(AudioRingBuffer())
+    self.spectrumView.setRingBuffersArray(self.ringBuffers)
     self.spectrumView.setSpectrumAnalyzer(self.spectrumAnalyzer) 
     
       audioSession = AVAudioSession.sharedInstance()

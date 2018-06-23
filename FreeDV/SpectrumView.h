@@ -4,12 +4,15 @@
 
 #import <UIKit/UIKit.h>
 #import "SpectrumAnalyzer.h"
+#import "AudioRingBuffer.h"
 
 @interface SpectrumView : UIView {
 
     SpectrumAnalyzer *_analyzer;
+    NSArray<AudioRingBuffer *>* _ringBuffers;
 }
 
 - (void)setSpectrumAnalyzer:(SpectrumAnalyzer*)analyzer;
+- (void)setRingBuffersArray:(NSArray<AudioRingBuffer *>*)ringBuffers;
 
 @end

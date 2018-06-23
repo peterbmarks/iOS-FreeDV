@@ -820,8 +820,8 @@
 		7217D70020C4C927009BC9C2 /* x200_int.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = x200_int.wav; sourceTree = "<group>"; };
 		7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseInVC.swift; sourceTree = "<group>"; };
 		7217D70320C5017E009BC9C2 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
+		724F88CB20DE18FB000A6B83 /* SpectrumAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumAnalyzer.h; sourceTree = "<group>"; };
 		7250F00420DDD0FD002BACB6 /* AudioRingBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioRingBuffer.h; sourceTree = "<group>"; };
-		7250F00520DDD111002BACB6 /* SpectrumAnalyzer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SpectrumAnalyzer.h; path = "../../../Desktop/AudioSpectrum-master/AudioSpectrum/SpectrumAnalyzer.h"; sourceTree = "<group>"; };
 		7250F00620DDD119002BACB6 /* SpectrumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumView.h; sourceTree = "<group>"; };
 		7250F00720DDD119002BACB6 /* SpectrumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrumView.m; sourceTree = "<group>"; };
 		7271206A20DDD0C2002B9806 /* SpectrumAnalyzer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpectrumAnalyzer.m; sourceTree = "<group>"; };
@@ -1804,6 +1804,7 @@
 		72D09C6720C3DF00001C3588 /* FreeDV */ = {
 			isa = PBXGroup;
 			children = (
+				724F88CB20DE18FB000A6B83 /* SpectrumAnalyzer.h */,
 				72D09C6820C3DF01001C3588 /* AppDelegate.swift */,
 				72D09C6A20C3DF01001C3588 /* ViewController.swift */,
 				7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */,
@@ -1811,7 +1812,6 @@
 				72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */,
 				7250F00420DDD0FD002BACB6 /* AudioRingBuffer.h */,
 				7271206C20DDD0C2002B9806 /* AudioRingBuffer.m */,
-				7250F00520DDD111002BACB6 /* SpectrumAnalyzer.h */,
 				7271206A20DDD0C2002B9806 /* SpectrumAnalyzer.m */,
 				7250F00620DDD119002BACB6 /* SpectrumView.h */,
 				7250F00720DDD119002BACB6 /* SpectrumView.m */,

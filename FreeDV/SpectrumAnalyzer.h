@@ -55,9 +55,9 @@ typedef const struct SpectrumData *SpectrumDataRef;
 @property (nonatomic, readonly) SpectrumDataRef octaveBandSpectrumData;
 
 // Process the audio input.
-- (void)processAudioInput:(AudioInputHandler *)handler allChannels:(BOOL)allChannels;
-- (void)processAudioInput:(AudioInputHandler *)handler channel:(NSUInteger)channel;
-- (void)processAudioInput:(AudioInputHandler *)handler channel1:(NSUInteger)channel1 channel2:(NSUInteger)channel2;
+- (void)processAudioInput:(NSArray *)ringBuffers sampleRate:(Float32)sampleRate allChannels:(BOOL)allChannels;
+- (void)processAudioInput:(NSArray *)ringBuffers sampleRate:(Float32)sampleRate channel:(NSUInteger)channel;
+- (void)processAudioInput:(NSArray *)ringBuffers sampleRate:(Float32)sampleRate channel1:(NSUInteger)channel1 channel2:(NSUInteger)channel2;
 
 // Process the raw waveform data (the length of the waveform must equal to pointNumber).
 - (void)processWaveform:(const Float32 *)waveform samleRate:(Float32)sampleRate;
