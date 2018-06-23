@@ -1,6 +1,10 @@
 // AudioSpectrum: A sample app using Audio Unit and vDSP
 // By Keijiro Takahashi, 2013, 2014
 // https://github.com/keijiro/AudioSpectrum
+// Ported from macos
+// In NSView 0,0 is in the lower left with positive values of Y going up.
+// In UIView 0,0 is in the top left with positive values of Y going down.
+
 
 #import "SpectrumView.h"
 #import "SpectrumAnalyzer.h"
@@ -61,8 +65,8 @@ static float ConvertLogScale(float x)
         
         for (float lv = -3.0f; lv > MIN_DB; lv -= 3.0f) {
             float y = ConvertLogScale(lv) * size.height;
-            [path moveToPoint:CGPointMake(0, y)];
-            [path addLineToPoint:CGPointMake(size.width, y)];
+            [path moveToPoint:CGPointMake(0, size.height - y)];
+            [path addLineToPoint:CGPointMake(size.width, size.height - y)];
         }
         
         [[UIColor colorWithWhite:0.5f alpha:1.0f] setStroke];
@@ -153,7 +157,7 @@ static float ConvertLogScale(float x)
 
         for (NSUInteger i = 1; i < spectrum->length; i++) {
             float x = log10f(i) * xScale;
-            float y = ConvertLogScale(spectrum->data[i]) * size.height;
+            float y = size.height - (ConvertLogScale(spectrum->data[i]) * size.height);
             if (i == 1) {
                 [path moveToPoint:CGPointMake(x, y)];
             } else {
