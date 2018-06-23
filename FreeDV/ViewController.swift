@@ -38,12 +38,13 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var audioOutputFile:FileHandle?
     var quittingTime = false    // used to stop the player
     
-    let ringBuffers = [AudioRingBuffer]()
+    var ringBuffers = [AudioRingBuffer]()
     let spectrumAnalyzer = SpectrumAnalyzer()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
+    self.ringBuffers.append(AudioRingBuffer())
     self.spectrumView.setSpectrumAnalyzer(self.spectrumAnalyzer) 
     
       audioSession = AVAudioSession.sharedInstance()
@@ -246,6 +247,9 @@ extension ViewController {
             self.peakAudioLevel = self.computePeakAudioLevel(samples: samples, count: frameLength)
             let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
             fifo_write(gAudioCaptureFifo, samples, Int32(buffLength))
+            
+            // write into the ring buffers for the spectrum display
+            self.ringBuffers[0].pushSamples(buffer!.floatChannelData!.pointee, count: UInt(frameLength))
         } else {
             print("Error didn't find Float audio data")
         }

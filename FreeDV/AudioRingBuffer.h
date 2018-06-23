@@ -7,15 +7,15 @@
 @interface AudioRingBuffer : NSObject
 {
 @private
-    Float32 *_samples;
+    float *_samples;
     NSUInteger _offset;
 }
 
-- (void)copyTo:(Float32 *)destination length:(NSUInteger)length;
-- (void)addTo:(Float32 *)destination length:(NSUInteger)length;
-- (void)splitEvenTo:(Float32 *)even oddTo:(Float32 *)odd totalLength:(NSUInteger)length;
-- (void)vectorAverageWith:(Float32 *)destination index:(NSUInteger)index length:(NSUInteger)length;
+- (void)copyTo:(float *)destination length:(NSUInteger)length;
+- (void)addTo:(float *)destination length:(NSUInteger)length;
+- (void)splitEvenTo:(float *)even oddTo:(float *)odd totalLength:(NSUInteger)length;
+- (void)vectorAverageWith:(float *)destination index:(NSUInteger)index length:(NSUInteger)length;
 - (float)calculateRMS:(NSUInteger)length;
-- (void)pushSamples:(Float32 *)source count:(NSUInteger)count;
+- (void)pushSamples:(float *)source count:(NSUInteger)count;
 
 @end

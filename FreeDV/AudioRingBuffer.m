@@ -8,13 +8,13 @@
 #pragma mark Configurations
 
 #define kBufferSize (1024 * 16)
-#define kBufferByteSize (kBufferSize * sizeof(Float32))
+#define kBufferByteSize (kBufferSize * sizeof(float))
 
 #pragma mark Local utility function
 
-static inline void FloatCopy(const Float32 *source, Float32 *destination, NSUInteger length)
+static inline void FloatCopy(const float *source, float *destination, NSUInteger length)
 {
-    memcpy(destination, source, length * sizeof(Float32));
+    memcpy(destination, source, length * sizeof(float));
 }
 
 #pragma mark
@@ -43,7 +43,7 @@ static inline void FloatCopy(const Float32 *source, Float32 *destination, NSUInt
 
 #pragma mark Buffer operations
 
-- (void)copyTo:(Float32 *)destination length:(NSUInteger)length
+- (void)copyTo:(float *)destination length:(NSUInteger)length
 {
     // Take a snapshot of the current state for avoiding race conditions.
     NSUInteger offset = _offset;
@@ -61,7 +61,7 @@ static inline void FloatCopy(const Float32 *source, Float32 *destination, NSUInt
     }
 }
 
-- (void)addTo:(Float32 *)destination length:(NSUInteger)length
+- (void)addTo:(float *)destination length:(NSUInteger)length
 {
     // Take a snapshot of the current state for avoiding race conditions.
     NSUInteger offset = _offset;
@@ -79,7 +79,7 @@ static inline void FloatCopy(const Float32 *source, Float32 *destination, NSUInt
     }
 }
 
-- (void)splitEvenTo:(Float32 *)even oddTo:(Float32 *)odd totalLength:(NSUInteger)length
+- (void)splitEvenTo:(float *)even oddTo:(float *)odd totalLength:(NSUInteger)length
 {
     // Take a snapshot of the current state for avoiding race conditions.
     NSUInteger offset = _offset;
@@ -100,7 +100,7 @@ static inline void FloatCopy(const Float32 *source, Float32 *destination, NSUInt
     }
 }
 
-- (void)vectorAverageWith:(Float32 *)destination index:(NSUInteger)index length:(NSUInteger)length
+- (void)vectorAverageWith:(float *)destination index:(NSUInteger)index length:(NSUInteger)length
 {
     float scalar = index;
     
@@ -147,7 +147,7 @@ static inline void FloatCopy(const Float32 *source, Float32 *destination, NSUInt
     }
 }
 
-- (void)pushSamples:(Float32 *)source count:(NSUInteger)count
+- (void)pushSamples:(float *)source count:(NSUInteger)count
 {
     NSUInteger rest = kBufferSize - _offset;
     if (count <= rest) {

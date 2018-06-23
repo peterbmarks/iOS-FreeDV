@@ -124,7 +124,7 @@ static float ConvertLogScale(float x)
      */
 
     // Draw the octave band graph.
-    
+    /*
     {
         SpectrumDataRef spectrum = _analyzer.octaveBandSpectrumData;
         
@@ -139,7 +139,7 @@ static float ConvertLogScale(float x)
             UIRectFill(CGRectMake(x - 0.5f * barWidth, 0, barWidth, y));
         }
     }
-    
+    */
     // Draw the spectrum graph.
     {
         SpectrumDataRef spectrum = _analyzer.rawSpectrumData;
