@@ -26,6 +26,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var syncLightView: UIView!
     @IBOutlet weak var snrProgressView: UIProgressView!
     @IBOutlet weak var textMessageLabel: UILabel!
+    @IBOutlet weak var spectrumView: SpectrumView!
     
     var audioSession: AVAudioSession!
     var meterTimer: CADisplayLink?
@@ -36,11 +37,17 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     var freeDvApi = FreeDVApi()
     var audioOutputFile:FileHandle?
     var quittingTime = false    // used to stop the player
+    
+    let ringBuffers = [AudioRingBuffer]()
+    let spectrumAnalyzer = SpectrumAnalyzer()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
+    self.spectrumView.setSpectrumAnalyzer(self.spectrumAnalyzer) 
+    
       audioSession = AVAudioSession.sharedInstance()
+    
       do {
         // AVAudioSessionCategoryMultiRoute
         // AVAudioVoiceChat...

@@ -7,3 +7,7 @@
 #include "codec2.h"
 #include "FreeDVrx.h"
 #include "codec2_fifo.h"
+#include "AudioRingBuffer.h"
+#include "SpectrumAnalyzer.h"
+#include "SpectrumView.h"
+
