@@ -13,7 +13,8 @@ static Float32 middleFrequenciesForBands[][32] = {
     { 63.0f, 125, 500, 1000, 2000, 4000, 6000, 8000 },
     { 31.5f, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000 },
     { 25.0f, 31.5f, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000 },
-    { 20.0f, 25, 31.5f, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000, 10000, 12500, 16000, 20000 }
+    { 20.0f, 25, 31.5f, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000, 10000, 12500, 16000, 20000 },
+    { 1000, 2000, 4000, 8000 } //freeDV
 };
 
 static Float32 bandwidthForBands[] = {
@@ -22,7 +23,8 @@ static Float32 bandwidthForBands[] = {
     1.41421356237f, // 2^(1/2)
     1.41421356237f, // 2^(1/2)
     1.12246204831f, // 2^(1/6)
-    1.12246204831f  // 2^(1/6)
+    1.12246204831f,  // 2^(1/6)
+    1.12246204831f,  // 2^(1/6)
 };
 
 NSUInteger CountBands(NSUInteger bandType)
@@ -42,7 +44,7 @@ NSUInteger CountBands(NSUInteger bandType)
     if (self = [super init])
     {
         self.pointNumber = 1024;
-        self.octaveBandType = OctaveBandTypeStandard;
+        self.octaveBandType = OctaveBandTypeFreeDV; // OctaveBandTypeStandard;
     }
     return self;
 }

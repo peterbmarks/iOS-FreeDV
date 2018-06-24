@@ -199,12 +199,16 @@ extension ViewController {
             if granted {
                 self.audioEngine = AVAudioEngine()
                 let inputNode = self.audioEngine.inputNode
-                let freeDvAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
                 
-                // For some reason I need this extra mixer or I get 2 channels when I only want 1
+                
                 let mixer1 = AVAudioMixerNode()
                 self.audioEngine.attach(mixer1)
-                self.audioEngine.connect(inputNode, to: mixer1, format: freeDvAudioFormat)
+                self.audioEngine.connect(inputNode, to: mixer1, format: inputNode.inputFormat(forBus: 0))
+                
+                let mixer2 = AVAudioMixerNode()
+                self.audioEngine.attach(mixer2)
+                let freeDvAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
+                self.audioEngine.connect(mixer1, to: mixer2, format: freeDvAudioFormat)
                 
                 mixer1.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.captureTapCallback(buffer:time:))
                 

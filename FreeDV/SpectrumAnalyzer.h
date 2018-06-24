@@ -15,7 +15,8 @@ typedef NS_ENUM(NSUInteger, OctaveBandType)
     OctaveBandType8,
     OctaveBandTypeStandard,
     OctaveBandType24,
-    OctaveBandType31
+    OctaveBandType31,
+    OctaveBandTypeFreeDV
 };
 
 // Data structure for spectrum data.

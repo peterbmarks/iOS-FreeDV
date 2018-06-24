@@ -1805,6 +1805,7 @@
 			isa = PBXGroup;
 			children = (
 				724F88CB20DE18FB000A6B83 /* SpectrumAnalyzer.h */,
+				7271206A20DDD0C2002B9806 /* SpectrumAnalyzer.m */,
 				72D09C6820C3DF01001C3588 /* AppDelegate.swift */,
 				72D09C6A20C3DF01001C3588 /* ViewController.swift */,
 				7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */,
@@ -1812,7 +1813,6 @@
 				72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */,
 				7250F00420DDD0FD002BACB6 /* AudioRingBuffer.h */,
 				7271206C20DDD0C2002B9806 /* AudioRingBuffer.m */,
-				7271206A20DDD0C2002B9806 /* SpectrumAnalyzer.m */,
 				7250F00620DDD119002BACB6 /* SpectrumView.h */,
 				7250F00720DDD119002BACB6 /* SpectrumView.m */,
 				72D09C6C20C3DF01001C3588 /* Main.storyboard */,
