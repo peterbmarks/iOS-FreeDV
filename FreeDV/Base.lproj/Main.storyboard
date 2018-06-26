@@ -158,6 +158,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4K-5o-ZGP">
                                         <rect key="frame" x="0.0" y="38" width="94" height="30"/>
                                         <state key="normal" title="Audio Output"/>
+                                        <connections>
+                                            <segue destination="K64-dd-79O" kind="presentation" id="wBV-l1-PA1"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rMP-gR-le2">
                                         <rect key="frame" x="0.0" y="76" width="94" height="30"/>
@@ -250,7 +253,71 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5WR-WP-Ohf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1878" y="-139"/>
+            <point key="canvasLocation" x="1881" y="-271"/>
+        </scene>
+        <!--Choose OutVC-->
+        <scene sceneID="AAi-1E-x4d">
+            <objects>
+                <viewController id="K64-dd-79O" customClass="ChooseOutVC" customModule="FreeDV" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GjB-TL-PdK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZq-1G-4ci">
+                                <rect key="frame" x="166.5" y="63" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h8e-lT-f8a">
+                                <rect key="frame" x="0.0" y="111" width="375" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="JdO-3E-ciD"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="K64-dd-79O" id="fd4-nb-EKf"/>
+                                    <outlet property="delegate" destination="K64-dd-79O" id="7G9-g6-rBR"/>
+                                </connections>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0yV-Cw-sVL">
+                                <rect key="frame" x="172.5" y="575" width="30" height="30"/>
+                                <state key="normal" title="Test"/>
+                                <connections>
+                                    <action selector="onTestAudioButton:" destination="K64-dd-79O" eventType="touchUpInside" id="RrZ-4y-tD3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GeK-8x-EL7">
+                                <rect key="frame" x="16" y="20" width="37" height="30"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="onDoneButton:" destination="K64-dd-79O" eventType="touchUpInside" id="YZt-a2-KmM"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3c9-v0-Y3o" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GeK-8x-EL7" secondAttribute="trailing" constant="16" id="1IK-b2-7wZ"/>
+                            <constraint firstItem="EZq-1G-4ci" firstAttribute="top" secondItem="3c9-v0-Y3o" secondAttribute="top" constant="43" id="98v-Yl-lFh"/>
+                            <constraint firstItem="3c9-v0-Y3o" firstAttribute="bottom" secondItem="0yV-Cw-sVL" secondAttribute="bottom" constant="62" id="9FO-Wi-hPy"/>
+                            <constraint firstItem="GeK-8x-EL7" firstAttribute="leading" secondItem="3c9-v0-Y3o" secondAttribute="leading" constant="16" id="AZN-Sy-Vp1"/>
+                            <constraint firstItem="EZq-1G-4ci" firstAttribute="centerX" secondItem="3c9-v0-Y3o" secondAttribute="centerX" id="Gma-uV-sYx"/>
+                            <constraint firstItem="0yV-Cw-sVL" firstAttribute="centerX" secondItem="3c9-v0-Y3o" secondAttribute="centerX" id="d4y-fd-PvE"/>
+                            <constraint firstItem="h8e-lT-f8a" firstAttribute="centerX" secondItem="EZq-1G-4ci" secondAttribute="centerX" id="dTF-8J-9So"/>
+                            <constraint firstItem="h8e-lT-f8a" firstAttribute="leading" secondItem="GjB-TL-PdK" secondAttribute="leading" id="qXj-cJ-4u4"/>
+                            <constraint firstItem="h8e-lT-f8a" firstAttribute="top" secondItem="EZq-1G-4ci" secondAttribute="bottom" constant="27" id="rES-4N-Bqj"/>
+                            <constraint firstItem="GeK-8x-EL7" firstAttribute="top" secondItem="3c9-v0-Y3o" secondAttribute="top" id="wZL-sb-3oZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="3c9-v0-Y3o"/>
+                    </view>
+                    <connections>
+                        <outlet property="audioPickerView" destination="h8e-lT-f8a" id="LNA-be-qse"/>
+                        <outlet property="testAudioButton" destination="0yV-Cw-sVL" id="7eJ-g3-UbB"/>
+                        <outlet property="titleLabel" destination="EZq-1G-4ci" id="PNs-FT-r8H"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T6d-j7-NlE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2572" y="138"/>
         </scene>
     </scenes>
 </document>
