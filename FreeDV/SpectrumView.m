@@ -75,30 +75,30 @@ static float ConvertLogScale(float x)
     }
     
     // Draw the input waveform graph.
-    /*
+    
     {
-        NSUInteger waveformLength = analyzer.pointNumber;
+        NSUInteger waveformLength = _analyzer.pointNumber;
         float waveform[waveformLength];
-        [audioInput.ringBuffers.firstObject copyTo:waveform length:waveformLength];
+        [_ringBuffers.firstObject copyTo:waveform length:waveformLength];
         
-        NSBezierPath *path = [NSBezierPath bezierPath];
+        UIBezierPath *path = [UIBezierPath bezierPath];
         float xScale = size.width / waveformLength;
         
         for (NSUInteger i = 0; i < waveformLength; i++) {
             float x = xScale * i;
             float y = (waveform[i] * 0.5f + 0.5f) * size.height;
             if (i == 0) {
-                [path moveToPoint:NSMakePoint(x, y)];
+                [path moveToPoint:CGPointMake(x, y)];
             } else {
-                [path lineToPoint:NSMakePoint(x, y)];
+                [path addLineToPoint:CGPointMake(x, y)];
             }
         }
         
-        [[NSColor colorWithWhite:0.5f alpha:1.0f] setStroke];
+        [[UIColor colorWithWhite:0.5f alpha:1.0f] setStroke];
         path.lineWidth = 0.5f;
         [path stroke];
     }
-    */
+    
     // Draw the level meter.
     /*
     {

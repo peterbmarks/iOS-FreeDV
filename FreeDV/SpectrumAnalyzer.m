@@ -151,7 +151,7 @@ NSUInteger CountBands(NSUInteger bandType)
             [[ringBuffers objectAtIndex:i] vectorAverageWith:_inputBuffer index:i length:_pointNumber];
         
         // Fourier transform.
-        [self processWaveform:_inputBuffer samleRate:sampleRate];
+        [self processWaveform:_inputBuffer sampleRate:sampleRate];
     }
     else
     {
@@ -165,7 +165,7 @@ NSUInteger CountBands(NSUInteger bandType)
     [[ringBuffers objectAtIndex:channel] copyTo:_inputBuffer length:_pointNumber];
     
     // Fourier transform.
-    [self processWaveform:_inputBuffer samleRate:sampleRate];
+    [self processWaveform:_inputBuffer sampleRate:sampleRate];
 }
 
 - (void)processAudioInput:(NSArray *)ringBuffers sampleRate:(Float32)sampleRate channel1:(NSUInteger)channel1 channel2:(NSUInteger)channel2
@@ -175,20 +175,20 @@ NSUInteger CountBands(NSUInteger bandType)
     [[ringBuffers objectAtIndex:channel2] vectorAverageWith:_inputBuffer index:1 length:_pointNumber];
     
     // Fourier transform.
-    [self processWaveform:_inputBuffer samleRate:sampleRate];
+    [self processWaveform:_inputBuffer sampleRate:sampleRate];
 }
 
-- (void)processWaveform:(const Float32 *)waveform1 withAdding:(const Float32 *)waveform2 samleRate:(Float32)sampleRate
+- (void)processWaveform:(const Float32 *)waveform1 withAdding:(const Float32 *)waveform2 sampleRate:(Float32)sampleRate
 {
     // Add two waveforms.
     float scalar = 0.5f;
     vDSP_vasm(waveform1, 1, waveform2, 1, &scalar, _inputBuffer, 1, _pointNumber);
     
     // Fourier transform.
-    [self processWaveform:_inputBuffer samleRate:sampleRate];
+    [self processWaveform:_inputBuffer sampleRate:sampleRate];
 }
 
-- (void)processWaveform:(const Float32 *)waveform samleRate:(Float32)sampleRate
+- (void)processWaveform:(const Float32 *)waveform sampleRate:(Float32)sampleRate
 {
     NSUInteger length = _pointNumber / 2;
     
