@@ -80,6 +80,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     // if found set that as preferred
     func setPreferredInputToUsb(audioSession:AVAudioSession) {
         for audioSessionPortDescription in audioSession.availableInputs! {
+            let deviceId = audioSessionPortDescription
             let name = audioSessionPortDescription.portName
             print("port name = \(name)")
             if name == "USB In" {
@@ -242,6 +243,7 @@ extension ViewController {
                 
                 self.audioEngine = AVAudioEngine()
                 let inputNode = self.audioEngine.inputNode
+                // let audioUnit = inputNode.audioUnit
                 
                 let mixer1 = AVAudioMixerNode()
                 self.audioEngine.attach(mixer1)
