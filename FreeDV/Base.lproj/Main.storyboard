@@ -151,6 +151,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NaE-WX-oL4">
                                         <rect key="frame" x="0.0" y="0.0" width="94" height="30"/>
                                         <state key="normal" title="Audio Input"/>
+                                        <connections>
+                                            <segue destination="nCd-B6-LtC" kind="presentation" id="3L6-GI-KrO"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4K-5o-ZGP">
                                         <rect key="frame" x="0.0" y="38" width="94" height="30"/>
@@ -184,6 +187,70 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1p-0Y-xei" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="949.60000000000002" y="32.833583208395808"/>
+        </scene>
+        <!--Choose InVC-->
+        <scene sceneID="aZB-X6-T06">
+            <objects>
+                <viewController id="nCd-B6-LtC" customClass="ChooseInVC" customModule="FreeDV" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LeU-Vy-OjP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfN-zc-VJH">
+                                <rect key="frame" x="166.5" y="75" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wtx-QH-WDI">
+                                <rect key="frame" x="0.0" y="104" width="375" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="cJx-OB-wbg"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="nCd-B6-LtC" id="0hy-jY-YlJ"/>
+                                    <outlet property="delegate" destination="nCd-B6-LtC" id="mVK-DR-njB"/>
+                                </connections>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="beI-BE-cJZ">
+                                <rect key="frame" x="172.5" y="550" width="30" height="30"/>
+                                <state key="normal" title="Test"/>
+                                <connections>
+                                    <action selector="onTestAudioButton:" destination="nCd-B6-LtC" eventType="touchUpInside" id="E5M-ri-tcB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vvG-O4-Reg">
+                                <rect key="frame" x="16" y="20" width="37" height="30"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="onDoneButton:" destination="nCd-B6-LtC" eventType="touchUpInside" id="jic-od-HHq"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="mVU-Nl-YI7" firstAttribute="bottom" secondItem="beI-BE-cJZ" secondAttribute="bottom" constant="87" id="5a9-SD-psG"/>
+                            <constraint firstItem="Wtx-QH-WDI" firstAttribute="centerX" secondItem="BfN-zc-VJH" secondAttribute="centerX" id="8f5-zh-6MV"/>
+                            <constraint firstItem="Wtx-QH-WDI" firstAttribute="top" secondItem="BfN-zc-VJH" secondAttribute="bottom" constant="8" symbolic="YES" id="Cv8-zg-Day"/>
+                            <constraint firstItem="vvG-O4-Reg" firstAttribute="top" secondItem="mVU-Nl-YI7" secondAttribute="top" id="JJB-wx-nfG"/>
+                            <constraint firstItem="mVU-Nl-YI7" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vvG-O4-Reg" secondAttribute="trailing" constant="12" id="NXl-eJ-D3M"/>
+                            <constraint firstItem="BfN-zc-VJH" firstAttribute="centerX" secondItem="mVU-Nl-YI7" secondAttribute="centerX" id="REx-ge-qUs"/>
+                            <constraint firstItem="beI-BE-cJZ" firstAttribute="centerX" secondItem="mVU-Nl-YI7" secondAttribute="centerX" id="a6U-65-MS7"/>
+                            <constraint firstItem="BfN-zc-VJH" firstAttribute="top" secondItem="mVU-Nl-YI7" secondAttribute="top" constant="55" id="q0j-H6-Me6"/>
+                            <constraint firstItem="vvG-O4-Reg" firstAttribute="leading" secondItem="mVU-Nl-YI7" secondAttribute="leading" constant="16" id="tgt-dY-pvt"/>
+                            <constraint firstItem="Wtx-QH-WDI" firstAttribute="leading" secondItem="LeU-Vy-OjP" secondAttribute="leading" id="wd4-Kg-Vvw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="mVU-Nl-YI7"/>
+                    </view>
+                    <connections>
+                        <outlet property="audioPickerView" destination="Wtx-QH-WDI" id="8al-Fj-vUH"/>
+                        <outlet property="testAudioButton" destination="beI-BE-cJZ" id="uFk-An-rqg"/>
+                        <outlet property="titleLabel" destination="BfN-zc-VJH" id="55W-fu-nF3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5WR-WP-Ohf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1878" y="-139"/>
         </scene>
     </scenes>
 </document>
