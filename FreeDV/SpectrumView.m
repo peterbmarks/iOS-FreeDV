@@ -153,10 +153,11 @@ static float ConvertLogScale(float x)
         SpectrumDataRef spectrum = _analyzer.rawSpectrumData;
         
         UIBezierPath *path = [UIBezierPath bezierPath];
-        float xScale = size.width / log10f(spectrum->length - 1);
-
+        //float xScale = size.width / log10f(spectrum->length - 1);
+        float xScale = size.width / spectrum->length;
         for (NSUInteger i = 1; i < spectrum->length; i++) {
-            float x = log10f(i) * xScale;
+            //float x = log10f(i) * xScale;
+            float x = i * xScale;
             float y = size.height - (ConvertLogScale(spectrum->data[i]) * size.height);
             if (i == 1) {
                 [path moveToPoint:CGPointMake(x, y)];
