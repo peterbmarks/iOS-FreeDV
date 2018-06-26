@@ -75,7 +75,7 @@ static float ConvertLogScale(float x)
     }
     
     // Draw the input waveform graph.
-    
+    /*
     {
         NSUInteger waveformLength = _analyzer.pointNumber;
         float waveform[waveformLength];
@@ -94,11 +94,12 @@ static float ConvertLogScale(float x)
             }
         }
         
-        [[UIColor colorWithWhite:0.5f alpha:1.0f] setStroke];
+        //[[UIColor colorWithWhite:0.5f alpha:1.0f] setStroke];
+        [[UIColor greenColor] setStroke];
         path.lineWidth = 0.5f;
         [path stroke];
     }
-    
+    */
     // Draw the level meter.
     /*
     {
