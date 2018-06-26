@@ -48,24 +48,62 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     self.spectrumView.setRingBuffersArray(self.ringBuffers)
     self.spectrumView.setSpectrumAnalyzer(self.spectrumAnalyzer) 
     
-      audioSession = AVAudioSession.sharedInstance()
-    
-      do {
-        // AVAudioSessionCategoryMultiRoute
-        // AVAudioVoiceChat...
-        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
-        print("Audio category set ok")
-        try audioSession.setPreferredSampleRate(8000)   // this is ignored but I thought I'd try
-        print("preferred Sample rate set")
-        try audioSession.setActive(true)
-      } catch {
+    audioSession = AVAudioSession.sharedInstance()
+    listAvailableAudioSessionCategories(audioSession:audioSession)
+    listAvailableInputs(audioSession:audioSession)
+    printCurrentInput(audioSession:audioSession)
+    do {
+    // AVAudioSessionCategoryMultiRoute
+    // AVAudioVoiceChat...
+    try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+    print("Audio category set ok")
+    try audioSession.setPreferredSampleRate(8000)   // this is ignored but I thought I'd try
+    print("preferred Sample rate set")
+    try audioSession.setActive(true)
+    } catch {
         print("Error starting audio session")
         print("Error info: \(error)")
-      }
+    }
 
-      NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleInterruptionNotification(notification:)), name: .AVAudioSessionInterruption, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleInterruptionNotification(notification:)), name: .AVAudioSessionInterruption, object: nil)
+
+    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
+    }
     
-      NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
+    func listAvailableAudioSessionCategories(audioSession: AVAudioSession) {
+        for category in audioSession.availableCategories {
+            print("category = \(category)")
+        }
+    }
+    
+    // look through the available inputs and try to find one with USB in it
+    // if found set that as preferred
+    func setPreferredInputToUsb(audioSession:AVAudioSession) {
+        for audioSessionPortDescription in audioSession.availableInputs! {
+            let name = audioSessionPortDescription.portName
+            print("port name = \(name)")
+            if name == "USB In" {
+                print("Found 'USB In'")
+                do {
+                    try audioSession.setPreferredInput(audioSessionPortDescription)
+                } catch {
+                    print("Error setting preferred Input = \(error)")
+                }
+            }
+        }
+    }
+    
+    func printCurrentInput(audioSession:AVAudioSession) {
+        let input = audioSession.preferredInput
+        let name = input?.portName ?? "Not set"
+        print("current input = \(name)")
+    }
+    
+    func listAvailableInputs(audioSession: AVAudioSession) {
+        for audioSessionPortDescription in audioSession.availableInputs! {
+            let name = audioSessionPortDescription.portName
+            print("port name = \(name)")
+        }
     }
     
     @objc func handleInterruptionNotification(notification: NSNotification) {
@@ -197,9 +235,13 @@ extension ViewController {
     func startAudioCapture() {
         audioSession.requestRecordPermission { (granted) in
             if granted {
+                print("start audio capture")
+                let audioSession = AVAudioSession.sharedInstance()
+                self.setPreferredInputToUsb(audioSession:audioSession)
+                self.printCurrentInput(audioSession:audioSession)
+                
                 self.audioEngine = AVAudioEngine()
                 let inputNode = self.audioEngine.inputNode
-                
                 
                 let mixer1 = AVAudioMixerNode()
                 self.audioEngine.attach(mixer1)
