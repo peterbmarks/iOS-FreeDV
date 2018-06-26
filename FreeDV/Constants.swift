@@ -12,5 +12,6 @@ struct Constants {
   enum Preferences : String {
     case ToRadioDevice = "kToRadioDevice"
     case FromRadioDevice = "kFromRadioDevice"
+    case FreeDvMode = "kFreeDvMode"
   }
 }

@@ -18,12 +18,37 @@ class FreeDvModeViewController: UIViewController, UIPickerViewDelegate, UIPicker
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        // 700D default
-        modePickerView.selectRow(4, inComponent: 0, animated: false)
+        
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        if let previousModeName = UserDefaults.standard.string(forKey: Constants.Preferences.FreeDvMode.rawValue) {
+            let deviceIndex = previouslyChosenModeIndex(modeName: previousModeName)
+            modePickerView.selectRow(deviceIndex, inComponent: 0, animated: false)
+        } else {
+            let deviceIndex = previouslyChosenModeIndex(modeName: "700D")
+            modePickerView.selectRow(deviceIndex, inComponent: 0, animated: false)
+        }
+    }
+    
+    func previouslyChosenModeIndex(modeName: String) -> Int {
+        var index = 0
+        for mode in self.modes {
+            if mode == modeName {
+                return index
+            }
+            index += 1
+        }
+        return 0
+    }
+    
     @IBAction func onDoneButton(_ sender: Any) {
+        let chosenModeRow = modePickerView.selectedRow(inComponent: 0)
+        let chosenMode = self.modes[chosenModeRow]
+        // let chosenDeviceId = chosenDevice.
+        print("setting chosen mode name = \(chosenMode)")
+        UserDefaults.standard.set(chosenMode, forKey: Constants.Preferences.FreeDvMode.rawValue)
+        UserDefaults.standard.synchronize()
         self.dismiss(animated: true, completion: nil)
     }
     

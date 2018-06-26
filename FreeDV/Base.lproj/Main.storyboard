@@ -145,8 +145,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="B8U-i2-imU">
-                                <rect key="frame" x="140.5" y="290.5" width="94" height="106"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="B8U-i2-imU">
+                                <rect key="frame" x="140.5" y="268.5" width="94" height="150"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NaE-WX-oL4">
                                         <rect key="frame" x="0.0" y="0.0" width="94" height="30"/>
@@ -156,14 +156,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4K-5o-ZGP">
-                                        <rect key="frame" x="0.0" y="38" width="94" height="30"/>
+                                        <rect key="frame" x="0.0" y="60" width="94" height="30"/>
                                         <state key="normal" title="Audio Output"/>
                                         <connections>
                                             <segue destination="K64-dd-79O" kind="presentation" id="wBV-l1-PA1"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rMP-gR-le2">
-                                        <rect key="frame" x="0.0" y="76" width="94" height="30"/>
+                                        <rect key="frame" x="0.0" y="120" width="94" height="30"/>
                                         <state key="normal" title="FreeDV Mode"/>
                                         <connections>
                                             <segue destination="M1a-Pj-iE7" kind="presentation" id="227-Hx-Osx"/>
