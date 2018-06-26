@@ -78,10 +78,18 @@
                                 <rect key="frame" x="16" y="287" width="343" height="360"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TqD-Q5-ST0">
+                                <rect key="frame" x="302" y="20" width="57" height="30"/>
+                                <state key="normal" title="Settings"/>
+                                <connections>
+                                    <segue destination="90R-Sy-WUa" kind="presentation" id="WfU-z0-an7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="VCf-1w-NcZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="0oS-Ff-ap3"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="TqD-Q5-ST0" secondAttribute="trailing" constant="16" id="0tN-KY-Kdn"/>
                             <constraint firstItem="0Ie-Bg-95c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="2LF-2b-47w"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8vN-47-ob7" secondAttribute="trailing" constant="16" id="2b0-07-dvE"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vQj-pq-6mc" secondAttribute="trailing" constant="8" id="4LN-sw-cUX"/>
@@ -97,6 +105,7 @@
                             <constraint firstItem="wJN-mi-l3t" firstAttribute="centerY" secondItem="VCf-1w-NcZ" secondAttribute="centerY" id="KWS-4u-Nft"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0Ie-Bg-95c" secondAttribute="trailing" constant="16" id="LeO-5t-aVR"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="top" secondItem="aBT-8N-c0a" secondAttribute="bottom" constant="31" id="M9m-uy-Vhw"/>
+                            <constraint firstItem="TqD-Q5-ST0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="NAI-5R-XhM"/>
                             <constraint firstItem="wJN-mi-l3t" firstAttribute="leading" secondItem="VCf-1w-NcZ" secondAttribute="trailing" constant="8" id="PRm-dT-LMc"/>
                             <constraint firstItem="yzx-ME-TPS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="UcR-Iq-feo"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerY" secondItem="vQj-pq-6mc" secondAttribute="centerY" id="YSv-tS-CKO"/>
@@ -127,6 +136,54 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="vOC-va-3jb">
+            <objects>
+                <viewController id="90R-Sy-WUa" customClass="SettingsViewController" customModule="FreeDV" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2BS-N7-b07">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="B8U-i2-imU">
+                                <rect key="frame" x="140.5" y="290.5" width="94" height="106"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NaE-WX-oL4">
+                                        <rect key="frame" x="0.0" y="0.0" width="94" height="30"/>
+                                        <state key="normal" title="Audio Input"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4K-5o-ZGP">
+                                        <rect key="frame" x="0.0" y="38" width="94" height="30"/>
+                                        <state key="normal" title="Audio Output"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rMP-gR-le2">
+                                        <rect key="frame" x="0.0" y="76" width="94" height="30"/>
+                                        <state key="normal" title="FreeDV Mode"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05h-yb-HyU">
+                                <rect key="frame" x="16" y="20" width="39" height="30"/>
+                                <state key="normal" title="Close"/>
+                                <connections>
+                                    <action selector="onCloseButton:" destination="90R-Sy-WUa" eventType="touchUpInside" id="rHX-nQ-uvp"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="B8U-i2-imU" firstAttribute="centerX" secondItem="dmp-0A-R6u" secondAttribute="centerX" id="JOt-J7-D8f"/>
+                            <constraint firstItem="dmp-0A-R6u" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="05h-yb-HyU" secondAttribute="trailing" constant="12" id="YF1-ba-dgh"/>
+                            <constraint firstItem="B8U-i2-imU" firstAttribute="centerY" secondItem="dmp-0A-R6u" secondAttribute="centerY" id="lCC-Bc-yJZ"/>
+                            <constraint firstItem="05h-yb-HyU" firstAttribute="top" secondItem="dmp-0A-R6u" secondAttribute="top" id="sBu-q7-HB0"/>
+                            <constraint firstItem="05h-yb-HyU" firstAttribute="leading" secondItem="dmp-0A-R6u" secondAttribute="leading" constant="16" id="usF-MT-je1"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dmp-0A-R6u"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c1p-0Y-xei" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="949.60000000000002" y="32.833583208395808"/>
         </scene>
     </scenes>
 </document>
