@@ -165,6 +165,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rMP-gR-le2">
                                         <rect key="frame" x="0.0" y="76" width="94" height="30"/>
                                         <state key="normal" title="FreeDV Mode"/>
+                                        <connections>
+                                            <segue destination="M1a-Pj-iE7" kind="presentation" id="227-Hx-Osx"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -318,6 +321,59 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T6d-j7-NlE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2572" y="138"/>
+        </scene>
+        <!--Free Dv Mode View Controller-->
+        <scene sceneID="yiX-dD-LSM">
+            <objects>
+                <viewController id="M1a-Pj-iE7" customClass="FreeDvModeViewController" customModule="FreeDV" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kkS-4d-FNc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FreeDV Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8A-24-bFv">
+                                <rect key="frame" x="135" y="59" width="105" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nZl-Nk-5Ts">
+                                <rect key="frame" x="16" y="20" width="37" height="30"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="onDoneButton:" destination="M1a-Pj-iE7" eventType="touchUpInside" id="o3y-Ep-LB1"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hi2-80-erv">
+                                <rect key="frame" x="0.0" y="104" width="375" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="cGD-1u-4t7"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="M1a-Pj-iE7" id="zti-Wx-vxw"/>
+                                    <outlet property="delegate" destination="M1a-Pj-iE7" id="UzB-vs-M1K"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Hi2-80-erv" firstAttribute="leading" secondItem="kkS-4d-FNc" secondAttribute="leading" id="75T-on-BZJ"/>
+                            <constraint firstItem="l8A-24-bFv" firstAttribute="top" secondItem="Yhi-CG-t4O" secondAttribute="top" constant="39" id="Mlr-iD-Bos"/>
+                            <constraint firstItem="Yhi-CG-t4O" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nZl-Nk-5Ts" secondAttribute="trailing" constant="16" id="SED-ef-LMW"/>
+                            <constraint firstItem="l8A-24-bFv" firstAttribute="centerX" secondItem="Yhi-CG-t4O" secondAttribute="centerX" id="Y1s-G7-Iaj"/>
+                            <constraint firstItem="nZl-Nk-5Ts" firstAttribute="top" secondItem="Yhi-CG-t4O" secondAttribute="top" id="ayM-3Z-d2s"/>
+                            <constraint firstItem="Hi2-80-erv" firstAttribute="centerX" secondItem="l8A-24-bFv" secondAttribute="centerX" id="cTj-FA-RI3"/>
+                            <constraint firstItem="Hi2-80-erv" firstAttribute="top" secondItem="l8A-24-bFv" secondAttribute="bottom" constant="24" id="i46-GG-ywk"/>
+                            <constraint firstItem="nZl-Nk-5Ts" firstAttribute="leading" secondItem="Yhi-CG-t4O" secondAttribute="leading" constant="16" id="wkI-uJ-rxZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Yhi-CG-t4O"/>
+                    </view>
+                    <connections>
+                        <outlet property="modePickerView" destination="Hi2-80-erv" id="xxw-MY-Bf5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fj4-Cb-uuo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3238" y="-178"/>
         </scene>
     </scenes>
 </document>

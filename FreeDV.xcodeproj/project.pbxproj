@@ -13,6 +13,7 @@
 		7250F00920DDD123002BACB6 /* AudioRingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7271206C20DDD0C2002B9806 /* AudioRingBuffer.m */; };
 		7250F00A20DDD126002BACB6 /* SpectrumAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7271206A20DDD0C2002B9806 /* SpectrumAnalyzer.m */; };
 		72609DA320E1FC9B0035C521 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72609DA220E1FC9B0035C521 /* SettingsViewController.swift */; };
+		72609DA520E2004E0035C521 /* FreeDvModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72609DA420E2004E0035C521 /* FreeDvModeViewController.swift */; };
 		72983C7820CB89FA00293F51 /* PeakLevelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */; };
 		72983C7A20CCA22200293F51 /* FreeDVApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72983C7920CCA22200293F51 /* FreeDVApi.swift */; };
 		72983CF020CE1ED000293F51 /* c2wideband.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D53420C4C926009BC9C2 /* c2wideband.c */; };
@@ -826,6 +827,7 @@
 		7250F00620DDD119002BACB6 /* SpectrumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumView.h; sourceTree = "<group>"; };
 		7250F00720DDD119002BACB6 /* SpectrumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrumView.m; sourceTree = "<group>"; };
 		72609DA220E1FC9B0035C521 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		72609DA420E2004E0035C521 /* FreeDvModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeDvModeViewController.swift; sourceTree = "<group>"; };
 		7271206A20DDD0C2002B9806 /* SpectrumAnalyzer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpectrumAnalyzer.m; sourceTree = "<group>"; };
 		7271206C20DDD0C2002B9806 /* AudioRingBuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioRingBuffer.m; sourceTree = "<group>"; };
 		7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FreeDV-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1825,6 +1827,7 @@
 				72D09C6A20C3DF01001C3588 /* ViewController.swift */,
 				7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */,
 				7298A2F220C775E500A117F6 /* ChooseOutVC.swift */,
+				72609DA420E2004E0035C521 /* FreeDvModeViewController.swift */,
 				72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */,
 				72D09C6C20C3DF01001C3588 /* Main.storyboard */,
 				72D09C6F20C3DF02001C3588 /* Assets.xcassets */,
@@ -1947,6 +1950,7 @@
 				72983D0120CE1F5700293F51 /* interp.c in Sources */,
 				72983CF220CE1EDB00293F51 /* codec2_fft.c in Sources */,
 				72983D0A20CE1F9500293F51 /* newamp1.c in Sources */,
+				72609DA520E2004E0035C521 /* FreeDvModeViewController.swift in Sources */,
 				72609DA320E1FC9B0035C521 /* SettingsViewController.swift in Sources */,
 				72983D1D20CE206200293F51 /* codebooknewamp1_energy.c in Sources */,
 				72983D1320CE1FDF00293F51 /* varicode.c in Sources */,
