@@ -50,12 +50,12 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     
     audioSession = AVAudioSession.sharedInstance()
     listAvailableAudioSessionCategories(audioSession:audioSession)
-    listAvailableInputs(audioSession:audioSession)
+    listAvailableInputs(audioSession)
     printCurrentInput(audioSession:audioSession)
     do {
     // AVAudioSessionCategoryMultiRoute
     // AVAudioVoiceChat...
-    try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault, options: [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+    try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
     print("Audio category set ok")
     try audioSession.setPreferredSampleRate(8000)   // this is ignored but I thought I'd try
     print("preferred Sample rate set")
@@ -87,23 +87,25 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
                 print("Found 'USB In'")
                 do {
                     try audioSession.setPreferredInput(audioSessionPortDescription)
+                    print("set preferred input to USB")
                 } catch {
                     print("Error setting preferred Input = \(error)")
                 }
             }
         }
     }
-    
+    // MARK: debug
     func printCurrentInput(audioSession:AVAudioSession) {
         let input = audioSession.preferredInput
         let name = input?.portName ?? "Not set"
         print("current input = \(name)")
     }
     
-    func listAvailableInputs(audioSession: AVAudioSession) {
+    func listAvailableInputs(_ audioSession: AVAudioSession) {
         for audioSessionPortDescription in audioSession.availableInputs! {
             let name = audioSessionPortDescription.portName
-            print("port name = \(name)")
+            let portType = audioSessionPortDescription.portType // MicrophoneBuiltIn, MicrophoneWired, USBAudio
+            print("port name = \(name), port type = \(portType)")
         }
     }
     
@@ -145,6 +147,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         }
       default: ()
       }
+        listAvailableInputs(AVAudioSession.sharedInstance())
+        setPreferredInputToUsb(audioSession: AVAudioSession.sharedInstance())
     }
     
   override func viewDidAppear(_ animated: Bool) {
@@ -347,16 +351,21 @@ extension ViewController {
 }
 
 // MARK: Play decoded audio
-// play -r 8000 -t raw -r 8k -e signed -b 16 -c 1 decoded.raw 
+// play -r 8000 -t raw -r 8k -e signed -b 16 -c 1 decoded.raw
 extension ViewController {
     func startDecodePlayer() {
         let fileUrl = urlToFileInDocumentsDirectory(fileName: "decoded.raw")
-        print("writing decoded audio to \(fileUrl.path)")
+        
         do {
-            if FileManager.default.fileExists(atPath: fileUrl.path) == false {
-                print("creating file")
-                FileManager.default.createFile(atPath: fileUrl.path, contents: nil, attributes: nil)
+            if FileManager.default.fileExists(atPath: fileUrl.path) == true {
+                print("Deleting file")
+                try FileManager.default.removeItem(at: fileUrl)
+                print("File deleted")
             }
+            print("creating file")
+            FileManager.default.createFile(atPath: fileUrl.path, contents: nil, attributes: nil)
+            print("writing decoded audio to \(fileUrl.path)")
+            
             let outfile = try FileHandle(forWritingTo: fileUrl)
             DispatchQueue.global(qos: .userInitiated).async {
                 while self.quittingTime == false {
