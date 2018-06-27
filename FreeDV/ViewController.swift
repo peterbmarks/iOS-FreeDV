@@ -347,6 +347,7 @@ extension ViewController {
 }
 
 // MARK: Play decoded audio
+// play -r 8000 -t raw -r 8k -e signed -b 16 -c 1 decoded.raw 
 extension ViewController {
     func startDecodePlayer() {
         let fileUrl = urlToFileInDocumentsDirectory(fileName: "decoded.raw")
