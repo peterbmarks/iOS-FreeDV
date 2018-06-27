@@ -80,7 +80,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     // if found set that as preferred
     func setPreferredInputToUsb(audioSession:AVAudioSession) {
         for audioSessionPortDescription in audioSession.availableInputs! {
-            let deviceId = audioSessionPortDescription
+            //let deviceId = audioSessionPortDescription
             let name = audioSessionPortDescription.portName
             print("port name = \(name)")
             if name == "USB In" {
@@ -163,8 +163,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         startAudioCapture()
         startAudioMetering()
         DispatchQueue.global(qos: .userInitiated).async {
-            start_rx();
+            start_rx()
         }
+        startDecodePlayer() // pulls decoded samples from the fifo
     } else {
         print("audio stopped")
         stopRecorder()
@@ -342,6 +343,44 @@ extension ViewController {
         let dirPath          = paths.first
         let fileURL = URL(fileURLWithPath: dirPath!).appendingPathComponent(fileName)
         return fileURL
+    }
+}
+
+// MARK: Play decoded audio
+extension ViewController {
+    func startDecodePlayer() {
+        let fileUrl = urlToFileInDocumentsDirectory(fileName: "decoded.raw")
+        print("writing decoded audio to \(fileUrl.path)")
+        do {
+            if FileManager.default.fileExists(atPath: fileUrl.path) == false {
+                print("creating file")
+                FileManager.default.createFile(atPath: fileUrl.path, contents: nil, attributes: nil)
+            }
+            let outfile = try FileHandle(forWritingTo: fileUrl)
+            DispatchQueue.global(qos: .userInitiated).async {
+                while self.quittingTime == false {
+                    let availableSamples = fifo_used(gAudioDecodedFifo)
+                    if availableSamples > 0 {
+                        let audioBuffer = UnsafeMutablePointer<Int16>.allocate(capacity: Int(availableSamples))
+                        if fifo_read(gAudioDecodedFifo, audioBuffer, Int32(availableSamples)) != -1 {
+                            let byteLength = Int(MemoryLayout<Int16>.size * Int(availableSamples))
+                            outfile.write(Data(bytes: audioBuffer, count: byteLength))
+                        } else {
+                            print("Error reading from fifo")
+                        }
+                        audioBuffer.deallocate()
+                        print("got \(availableSamples) of decoded audio")
+                    } else {
+                        usleep(500)
+                    }
+                }
+                print("decodePlayer finishing")
+                outfile.closeFile()
+            }
+        } catch {
+            print("Error opening audio output file \(error)")
+        }
+
     }
 }
 
