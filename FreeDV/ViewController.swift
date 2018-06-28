@@ -85,7 +85,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
             let name = audioSessionPortDescription.portName
             let portType = audioSessionPortDescription.portType
             print("port name = \(name), portType = \(portType)")
-            if portType == "USBAudio" {
+            if portType == AVAudioSessionPortUSBAudio { 
                 print("Found 'USBAudio'")
                 do {
                     try audioSession.setPreferredInput(audioSessionPortDescription)
@@ -101,7 +101,14 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     func printCurrentInput(audioSession:AVAudioSession) {
         let input = audioSession.preferredInput
         let name = input?.portName ?? "Not set"
-        print("current input = \(name)")
+        let gain = audioSession.inputGain
+        print("current input = \(name), inputGain = \(gain)")
+        do {
+            try audioSession.setInputGain(1.0)
+        } catch {
+            print("Error setting input gain: \(error)")
+        }
+        print("now inputGain = \(gain)")
     }
     
     func listAvailableInputs(_ audioSession: AVAudioSession) {
@@ -272,10 +279,25 @@ extension ViewController {
                 mixer1.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.captureTapCallback(buffer:time:))
                 
                 //let decodedFreeDvAudioPlayer = AVAudioPlayer()
+                var gain = inputNode.volume
+                print("input node volume = \(gain)")
+                gain = mixer1.volume
+                print("mixer1 volume = \(gain)")
+                gain = mixer1.outputVolume
+                print("mixer1 outputVolume = \(gain)")
+                gain = mixer2.volume
+                print("mixer2 volume = \(gain)")
+                gain = mixer2.outputVolume
+                print("mixer2 outputVolume = \(gain)")
                 
                 let mainMixer = self.audioEngine.mainMixerNode
                 self.audioEngine.connect(mixer1, to: mainMixer, format: freeDvAudioFormat)
 
+                gain = mainMixer.volume
+                print("mainMixer volume = \(gain)")
+                gain = mainMixer.outputVolume
+                print("mainMixer outputVolume = \(gain)")
+                
                 do {
                     try self.audioEngine.start()
                 } catch let error {
@@ -295,6 +317,8 @@ extension ViewController {
             formatShown = true
             let channelCount = buffer.format.channelCount
             print("#### format = \(buffer.format), channelCount = \(channelCount), frameLength = \(frameLength)")
+            let gain = audioSession.inputGain
+            print("input gain = \(gain)")
         }
         
         if buffer!.floatChannelData != nil {
@@ -389,7 +413,7 @@ extension ViewController {
                             print("Error reading from fifo")
                         }
                         audioBuffer.deallocate()
-                        print("got \(availableSamples) of decoded audio")
+                        // print("got \(availableSamples) of decoded audio")
                     } else {
                         usleep(500)
                     }
