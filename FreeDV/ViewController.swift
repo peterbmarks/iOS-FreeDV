@@ -71,6 +71,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func listAvailableAudioSessionCategories(audioSession: AVAudioSession) {
+        print("Listing available audio session categories...")
         for category in audioSession.availableCategories {
             print("category = \(category)")
         }
@@ -82,12 +83,14 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         for audioSessionPortDescription in audioSession.availableInputs! {
             //let deviceId = audioSessionPortDescription
             let name = audioSessionPortDescription.portName
-            print("port name = \(name)")
-            if name == "USB In" {
-                print("Found 'USB In'")
+            let portType = audioSessionPortDescription.portType
+            print("port name = \(name), portType = \(portType)")
+            if portType == "USBAudio" {
+                print("Found 'USBAudio'")
                 do {
                     try audioSession.setPreferredInput(audioSessionPortDescription)
                     print("set preferred input to USB")
+                    printCurrentInput(audioSession: audioSession)
                 } catch {
                     print("Error setting preferred Input = \(error)")
                 }
@@ -102,10 +105,17 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func listAvailableInputs(_ audioSession: AVAudioSession) {
+        let route = audioSession.currentRoute
+        print("currrent route = \(route)")
         for audioSessionPortDescription in audioSession.availableInputs! {
             let name = audioSessionPortDescription.portName
             let portType = audioSessionPortDescription.portType // MicrophoneBuiltIn, MicrophoneWired, USBAudio
             print("port name = \(name), port type = \(portType)")
+            if let dataSources = audioSessionPortDescription.dataSources {
+                for dataSource in dataSources {
+                    print(" dataSource = \(dataSource)")
+                }
+            }
         }
     }
     
@@ -248,7 +258,7 @@ extension ViewController {
                 
                 self.audioEngine = AVAudioEngine()
                 let inputNode = self.audioEngine.inputNode
-                // let audioUnit = inputNode.audioUnit
+                //let audioUnit = inputNode.audioUnit
                 
                 let mixer1 = AVAudioMixerNode()
                 self.audioEngine.attach(mixer1)
