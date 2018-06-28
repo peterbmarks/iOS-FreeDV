@@ -276,7 +276,7 @@ extension ViewController {
                 let freeDvAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 8000, channels: 1, interleaved: false)
                 self.audioEngine.connect(mixer1, to: mixer2, format: freeDvAudioFormat)
                 
-                mixer1.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.captureTapCallback(buffer:time:))
+                mixer2.installTap(onBus: 0, bufferSize: 1024, format: freeDvAudioFormat, block:self.captureTapCallback(buffer:time:))
                 
                 //let decodedFreeDvAudioPlayer = AVAudioPlayer()
                 var gain = inputNode.volume
@@ -291,7 +291,7 @@ extension ViewController {
                 print("mixer2 outputVolume = \(gain)")
                 
                 let mainMixer = self.audioEngine.mainMixerNode
-                self.audioEngine.connect(mixer1, to: mainMixer, format: freeDvAudioFormat)
+                self.audioEngine.connect(mixer2, to: mainMixer, format: freeDvAudioFormat)
 
                 gain = mainMixer.volume
                 print("mainMixer volume = \(gain)")
