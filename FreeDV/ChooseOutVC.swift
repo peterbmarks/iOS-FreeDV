@@ -26,14 +26,14 @@ class ChooseOutVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
   override func viewWillAppear(_ animated: Bool) {
     titleLabel.text = "Choose output to radio"
     listOutputs()
-    NotificationCenter.default.addObserver(self, selector: #selector(ChooseOutVC.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(ChooseOutVC.handleRouteChangedNotification(notification:)), name: AVAudioSession.routeChangeNotification, object: nil)
   }
 
   // https://developer.apple.com/documentation/avfoundation/avaudiosession/responding_to_audio_session_route_changes
   @objc func handleRouteChangedNotification(notification: NSNotification) {
     guard let userInfo = notification.userInfo,
       let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-      let reason = AVAudioSessionRouteChangeReason(rawValue:reasonValue) else {
+        let reason = AVAudioSession.RouteChangeReason(rawValue:reasonValue) else {
         return
     }
     switch reason {

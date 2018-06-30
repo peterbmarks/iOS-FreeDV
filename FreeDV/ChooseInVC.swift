@@ -28,7 +28,7 @@ class ChooseInVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
       let deviceIndex = previouslyChosenDeviceIndex(deviceName: previousDeviceName)
       audioPickerView.selectRow(deviceIndex, inComponent: 0, animated: false)
     }
-    NotificationCenter.default.addObserver(self, selector: #selector(ChooseInVC.handleRouteChangedNotification(notification:)), name: .AVAudioSessionRouteChange, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(ChooseInVC.handleRouteChangedNotification(notification:)), name: AVAudioSession.routeChangeNotification, object: nil)
   }
   
   func previouslyChosenDeviceIndex(deviceName: String) -> Int {
@@ -46,7 +46,7 @@ class ChooseInVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
   @objc func handleRouteChangedNotification(notification: NSNotification) {
     guard let userInfo = notification.userInfo,
       let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-      let reason = AVAudioSessionRouteChangeReason(rawValue:reasonValue) else {
+        let reason = AVAudioSession.RouteChangeReason(rawValue:reasonValue) else {
         return
     }
     switch reason {

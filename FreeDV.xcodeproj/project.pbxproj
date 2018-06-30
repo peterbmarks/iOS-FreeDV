@@ -69,6 +69,7 @@
 		72D09C7020C3DF02001C3588 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C6F20C3DF02001C3588 /* Assets.xcassets */; };
 		72D09C7320C3DF02001C3588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C7120C3DF02001C3588 /* LaunchScreen.storyboard */; };
 		72D09C7B20C3DF7D001C3588 /* selective fading.png in Resources */ = {isa = PBXBuildFile; fileRef = 72D09C7A20C3DF7D001C3588 /* selective fading.png */; };
+		72F6FC7920E75BFC008295B7 /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F6FC7820E75BFB008295B7 /* AudioController.swift */; };
 		72F9C1DA20C527810006289D /* audio_input_choice.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F9C1D920C527810006289D /* audio_input_choice.png */; };
 		72FD5D1320CE4BCD0082BDAB /* FreeDVrx.c in Sources */ = {isa = PBXBuildFile; fileRef = 72FD5D1120CE4BCC0082BDAB /* FreeDVrx.c */; };
 		72FD5D1520CE4EA90082BDAB /* vk2tpm_004.wav in Resources */ = {isa = PBXBuildFile; fileRef = 72FD5D1420CE4EA90082BDAB /* vk2tpm_004.wav */; };
@@ -849,6 +850,7 @@
 		72D09C7420C3DF02001C3588 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72D09C7A20C3DF7D001C3588 /* selective fading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selective fading.png"; sourceTree = "<group>"; };
 		72DDB1E720D2592C005AE396 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = build/codec2/version.h; sourceTree = "<group>"; };
+		72F6FC7820E75BFB008295B7 /* AudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
 		72F9C1D920C527810006289D /* audio_input_choice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio_input_choice.png; sourceTree = "<group>"; };
 		72FD5D1120CE4BCC0082BDAB /* FreeDVrx.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = FreeDVrx.c; sourceTree = "<group>"; };
 		72FD5D1220CE4BCD0082BDAB /* FreeDVrx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FreeDVrx.h; sourceTree = "<group>"; };
@@ -1821,6 +1823,7 @@
 		72D09C6720C3DF00001C3588 /* FreeDV */ = {
 			isa = PBXGroup;
 			children = (
+				72F6FC7820E75BFB008295B7 /* AudioController.swift */,
 				72609DA120E1FC760035C521 /* Spectrum */,
 				72D09C6820C3DF01001C3588 /* AppDelegate.swift */,
 				72609DA220E1FC9B0035C521 /* SettingsViewController.swift */,
@@ -1957,6 +1960,7 @@
 				72983CF120CE1ED600293F51 /* codec2.c in Sources */,
 				72983D0C20CE1FA000293F51 /* ofdm.c in Sources */,
 				72983CF620CE1F0100293F51 /* fdmdv.c in Sources */,
+				72F6FC7920E75BFC008295B7 /* AudioController.swift in Sources */,
 				7250F00820DDD119002BACB6 /* SpectrumView.m in Sources */,
 				72983D1020CE1FC700293F51 /* quantise.c in Sources */,
 				72983D0520CE1F7100293F51 /* lpc.c in Sources */,
@@ -2139,7 +2143,7 @@
 					codec2_EXPORTS,
 				);
 				INFOPLIST_FILE = FreeDV/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2152,7 +2156,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FreeDV/FreeDV-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				SYSTEM_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/FreeDV/codec2-dev\"/**";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2172,7 +2176,7 @@
 					codec2_EXPORTS,
 				);
 				INFOPLIST_FILE = FreeDV/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2184,7 +2188,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.marxy.FreeDV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FreeDV/FreeDV-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				SYSTEM_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/FreeDV/codec2-dev\"/**";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
