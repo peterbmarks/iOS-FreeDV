@@ -87,9 +87,12 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
   
   @objc func updateMeter() {
     // print("peakLevel = \(self.peakAudioLevel)")
-    self.audioLevelProgressView.progress = Float(audioController.peakAudioLevel) * 3.0 / Float(Int16.max)
+    // convert from Integer range to 0-1.0
+    let peakLevel = Float(audioController.peakAudioLevel) * 100.0 / Float(Int16.max)
+    let logPeakLevel = (log10(peakLevel) + 1) * 0.33
+    self.audioLevelProgressView.progress = logPeakLevel
     
-    self.statusLabel.text = "sync = \(gSync), snr = \(gSnr_est), bit err = \(gTotal_bit_errors)"
+    self.statusLabel.text = "snr = \(gSnr_est), bit err = \(gTotal_bit_errors)"
     updateSyncLight()
     updateSnrMeter()
     updateTextMessage()
