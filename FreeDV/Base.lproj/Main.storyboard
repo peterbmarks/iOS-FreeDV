@@ -85,6 +85,12 @@
                                     <segue destination="90R-Sy-WUa" kind="presentation" id="WfU-z0-an7"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Format" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xa6-9i-Aim">
+                                <rect key="frame" x="16" y="20" width="81.5" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -105,11 +111,14 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0Ie-Bg-95c" secondAttribute="trailing" constant="16" id="LeO-5t-aVR"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="top" secondItem="aBT-8N-c0a" secondAttribute="bottom" constant="31" id="M9m-uy-Vhw"/>
                             <constraint firstItem="TqD-Q5-ST0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="NAI-5R-XhM"/>
+                            <constraint firstItem="xa6-9i-Aim" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="NkB-cl-CEe"/>
                             <constraint firstItem="wJN-mi-l3t" firstAttribute="leading" secondItem="VCf-1w-NcZ" secondAttribute="trailing" constant="8" id="PRm-dT-LMc"/>
+                            <constraint firstItem="xa6-9i-Aim" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="TdQ-j8-pcN"/>
                             <constraint firstItem="yzx-ME-TPS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="UcR-Iq-feo"/>
                             <constraint firstItem="3Vx-Vd-cLr" firstAttribute="centerY" secondItem="vQj-pq-6mc" secondAttribute="centerY" id="YSv-tS-CKO"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yzx-ME-TPS" secondAttribute="trailing" constant="16" id="f83-aG-CfS"/>
                             <constraint firstItem="8vN-47-ob7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="g78-zI-MlK"/>
+                            <constraint firstItem="TqD-Q5-ST0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xa6-9i-Aim" secondAttribute="trailing" constant="8" id="geL-9a-3xZ"/>
                             <constraint firstItem="g7v-EC-QFs" firstAttribute="centerY" secondItem="yzL-sM-qUu" secondAttribute="centerY" id="gg4-xK-DY1"/>
                             <constraint firstItem="yzL-sM-qUu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="hRe-8L-9a9"/>
                             <constraint firstItem="8vN-47-ob7" firstAttribute="top" secondItem="3Vx-Vd-cLr" secondAttribute="bottom" constant="3" id="n2x-Qc-Wqc"/>
@@ -125,6 +134,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="audioFormatLabel" destination="xa6-9i-Aim" id="USX-ZJ-ljA"/>
                         <outlet property="audioLevelProgressView" destination="cNE-zk-ifa" id="VVa-6p-Unj"/>
                         <outlet property="snrProgressView" destination="g7v-EC-QFs" id="Gax-tN-YmF"/>
                         <outlet property="spectrumView" destination="yzx-ME-TPS" id="jcH-I8-FJv"/>

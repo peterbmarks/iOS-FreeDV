@@ -25,6 +25,7 @@ class AudioController: NSObject {
         super.init()
         print("AudioController.init()")
         self.ringBuffers.append(AudioRingBuffer())
+        setupAudioSession()
         printCurrentRoute()
         
         NotificationCenter.default.addObserver(self, selector: #selector(AudioController.handleInterruptionNotification(notification:)), name: AVAudioSession.interruptionNotification, object: nil)
@@ -34,11 +35,13 @@ class AudioController: NSObject {
     
     func setupAudioSession() {
         do {
+            print("About to set audio category")
             try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default, options: [])
-            print("Audio category set ok")
+            print("About to set preferred Sample rate set")
             try audioSession.setPreferredSampleRate(8000)   // this is ignored but it sets it to 16000
-            print("preferred Sample rate set")
-            try audioSession.setPreferredInputNumberOfChannels(1)   // this gets ignored too
+            //print("About to set preferred number of channels")
+            //try audioSession.setPreferredInputNumberOfChannels(1)   // this throws an exception
+            print("about to setActive")
             try audioSession.setActive(true)
         } catch {
             print("Error starting audio session")
@@ -79,8 +82,9 @@ class AudioController: NSObject {
         if formatShown == false {
             formatShown = true
             let channelCount = buffer.format.channelCount
-            self.formatText = "format = \(buffer.format), channelCount = \(channelCount), frameLength = \(frameLength)"
             let sampleRate = Int(buffer.format.sampleRate)
+            self.formatText = "rate: \(sampleRate), \(channelCount) chan"
+            
             sampleRateRatio = sampleRate * Int(channelCount) / freeDvSampleRate
             print("sample rate ratio is \(sampleRateRatio)")
         }
@@ -99,6 +103,7 @@ class AudioController: NSObject {
                     let intSample = Int16(floatSample * Float(Int16.max))
                     samples[downSampleIndex] = intSample
                     downSampleIndex += 1
+                    // print("\(i)\t\(intSample)")
                 }
             }
             self.peakAudioLevel = self.computePeakAudioLevel(samples: samples, count: downSampleCount)

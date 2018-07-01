@@ -27,6 +27,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var snrProgressView: UIProgressView!
     @IBOutlet weak var textMessageLabel: UILabel!
     @IBOutlet weak var spectrumView: SpectrumView!
+    @IBOutlet weak var audioFormatLabel: UILabel!
     
     let audioController = AudioController()
     var meterTimer: CADisplayLink?
@@ -98,6 +99,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     updateSyncLight()
     updateSnrMeter()
     updateTextMessage()
+    self.audioFormatLabel.text = self.audioController.formatText
   }
     
     func updateSyncLight() {

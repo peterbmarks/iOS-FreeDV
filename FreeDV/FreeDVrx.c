@@ -160,6 +160,11 @@ void start_rx(void) {
         
         if(availableSamples >= gInputSampleCount) {
             fifo_read(gAudioCaptureFifo, demodInputBuffer, gInputSampleCount);
+            /*
+            for(int i = 0; i < gInputSampleCount; i++) {
+                fprintf(stderr, "%d\t%d\n", i, demodInputBuffer[i]);
+            }
+             */
             gFrame++;
             
             /* Use the freedv_api to do everything: speech decoding, demodulating */
