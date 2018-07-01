@@ -92,7 +92,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     let logPeakLevel = (log10(peakLevel) + 1) * 0.33
     self.audioLevelProgressView.progress = logPeakLevel
     
-    self.statusLabel.text = "snr = \(gSnr_est), bit err = \(gTotal_bit_errors)"
+    let snr = String(format:"%.3f", gSnr_est)
+    let bitErr = gTotal_bit_errors
+    self.statusLabel.text = "bit errors = \(bitErr), snr = \(snr)"
     updateSyncLight()
     updateSnrMeter()
     updateTextMessage()
