@@ -75,7 +75,7 @@ static float ConvertLogScale(float x)
     }
     
     // Draw the input waveform graph.
-    /*
+    
     {
         NSUInteger waveformLength = _analyzer.pointNumber;
         float waveform[waveformLength];
@@ -99,7 +99,7 @@ static float ConvertLogScale(float x)
         path.lineWidth = 0.5f;
         [path stroke];
     }
-    */
+   
     // Draw the level meter.
     /*
     {
