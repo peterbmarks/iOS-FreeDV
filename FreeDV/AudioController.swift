@@ -25,7 +25,7 @@ class AudioController: NSObject {
         super.init()
         print("AudioController.init()")
         self.ringBuffers.append(AudioRingBuffer())
-        
+        printCurrentRoute()
         
         NotificationCenter.default.addObserver(self, selector: #selector(AudioController.handleInterruptionNotification(notification:)), name: AVAudioSession.interruptionNotification, object: nil)
         
@@ -171,6 +171,7 @@ extension AudioController {
         }
         listAvailableInputs()
         setPreferredInputToUsb()
+        printCurrentRoute()
         formatShown = false
     }
 }
@@ -218,15 +219,38 @@ extension AudioController {
     }
     
     func listAvailableInputs() {
-        let route = audioSession.currentRoute
-        print("currrent route = \(route)")
         for audioSessionPortDescription in audioSession.availableInputs! {
             let name = audioSessionPortDescription.portName
             let portType = audioSessionPortDescription.portType // MicrophoneBuiltIn, MicrophoneWired, USBAudio
-            print("port name = \(name), port type = \(portType)")
+            let portTypeName = portType.rawValue
+            print("port name = \(name), port type = \(portTypeName)")
             if let dataSources = audioSessionPortDescription.dataSources {
                 for dataSource in dataSources {
-                    print(" dataSource = \(dataSource)")
+                    let dataSourceName = dataSource.dataSourceName
+                    print(" data source name = \(dataSourceName)")
+                }
+            }
+        }
+    }
+    
+    func printCurrentRoute() {
+        let route = audioSession.currentRoute
+        print("currrent route inputs:")
+        printInOutList(route.inputs)
+        print("currrent route ouputs:")
+        printInOutList(route.outputs)
+    }
+    
+    func printInOutList(_ inOrOuts: [AVAudioSessionPortDescription]) {
+        for inOrOut in inOrOuts {
+            let name = inOrOut.portName
+            let type = inOrOut.portType
+            let dataSource = inOrOut.selectedDataSource ?? nil
+            print(" name: \(name), type: \(type)")
+            if dataSource != nil {
+                if dataSource?.dataSourceName != nil {
+                    let dataSourceName = dataSource?.dataSourceName ?? "No name"
+                    print("  selected dataSource: \(dataSourceName)")
                 }
             }
         }
