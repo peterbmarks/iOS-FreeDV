@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72040CFA20EC92F100087D61 /* codebooknewamp1_energy.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57C20C4C926009BC9C2 /* codebooknewamp1_energy.c */; };
+		72040CFD20EC94F800087D61 /* codebooknewamp1.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57B20C4C926009BC9C2 /* codebooknewamp1.c */; };
 		7217D40320C4BCF6009BC9C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7217D40220C4BCF6009BC9C2 /* README.md */; };
 		7217D70220C4F2D0009BC9C2 /* ChooseInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7217D70120C4F2D0009BC9C2 /* ChooseInVC.swift */; };
 		7250F00820DDD119002BACB6 /* SpectrumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7250F00720DDD119002BACB6 /* SpectrumView.m */; };
@@ -55,8 +57,6 @@
 		72983D1520CE202A00293F51 /* codebookd.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57720C4C926009BC9C2 /* codebookd.c */; };
 		72983D1620CE202A00293F51 /* codebookge.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57920C4C926009BC9C2 /* codebookge.c */; };
 		72983D1720CE202A00293F51 /* codebookjvm.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D57A20C4C926009BC9C2 /* codebookjvm.c */; };
-		72983D1C20CE206200293F51 /* codebooknewamp1.c in Sources */ = {isa = PBXBuildFile; fileRef = 72983D1820CE206200293F51 /* codebooknewamp1.c */; };
-		72983D1D20CE206200293F51 /* codebooknewamp1_energy.c in Sources */ = {isa = PBXBuildFile; fileRef = 72983D1920CE206200293F51 /* codebooknewamp1_energy.c */; };
 		72983D1E20CE206200293F51 /* codebookmel.c in Sources */ = {isa = PBXBuildFile; fileRef = 72983D1A20CE206200293F51 /* codebookmel.c */; };
 		72983D1F20CE206200293F51 /* codebooklspmelvq.c in Sources */ = {isa = PBXBuildFile; fileRef = 72983D1B20CE206200293F51 /* codebooklspmelvq.c */; };
 		72983D2020CE225600293F51 /* interldpc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7217D5CF20C4C926009BC9C2 /* interldpc.c */; };
@@ -834,8 +834,6 @@
 		7280CEEA20C7586000A67FF6 /* FreeDV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FreeDV-Bridging-Header.h"; sourceTree = "<group>"; };
 		72983C7720CB89FA00293F51 /* PeakLevelFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeakLevelFilter.swift; sourceTree = "<group>"; };
 		72983C7920CCA22200293F51 /* FreeDVApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeDVApi.swift; sourceTree = "<group>"; };
-		72983D1820CE206200293F51 /* codebooknewamp1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = codebooknewamp1.c; path = ../../../../Xcodec2/xcode/src/codebooknewamp1.c; sourceTree = "<group>"; };
-		72983D1920CE206200293F51 /* codebooknewamp1_energy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = codebooknewamp1_energy.c; path = ../../../../Xcodec2/xcode/src/codebooknewamp1_energy.c; sourceTree = "<group>"; };
 		72983D1A20CE206200293F51 /* codebookmel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = codebookmel.c; sourceTree = "<group>"; };
 		72983D1B20CE206200293F51 /* codebooklspmelvq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = codebooklspmelvq.c; sourceTree = "<group>"; };
 		7298A2F020C75D2D00A117F6 /* tone1s440.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = tone1s440.aif; sourceTree = "<group>"; };
@@ -1220,8 +1218,6 @@
 			children = (
 				72983D1B20CE206200293F51 /* codebooklspmelvq.c */,
 				72983D1A20CE206200293F51 /* codebookmel.c */,
-				72983D1920CE206200293F51 /* codebooknewamp1_energy.c */,
-				72983D1820CE206200293F51 /* codebooknewamp1.c */,
 				7217D52A20C4C926009BC9C2 /* _kiss_fft_guts.h */,
 				7217D52B20C4C926009BC9C2 /* ampexp.c */,
 				7217D52C20C4C926009BC9C2 /* ampexp.h */,
@@ -1953,9 +1949,9 @@
 				72983D0120CE1F5700293F51 /* interp.c in Sources */,
 				72983CF220CE1EDB00293F51 /* codec2_fft.c in Sources */,
 				72983D0A20CE1F9500293F51 /* newamp1.c in Sources */,
+				72040CFA20EC92F100087D61 /* codebooknewamp1_energy.c in Sources */,
 				72609DA520E2004E0035C521 /* FreeDvModeViewController.swift in Sources */,
 				72609DA320E1FC9B0035C521 /* SettingsViewController.swift in Sources */,
-				72983D1D20CE206200293F51 /* codebooknewamp1_energy.c in Sources */,
 				72983D1320CE1FDF00293F51 /* varicode.c in Sources */,
 				72983CF120CE1ED600293F51 /* codec2.c in Sources */,
 				72983D0C20CE1FA000293F51 /* ofdm.c in Sources */,
@@ -1977,11 +1973,11 @@
 				72D09C6920C3DF01001C3588 /* AppDelegate.swift in Sources */,
 				72983D0420CE1F6700293F51 /* linreg.c in Sources */,
 				72983D0820CE1F8500293F51 /* modem_stats.c in Sources */,
+				72040CFD20EC94F800087D61 /* codebooknewamp1.c in Sources */,
 				72983CF020CE1ED000293F51 /* c2wideband.c in Sources */,
 				72983CF420CE1EEB00293F51 /* dct2.c in Sources */,
 				72983D1420CE202A00293F51 /* codebook.c in Sources */,
 				72983CFB20CE1F2500293F51 /* freedv_data_channel.c in Sources */,
-				72983D1C20CE206200293F51 /* codebooknewamp1.c in Sources */,
 				72983D1620CE202A00293F51 /* codebookge.c in Sources */,
 				72FD5D1320CE4BCD0082BDAB /* FreeDVrx.c in Sources */,
 				72983D0B20CE1F9A00293F51 /* nlp.c in Sources */,
