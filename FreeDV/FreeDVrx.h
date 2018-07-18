@@ -18,6 +18,7 @@ void stop_rx(void);
 
 // swift function to call from c
 int getArrayOfAudioSamples(short *demodInputBuffer, int inputSampleCount);
+char * documentsDirectoryPath(void);
 
 extern struct FIFO *gAudioCaptureFifo;
 extern struct FIFO *gAudioDecodedFifo;

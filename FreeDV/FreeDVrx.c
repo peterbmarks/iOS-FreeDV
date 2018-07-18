@@ -154,12 +154,23 @@ void start_rx(void) {
      sample clock frequencies.  Note also the number of output
      speech samples is time varying (nout). */
     
-    gInputSampleCount = freedv_nin(freedv);
+    // make a file path in the documents directory
+    
+    char *rawFilePath = documentsDirectoryPath();
+    fprintf(stderr, "### %s\n", rawFilePath);
+    FILE * rawFp = fopen(rawFilePath, "w");
+    if(rawFp == NULL) {
+        fprintf(stderr, "Error opening file");
+    }
+    //gInputSampleCount = freedv_nin(freedv);
     while(gQuittingTime == 0) {
         int availableSamples = fifo_used(gAudioCaptureFifo);
-        
+        gInputSampleCount = freedv_nin(freedv);
         if(availableSamples >= gInputSampleCount) {
             fifo_read(gAudioCaptureFifo, demodInputBuffer, gInputSampleCount);
+            if(rawFp != NULL) {
+                fwrite(demodInputBuffer, sizeof(short), gInputSampleCount, rawFp);
+            }
             /*
             for(int i = 0; i < gInputSampleCount; i++) {
                 fprintf(stderr, "%d\t%d\n", i, demodInputBuffer[i]);
@@ -186,7 +197,7 @@ void start_rx(void) {
         }
     }
     fprintf(stderr, "It's quitting time!\n");
-    
+    fclose(rawFp);
     freedv_close(freedv);
 }
 

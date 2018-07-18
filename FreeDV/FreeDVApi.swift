@@ -21,6 +21,18 @@ public func getArrayOfAudioSamples(buffer: UnsafePointer<CShort>, requestedSampl
     return 0
 }
 
+@_cdecl("documentsDirectoryPath")
+public func documentsDirectoryPath() -> UnsafePointer<Int8> {
+    let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
+    let nsUserDomainMask    = FileManager.SearchPathDomainMask.userDomainMask
+    let paths               = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
+    let dirPath          = paths.first!
+    let dirPathRepresentation = FileManager.default.fileSystemRepresentation(withPath: dirPath + "/out.raw")
+    print("dirPathRepresentation = \(dirPathRepresentation)")
+    NSLog("%s", dirPathRepresentation)
+    return dirPathRepresentation
+}
+
 class FreeDVApi {
     init() {
         print("in FreeDVApi init()")
@@ -30,3 +42,4 @@ class FreeDVApi {
         start_rx()
     }
 }
+
