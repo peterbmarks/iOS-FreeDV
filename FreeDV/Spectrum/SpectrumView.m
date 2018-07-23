@@ -79,25 +79,27 @@ static float ConvertLogScale(float x)
     {
         NSUInteger waveformLength = _analyzer.pointNumber;
         float waveform[waveformLength];
-        [_ringBuffers.firstObject copyTo:waveform length:waveformLength];
-        
-        UIBezierPath *path = [UIBezierPath bezierPath];
-        float xScale = size.width / waveformLength;
-        
-        for (NSUInteger i = 0; i < waveformLength; i++) {
-            float x = xScale * i;
-            float y = (waveform[i] * 0.5f + 0.5f) * size.height;
-            if (i == 0) {
-                [path moveToPoint:CGPointMake(x, y)];
-            } else {
-                [path addLineToPoint:CGPointMake(x, y)];
+        if(_ringBuffers.count > 0) {
+            [_ringBuffers.firstObject copyTo:waveform length:waveformLength];
+            
+            UIBezierPath *path = [UIBezierPath bezierPath];
+            float xScale = size.width / waveformLength;
+            
+            for (NSUInteger i = 0; i < waveformLength; i++) {
+                float x = xScale * i;
+                float y = (waveform[i] * 0.5f + 0.5f) * size.height;
+                if (i == 0) {
+                    [path moveToPoint:CGPointMake(x, y)];
+                } else {
+                    [path addLineToPoint:CGPointMake(x, y)];
+                }
             }
+            
+            //[[UIColor colorWithWhite:0.5f alpha:1.0f] setStroke];
+            [[UIColor greenColor] setStroke];
+            path.lineWidth = 0.5f;
+            [path stroke];
         }
-        
-        //[[UIColor colorWithWhite:0.5f alpha:1.0f] setStroke];
-        [[UIColor greenColor] setStroke];
-        path.lineWidth = 0.5f;
-        [path stroke];
     }
    
     // Draw the level meter.

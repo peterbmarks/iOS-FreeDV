@@ -95,29 +95,34 @@ class AudioController: NSObject {
             let downSampleCount = frameLength / sampleRateRatio
             let samples = UnsafeMutablePointer<Int16>.allocate(capacity: downSampleCount)
             let samplesFloat = UnsafeMutablePointer<Float>.allocate(capacity: downSampleCount)
+            
             var downSampleIndex = 0
             for i in 0..<frameLength {
                 if i % sampleRateRatio == 0 {
                     let floatSample = elements![i]
                     samplesFloat[downSampleIndex] = floatSample
-                    let intSample = Int16(floatSample * Float(Int16.max))
-                    samples[downSampleIndex] = intSample
+                    
+                    //let intSample = Int16(floatSample * Float(Int16.max))
+                    //samples[downSampleIndex] = 0
                     downSampleIndex += 1
-                    // print("\(i)\t\(intSample)")
                 }
             }
-            self.peakAudioLevel = self.computePeakAudioLevel(samples: samples, count: downSampleCount)
-            let buffLength = Int(downSampleCount) * MemoryLayout<Int16>.stride
-            fifo_write(gAudioCaptureFifo, samples, Int32(buffLength))
+            //self.peakAudioLevel = self.computePeakAudioLevel(samples: samples, count: downSampleCount)
+            //let buffLength = Int(downSampleCount) * MemoryLayout<Int16>.stride
+            //fifo_write(gAudioCaptureFifo, samples, Int32(buffLength))
             
             // write into the ring buffers for the spectrum display
-            self.ringBuffers[0].pushSamples(samplesFloat, count: UInt(downSampleCount))
-            samplesFloat.deallocate()
+            let ringBuffer = AudioRingBuffer()
+            ringBuffer.pushSamples(samplesFloat, count: UInt(downSampleCount))
+            self.ringBuffers.append(ringBuffer)
+            samples.deallocate()
+            //samplesFloat.deallocate()
             
             //let buffLength = Int(frameLength) * MemoryLayout<Int16>.stride
             
             // write into the ring buffers for the spectrum display
             // self.ringBuffers[0].pushSamples(buffer!.floatChannelData!.pointee, count: UInt(frameLength))
+
         } else {
             print("Error didn't find Float audio data")
         }
